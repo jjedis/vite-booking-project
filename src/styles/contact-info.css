@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    
+    
+}
+body{
+    background-color: #474c57;
+}
+
+.main-container{
+    display: block;
+    align-items: center;
+    justify-content: center;
+
+}
+.page-container{
+    max-width: 1440px;
+    width: 100%;
+    align-items: flex-start;
+    margin: 2%;
+    
+}
+
+.booking-info-container, .info-container{
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    width: 96%;
+    min-width: 340px;
+    margin-top: 5%;
+    display: block;
+    box-sizing: border-box;
+    
+    
+}
+.login-container{
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    width: 96%;
+    min-width: 340px;
+    margin-top: 5%;
+    display: block;
+    box-sizing: border-box;
+    
+    
+}
+.hidden{
+    display: none;
+}
+
+.container-header{
+    width: 100%;
+    display: flex;
+    font-size: 1.1rem;
+    text-align: center;
+    align-items: center;
+    height: 80px;
+    justify-content: center;
+    margin-bottom: 30px;
+    color: rgb(196, 193, 193);
+    /*border-bottom: 2px solid rgb(196, 193, 193);*/
+}
+
+.container-header h1{
+    font-size: 2rem;
+}
+
+.booking-info{
+    padding: 5%;
+}
+.info-row{
+    position: relative;
+    display: flex;
+    padding: 20px;
+    align-items: center;
+}
+.info-row h4{
+    font-size: 1.2rem;
+}
+.info-row-left{
+    position: absolute;
+    left: 7%;
+    color: rgb(196, 193, 193);
+}
+
+.info-row-right{
+    position: absolute;
+    right: 7%;
+    color: rgb(196, 193, 193);
+}
+.input-group{
+    position: relative;
+    margin-bottom: 40px;
+}
+.group-container{
+    display: flex;
+    justify-content: center;
+    margin: 5% 0;
+}
+
+.btn-group{
+    width: 70%;  
+}
+.btn-outline-custom{
+    border: 1px solid #f39405 ;
+    color: rgb(196, 193, 193);
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+
+.btn-check:checked + .btn-outline-custom{
+    color: rgb(196, 193, 193);
+    background-color: #f39405;
+    border: #f39405;
+}
+
+
+form{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input{
+    padding: 0 3px;   
+    background: transparent;
+    transition: 0.1s ease;
+    z-index: 1111;
+    height: 40px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid rgb(196, 193, 193);
+    outline: none;
+    color: #fff;
+    
+}
+
+.labelline{
+    position: absolute;
+    font-size: 1.3em;
+    padding: 3px;
+    margin: 3px 5px;  
+    transition: 0.2s ease;
+    
+    color: rgb(196, 193, 193);
+    top: 0px;
+    left: 0px;
+
+
+}
+.label-textarea{
+    font-size: 1.3em;
+    padding: 3px;
+    margin: 10px 5px;  
+    
+    color: rgb(196, 193, 193);
+}
+form textarea{
+    margin-top: 10px;
+    width: 100%;
+    height: 80px;
+    background-color: #474c57;
+}
+
+/*input:focus + .labelline, 
+input:valid + .labelline{
+    transform: translate(-16px,-21px) scale(0.80);
+    padding: 3px;
+    z-index: 1111;
+    
+}*/
+.input-group input:focus + .labelline,
+.input-group input:not(:placeholder-shown) + .labelline,
+.input-group input:valid + .labelline{
+    transform: translate(-11px, -25px) scale(0.80);
+    color: #fff;
+}
+.submit-container{
+    display: flex;
+    justify-content: end;
+    padding-right: 2%;
+}
+.sub{
+    text-align: center;
+    width: 25%;
+    height: 35px;
+    border-radius: 10px;
+    background-color: #f39405;
+    color: white;
+    border: 2px solid #f39405;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15), 0 4px 8px 0 rgb(0, 0, 0, 0.1);
+    min-width: 95px;
+    margin-bottom: 5%;
+
+    
+
+}
+
+
+@media only screen and (min-width: 768px){
+    
+
+    .main-container{
+        display: flex;
+    }
+    .page-container{
+        display: flex;
+        margin: 0;
+    }
+
+    .booking-info-container{
+        width: 340px;
+        border-bottom: 4px solid #f39405;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .info-container{
+        margin-left: 10px;
+        padding: 2%;
+        min-width: 405px;
+        display: block;
+       
+    }
+    .login-container{
+        display: block;
+        padding: 2%;
+    }
+    .form-info{
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 15px;
+
+    }
+    #osoite-col{
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    #add-info-col{
+        grid-column-start: 1;
+        grid-column-end: 3;
+
+    }
+    .submit-container{
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+    .sub{
+        margin-bottom: 0px;
+    }
+    .btn-group{
+        display: none;
+    }
+
+}

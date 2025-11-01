@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    
+}
+.main-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+}
+.login-container, .info-container{
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    min-height: 200px;
+    width: 360px;
+    margin-top: 10%;
+    display: block;
+    box-sizing: border-box;
+    
+    
+    
+}
+.reg-container{
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    min-height: 200px;
+    width: 360px;
+    margin-top: 5%;
+    display: none;
+    
+    
+    
+    
+}
+
+.header{
+    width: 100%;
+    display: flex;
+    font-size: 13px;
+    text-align: center;
+    align-items: center;
+    height: 80px;
+    justify-content: center;
+    margin-bottom: 30px;
+    color: rgb(196, 193, 193);
+}
+
+/*-------------------------------login info section--------------------------------*/
+
+
+
+.login-info {
+    padding: 30px;
+    
+}
+
+.input-group{
+    position: relative;
+    margin-bottom: 40px;
+}
+
+form{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input{
+    padding: 0 3px;   
+    background: transparent;
+    transition: 0.1s ease;
+    z-index: 1111;
+    height: 40px;
+    font-size: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid rgb(196, 193, 193);
+    outline: none;
+    
+}
+
+
+.labelline{
+    position: absolute;
+    font-size: 1.3em;
+    padding: 3px;
+    margin: 3px 5px;  
+    transition: 0.2s ease;
+    
+    color: rgb(196, 193, 193);
+    top: 0px;
+    left: 0px;
+
+
+}
+
+
+.input-group input:focus + .labelline,
+.input-group input:not(:placeholder-shown) + .labelline,
+.input-group input:valid + .labelline{
+    transform: translate(-15px, -25px) scale(0.80);
+    
+}
+
+.sub{
+    text-align: center;
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    background-color: rgb(56, 56, 250);
+    color: white;
+    border: 2px solid rgb(56, 56, 250);
+    font-size: 20px;
+    cursor: pointer;
+
+    
+
+}
+.submit-container{
+    justify-content: center;
+    display: flex;
+    margin-top: 10%;
+}
+/*-------------------------------additional options section--------------------------------*/
+
+
+.additional-options{
+    width: 100%;
+    display: block;
+    align-items: center;
+    text-align: center;
+    margin: 40px 0;
+}
+.additional-options p{
+    margin: 10px 0;
+    cursor: pointer;
+}
+.additional-options a{
+    text-decoration: none;
+    color: rgb(56, 56, 250);
+}
+
+
+/*-------------------------------password reset section--------------------------------*/
+.reset-pwd{
+    padding: 20px;
+    text-align: center;
+    display: none;
+}
+.reset-pwd p{
+    margin: 20px 0;
+}
+.reset-form{
+    padding: 5px;
+}
+.link-button {
+  background: none;
+  border: none;
+  color: var(--link-color, #007bff);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+}
+.link-button:hover {
+  color: #0056b3;
+}
+
+
+
+@media only screen and (min-width: 768px) {
+    .login-container, .reg-container{
+        width: 420px;
+    }
+    
+}

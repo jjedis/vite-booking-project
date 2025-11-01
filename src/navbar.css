@@ -1,0 +1,68 @@
+.nav-item{
+    width: 10vW;
+    min-width: 90px;
+    box-sizing: border-box;
+    text-align: center;
+    
+    
+}
+.nav-link{
+    font-size: 16px;
+    width: 100%;
+    padding: 0;
+    margin: 0 0;
+}
+
+.navbar-brand{
+    font-size: 16px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 150px;
+}
+.navbar{
+    height: 60px;
+}
+.container-fluid{
+    
+    padding: 0;
+}
+.logo-1, .logo-2{
+    margin: 0;
+}
+.logo-2{
+    color: darkgoldenrod;
+}
+.nav-link active{
+    color: darkgoldenrod ;
+    
+    
+}
+.nav-link:hover{
+    color: darkgoldenrod;
+}
+.navbar-collapse.show{
+    background-color: #2b3035;
+    
+}
+
+
+
+@media only screen and (max-width: 576px) {
+    
+    .nav-item{
+        text-align: start;
+        margin: 3px 10px;
+    }
+    .navbar-toggler-icon{
+        width: 20px;
+    }
+    .navbar-toggler{
+        width: 40px;
+        padding: 0;
+        margin-right: 10px;
+    }
+
+
+
+}
