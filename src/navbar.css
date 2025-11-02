@@ -33,11 +33,12 @@
 .logo-2{
     color: darkgoldenrod;
 }
-.nav-link active{
-    color: darkgoldenrod ;
-    
-    
+.active-link {
+  color:darkgoldenrod !important;
+  font-weight: bold;
+ 
 }
+
 .nav-link:hover{
     color: darkgoldenrod;
 }

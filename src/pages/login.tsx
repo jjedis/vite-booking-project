@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ChangeEvent, FormEvent } from "react";
+import "../styles/login.css"
 
 
 function Login() {
@@ -65,6 +66,7 @@ function Login() {
         animate: { opacity: 1, y: 0, transition: { duration: 0.4 } },
         exit: { opacity: 0, y: -20, transition: { duration: 0.3 } },
   };
+
 
     return (
         <div className="main-container">
