@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ChangeEvent, FormEvent } from "react";
 import "../styles/login.css"
+import arrowLeft from "bootstrap-icons/icons/arrow-left-square.svg";
 
 
 function Login() {
@@ -29,6 +30,7 @@ function Login() {
         kayttajatunnus:"",
         pwd:"",
         pwd_confirm:"",
+        tos:"",
     });
 
     const handleLoginChange = (e: ChangeEvent<HTMLInputElement>) =>{
@@ -169,12 +171,26 @@ function Login() {
                         {...fadeSlide}
                         className="reg-container absolute w-full"
                     >
-                        <div className="header">                
+                        <div className="header">  
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg"  
+                                width="28" 
+                                height="28" 
+                                fill="currentColor" 
+                                className="bi bi-arrow-left-square" 
+                                viewBox="0 0 16 16"
+                                onClick={()=> setShowRegister(false)}
+                                >
+                                <path 
+                                fill-rule="evenodd" 
+                                d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+                            </svg>
+                          
                             <h1>Rekisteröidy</h1>               
                         </div>
                         <div className="login-info">
-                            <form onSubmit={handleregistrationSubmit}>   
-                                <div className="input-group">               
+                            <form className="login-form" onSubmit={handleregistrationSubmit}>   
+                                <div className="input-group-reg">               
                                     <input 
                                         type="text" 
                                         id="reg-etunimi" 
@@ -184,9 +200,9 @@ function Login() {
                                         value={registrationInfo.etunimi}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="etunimi">Etunimi</label>
+                                    <label className="labelline" htmlFor="reg-etunimi">Etunimi</label>
                                 </div> 
-                                <div className="input-group">   
+                                <div className="input-group-reg">   
                                     <input 
                                         type="text" 
                                         id="reg-sukunimi" 
@@ -196,9 +212,9 @@ function Login() {
                                         value={registrationInfo.sukunimi}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="sukunimi">Sukunimi</label>
+                                    <label className="labelline" htmlFor="reg-sukunimi">Sukunimi</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input 
                                         type="tel" 
                                         id="reg-puh" 
@@ -208,9 +224,9 @@ function Login() {
                                         value={registrationInfo.puh}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="puh">Puhelinnumero</label>
+                                    <label className="labelline" htmlFor="reg-puh">Puhelinnumero</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input 
                                         type="email" 
                                         id="reg-sahkoposti"  
@@ -220,9 +236,9 @@ function Login() {
                                         value={registrationInfo.sahkoposti}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="sahkoposti">Sahköposti</label>
+                                    <label className="labelline" htmlFor="reg-sahkoposti">Sähköposti</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input 
                                         type="text" 
                                         id="reg-osoite" 
@@ -232,9 +248,9 @@ function Login() {
                                         value={registrationInfo.osoite}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="osoite">Osoite</label>
+                                    <label className="labelline" htmlFor="reg-osoite">Osoite</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input 
                                         type="number" 
                                         id="reg-postinumero" 
@@ -244,9 +260,9 @@ function Login() {
                                         value={registrationInfo.postinumero}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="postinumero">Postinumero</label>
+                                    <label className="labelline" htmlFor="reg-postinumero">Postinumero</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input 
                                         type="text" 
                                         id="reg-postitoimipaikka" 
@@ -255,9 +271,9 @@ function Login() {
                                         value={registrationInfo.postitoimipaikka}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="postitoimipaikka">Postitoimipaikka</label>
+                                    <label className="labelline" htmlFor="reg-postitoimipaikka">Postitoimipaikka</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input 
                                         type="text" 
                                         id="reg-kayttajatunnus" 
@@ -267,9 +283,9 @@ function Login() {
                                         value={registrationInfo.kayttajatunnus}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="kayttajatunnus">Käyttäjätunnus</label>
+                                    <label className="labelline" htmlFor="reg-kayttajatunnus">Käyttäjätunnus</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input 
                                         type="password" 
                                         id="reg-pwd" 
@@ -279,9 +295,9 @@ function Login() {
                                         value={registrationInfo.pwd}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="pwd">Salasana</label>
+                                    <label className="labelline" htmlFor="reg-pwd">Salasana</label>
                                 </div> 
-                                <div className="input-group">
+                                <div className="input-group-reg">
                                     <input  
                                         type="password" 
                                         id="reg-pwd_confirm" 
@@ -291,21 +307,25 @@ function Login() {
                                         value={registrationInfo.pwd_confirm}
                                         onChange={handleRegChange}
                                     />
-                                    <label className="labelline" htmlFor="pwd_confirm">Vahvista Salasana</label>
+                                    <label className="labelline" htmlFor="reg-pwd_confirm">Vahvista Salasana</label>
                                 </div> 
+                                <div className="tos">
+                                    <input 
+                                        className="tos-check" 
+                                        id="tos-check" 
+                                        type="checkbox" 
+                                        value={registrationInfo.tos}
+                                        onChange={handleRegChange}
+                                    />  
+                                    <label htmlFor="tos-check" >Hyväksyn ehdot</label>
+                                </div>
                                 <div className="submit-container">
                                     <button className="sub"  type="submit" value="Luo käyttäjä">Luo Käyttäjä</button>
-                                </div>    
+                                </div>  
                             </form>
                         </div>
                         <div className="additional-options">
-                            <button
-                                type="button"
-                                className="link-button"
-                                onClick={() => setShowRegister(false)}
-                            >
-                                Kirjaudu Sisään
-                            </button>
+                      
                         </div>
                     </motion.div>
                 )}
