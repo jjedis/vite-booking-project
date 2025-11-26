@@ -20,8 +20,8 @@ body{
 .booking-container{
     
     background-color: white;
-    width: 100vw;
-    min-width: 365px;
+    width: 100%;
+    min-width: 360px;
     border-radius: 5px;
     padding: 5px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
@@ -100,10 +100,12 @@ body{
     cursor: pointer;
     height: 35px;
     width: 35px;
-    text-align: center;
-    line-height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 5px;
     color: #919191;
+    
 
 }
 .icon:first-child{
@@ -115,6 +117,12 @@ body{
 
 .icon:hover{
     background-color: #efedfb;
+}
+.arrow-icon{
+    color: rgb(196, 193, 193);
+    width: 80%;
+    height: 80%;
+
 }
 @keyframes slideLeft {
     0% { transform: translateX(100%); }
@@ -169,7 +177,7 @@ body{
 }
 
 .weekday-large{
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     display: none;
 }
 
@@ -186,7 +194,7 @@ body{
     width: 100%;
     height: 35px;
     justify-content: center;
-    padding: 0 5px;
+    align-items: center;
     font-size: 1.1rem;
     
     
@@ -208,14 +216,16 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 75%;
-    min-width: 40px;
+    width:40px;
+    min-width: 35px;
     height: 35px;
-    background-color: #efedfb;
-    border-radius: 10px;
+    border-radius: 13px;
     text-align: center;
     cursor: pointer;
-    
+    border: 2px solid transparent;
+    box-sizing: border-box; 
+    font-size: 0.9rem;
+    background-color: #efedfb;
     
 }
 
@@ -227,10 +237,12 @@ body{
     min-width: 40px;
     height: 35px;
     background-color: #ccc;
-    border-radius: 10px;
+    border-radius: 13px;
     text-align: center;
     pointer-events: none;
-    
+    border: 2px solid transparent;
+    box-sizing: border-box; 
+    font-size: 0.9rem;
 }
 .date-current{
     display: flex;
@@ -240,10 +252,13 @@ body{
     min-width: 40px;
     height: 35px;
     background-color: #efedfb;
-    border-radius: 10px;
+    border-radius: 13px;
     text-align: center;
     cursor: pointer;
-    
+    border: 2px solid transparent;
+    box-sizing: border-box; 
+    font-size: 0.9rem;
+
 }
 .date-clicked{
     display: flex;
@@ -257,6 +272,9 @@ body{
     text-align: center;
     cursor: pointer;
     border: 2px solid #897afc;
+    box-sizing: border-box; 
+    font-size: 0.9rem;
+
     
 }
 
@@ -289,7 +307,7 @@ body{
     display: none;
 }
 .no-times{
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #888;
     font-style: italic;
     text-align: center;
@@ -327,10 +345,17 @@ body{
 
 /*-------------------appoiintment small screen------------*/
 
-.appointment-time{
+.calendar-mobile {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* or whatever you use */
+    gap: 10px;
+}
+
+.mobile-times{
+    grid-column: 1 / -1;
     display: grid;
     grid-template-columns: auto auto;
-    margin: 20px 0;
+    margin: 0 0;
     gap: 10px;
     
 }
@@ -352,12 +377,21 @@ body{
     align-items: center;
     cursor: pointer;
     color: #fff;
+    font-size: 0.9rem;
     
 }
 .time:hover{
     background-color: #efedfb;
     color: black;
 }
+
+.mobile-date {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 
 
 
@@ -384,9 +418,17 @@ body{
     }
     .date, .date-inactive, .date-current{
         background-color: transparent;
-        border: none;
+        box-sizing: border-box; 
+        pointer-events: none;
         cursor: default;
         
+    }
+    .date-clicked{
+        border-color: transparent;
+        background-color: transparent;
+    }
+    .date-con{
+
     }
     .weekday{
         display: none;
@@ -432,10 +474,10 @@ body{
         border: none;
     }
     .date-box, .date-box-current, .date-box-inactive{
-        border-right: 2px solid #efedfb;
+        border-right: 2px solid #e5e4e6;
     }
     .date-header{
-        border-bottom: 2px solid #efedfb;
+        border-bottom: 2px solid #e5e4e6;
     }
     .proceed-con{
         justify-content: end;    
@@ -446,3 +488,18 @@ body{
     }
 
 }
+
+@media screen and (max-width: 991px) {
+    .weekday-large{
+        font-size: 17px;
+    }
+    
+}
+@media (max-width: 768px) {
+    .calendar-desktop { display: none; }
+  }
+  
+  @media (min-width: 769px) {
+    .calendar-mobile { display: none; }
+  }
+  

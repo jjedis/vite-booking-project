@@ -34,11 +34,11 @@ function Navbar() {
             </li>
             <li className="nav-item">
               <NavLink className={({ isActive }) =>
-                isActive ? "nav-link active-link" : "nav-link"} to="/ajanvaraus">Varaa</NavLink>
+                isActive ? "nav-link active-link" : "nav-link"} to="/yhteystiedot">Yhteystiedot</NavLink>
             </li>
             <li className="nav-item">
               <NavLink className={({ isActive }) =>
-                isActive ? "nav-link active-link" : "nav-link"} to="/yhteystiedot">Yhteystiedot</NavLink>
+                isActive ? "nav-link active-link" : "nav-link"} to="/ajanvaraus">Varaa</NavLink>
             </li>
             </div>
             <div className="right-links">

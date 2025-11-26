@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { ChangeEvent, FormEvent } from "react";
 import "../styles/login.css"
-import arrowLeft from "bootstrap-icons/icons/arrow-left-square.svg";
+
 
 
 function Login() {

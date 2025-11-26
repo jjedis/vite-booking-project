@@ -2,9 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Etusivu from "./pages/Home";
 import Palvelut from "./pages/Palvelut";
-import Ajanvaraus from "./pages/Ajanvaraus";
 import Yhteystiedot from "./pages/Yhteystiedot";
 import Login from "./pages/Login";
+import Ajanvaraus  from "./pages/Varaus";
 
 export const router = createBrowserRouter([
     {
