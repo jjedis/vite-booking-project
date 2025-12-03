@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
-import "../styles/booking.css"
+import { useEffect, useState, useRef } from "react";
+import "../styles/booking.css";
+import {motion, AnimatePresence} from "motion/react";
 
 const Ajanvaraus = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(
@@ -14,6 +15,12 @@ const Ajanvaraus = () => {
   const [weekOffset ,setWeekOffset] = useState<number>(0);
 
   const [dates, setDates] = useState<Date[]>([]);
+  const swipeDirection = useRef(0);
+
+  const [open, setOpen] = useState(false);
+  const [selectedServiceLabel, setSelectedServiceLabel] = useState("Valitse palvelu");
+  
+
 
    
     // Set up today's date and find the Monday of the current week
@@ -24,7 +31,6 @@ const Ajanvaraus = () => {
   baseMonday.setDate(today.getDate() + diffToMonday);
 
 
-    // *** NEW ***
   const availableTimes = [
     "10:00", 
     "10:30", 
@@ -90,11 +96,32 @@ const Ajanvaraus = () => {
     setSelectedTime(time);
   };
   const handleNextWeek = () => {
-    if (weekOffset < 28) setWeekOffset((prev) => prev + 7);
+    if (weekOffset < 28) {
+      swipeDirection.current = 1;
+      setWeekOffset((prev) => prev + 7);
+    }
   };
 
   const handlePrevWeek = () => {
-    if (weekOffset > 0) setWeekOffset((prev) => prev -7);
+    if (weekOffset > 0) {
+      swipeDirection.current = -1;
+      setWeekOffset((prev) => prev -7);
+    }
+  };
+
+  const variants = {
+    enter: (direction:number) =>({
+      x: direction > 0 ? 150 : -150,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -150 : 150,
+      opacity: 0,
+    }),
   };
 
 
@@ -102,21 +129,54 @@ const Ajanvaraus = () => {
 
     <div className="page-container">
       <div className="booking-container">
-        <div className="service">
-          {["30-min", "45-min", "60-min", "purentalhas"].map((id, index) => (
-            <div key={id} className="grid-wrap-service">
-              <div
-                className={`service-type ${
-                  selectedService === id ? "service-type-clicked" : ""
-                }`}
-                id={id}
-                onClick={() => handleServiceClick(id)}
-              >
-                {["Hieronta 30min", "Hieronta 45min", "Hieronta 60min","Purentalihas-hieronta 60min"][index]}
-              </div>
+      <div className="service-desktop">
+        {["30-min", "45-min", "60-min", "purentalhas"].map((id, index) => (
+          <div key={id} className="grid-wrap-service">
+            <div
+              className={`service-type ${
+              selectedService === id ? "service-type-clicked" : ""
+              }`}
+              id={id}
+              onClick={() => handleServiceClick(id)}
+            >
+              {["Hieronta 30min", "Hieronta 45min", "Hieronta 60min","Purentalihas-hieronta 60min"][index]}
             </div>
-          ))}
-        </div> 
+          </div>
+        ))}
+      </div> 
+      <div className="service-mobile">
+        <div className={`custom-select ${open ? "open" : ""}`} onClick={() => setOpen(!open)}>
+          <span className="selected-option">
+            {selectedServiceLabel}
+          </span>
+
+          <span className="arrow"></span>
+
+          {open && (
+            <div className="options">
+              {[
+                { id: "30-min", label: "Hieronta 30min" },
+                { id: "45-min", label: "Hieronta 45min" },
+                { id: "60-min", label: "Hieronta 60min" },
+                { id: "purentalhas", label: "Purentalihas-hieronta 60min" }
+              ].map((item) => (
+                <div 
+                  className="option"
+                  key={item.id}
+                  onClick={() => {
+                    handleServiceClick(item.id);
+                    setSelectedServiceLabel(item.label);
+                    setOpen(false);
+                  }}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
         <div className="calendar-header">
           <div className="icon" id="icon-left" onClick={handlePrevWeek}>
             <svg xmlns="http://www.w3.org/2000/svg" 
@@ -205,49 +265,72 @@ const Ajanvaraus = () => {
           })}
         </div>
         <div className="calendar-body calendar-mobile">
-            {dates.map((date, i) => {
-              const isToday = date.toDateString() === today.toDateString();
-              const fullDate = formatFullDate(date);
-              const isPast = date < today && !isToday;
+          <AnimatePresence mode="wait" custom={swipeDirection.current}>
+            <motion.div
+              key={weekOffset}
+              custom={swipeDirection.current}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.25}}
+              drag="x"
+              dragConstraints={{left:0, right: 0}}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -80) handleNextWeek();
+                else if (info.offset.x > 80) handlePrevWeek();
+              }}
+              className="mobile-slide"
+            >
 
-              return (
-                <div
-                  className={`mobile-date ${selectedDate === fullDate ? "selected" : ""}`}
-                  key={i}
-                  onClick={() => !isPast && handleDateClick(date)}
-                >
-                  <div className="weekday">
-                    {["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"][i]}
-                  </div>
-                  
-                  <div 
-                    className={`
-                      date 
-                      ${isPast ? "date-inactive" : ""}
-                      ${selectedDate === fullDate ? "date-clicked" : ""}`
-                    }
-                      
-                      >
-                      {formatDate(date)}</div>
-                </div>
-              );
-            })};
+              {dates.map((date, i) => {
+                const isToday = date.toDateString() === today.toDateString();
+                const fullDate = formatFullDate(date);
+                const isPast = date < today && !isToday;
 
-            {selectedDate && (
-              <div className="mobile-times">
-                {availableTimes.map((time) =>(
-                  <div className="grid-wrap">
-                    <div
-                      key={time}
-                      className={`time ${selectedTime === time ? "time-clicked" : ""}`}
-                      onClick={() => handleTimeClick(time)}
+                return (
+                  <div
+                    className={`mobile-date ${selectedDate === fullDate ? "selected" : ""}`}
+                    key={i}
+                    onClick={() => !isPast && handleDateClick(date)}
+                  >
+                    <div className="weekday">
+                      {["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"][i]}
+                    </div>
+                    
+                    <div 
+                      className={`
+                        date 
+                        ${isPast ? "date-inactive" : ""}
+                        ${selectedDate === fullDate ? "date-clicked" : ""}`
+                      }
+                        
                     >
-                      {time}
+                      {formatDate(date)}
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
+                );
+              })};
+            </motion.div>
+          </AnimatePresence>
+
+              {selectedDate && (
+                <div className="mobile-times">
+                  {availableTimes.map((time) =>(
+                    <div className="grid-wrap">
+                      <div
+                        key={time}
+                        className={`time ${selectedTime === time ? "time-clicked" : ""}`}
+                        onClick={() => handleTimeClick(time)}
+                      >
+                        {time}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+           
         </div>
 
           
@@ -262,255 +345,4 @@ const Ajanvaraus = () => {
   );
 };
 export default Ajanvaraus;
-    // Check if two dates refer to the same calendar day
-    /*
-      
-    <div className="appointment-time">
-    <div className="grid-wrap"><div className="time" id="10.00">10.00</div></div>
-    <div className="grid-wrap"><div className="time" id="10.30">10.30</div></div>
-    <div className="grid-wrap"><div className="time" id="11.00">11.00</div></div>
-    <div className="grid-wrap"><div className="time" id="11.30">11.30</div></div>
-    <div className="grid-wrap"><div className="time" id="12.00">12.00</div></div>
-    <div className="grid-wrap"><div className="time" id="12.30">12.30</div></div>
-    <div className="grid-wrap"><div className="time" id="13.00">13.00</div></div>
-    <div className="grid-wrap"><div className="time" id="13.30">13.30</div></div>
-    <div className="grid-wrap"><div className="time" id="14.00">14.00</div></div>
-    <div className="grid-wrap"><div className="time" id="15.00">15.00</div></div>
-    <div className="grid-wrap"><div className="time" id="15.30">15.30</div></div>
-    <div className="grid-wrap"><div className="time" id="16.00">16.00</div></div>
-    <div className="grid-wrap"><div className="time" id="16.30">16.30</div></div>
-    <div className="grid-wrap"><div className="time" id="17.00">17.00</div></div>
-    <div className="grid-wrap"><div className="time" id="17.30">17.30</div></div>
-    <div className="grid-wrap"><div className="time" id="18.00">18.00</div></div>
-  </div>
-    
-    
-    const isSameDate = (date1, date2) =>
-        date1.getFullYear() === date2.getFullYear() &&
-        date1.getMonth() === date2.getMonth() &&
-        date1.getDate() === date2.getDate();
-
-    const clearClickedBorders = () => {
-        document.querySelectorAll(".date, .date-current").forEach(el => {
-            el.classList.remove("date-clicked");
-        });
-    };
-
-    const clearClickedService = () => {
-        document.querySelectorAll(".service-type, .service-type-clicked").forEach(el => {
-            el.classList.remove("service-type-clicked");
-        });
-    };
-
-    const animateScroll = (direction) => {
-        if (calendarBody && window.innerWidth < 768) {
-            calendarBody.classList.add(direction === 'right' ? 'slide-left' : 'slide-right');
-            calendarBody.addEventListener('animationend', () => {
-                calendarBody.classList.remove('slide-left', 'slide-right');
-                populateDates();
-            }, { once: true });
-        } else {
-            populateDates();
-        }
-    };
-
-    serviceTypes.forEach(service => {
-        service.addEventListener("click", () => {
-            selectedService = service.id;
-            clearClickedService();
-            service.classList.add("service-type-clicked");
-            console.log(selectedDate);
-            console.log(selectedService);
-            console.log(selectedTime);
-        })
-    })
-
-    appointmentTimes.forEach(time => {
-        time.addEventListener("click", () => {
-            selectedTime = time.id;
-            console.log(selectedDate);
-            console.log(selectedService);
-            console.log(selectedTime);
-        })
-    })
-   
-    // Main function to populate dates and update UI
-    const populateDates = () => {
-        const monday = new Date(baseMonday);
-        monday.setDate(baseMonday.getDate() + weekOffset); // Adjust for week offset
-
-        dateBoxes.forEach((box, i) => {
-            const currentDate = new Date(monday);
-            currentDate.setDate(monday.getDate() + i); // Calculate date for each box
-
-            const fullDate = formatFullDate(currentDate);
-            const shortDate = formatDate(currentDate);
-
-            // Set ID and text content for the date
-            box.id = fullDate;
-
-            const timeContainer = box.querySelector(".time-container");
-            const dateActive = box.querySelector(".date, .date-current, .date-inactive");
-            if (dateActive) {
-                dateActive.textContent = shortDate;
-
-                // Restore blue border if this date is selected
-                if (selectedDate === fullDate) {
-                    dateActive.classList.add("date-clicked");
-                }
-                else {
-                    dateActive.classList.remove("date-clicked");
-                }
-
-                // Add click listener to highlight selected date
-                dateActive.addEventListener("click", () => {
-                    clearClickedBorders();
-                    dateActive.classList.add("date-clicked");
-                    selectedDate = fullDate;
-                });
-            }
-
-            // Clear any previous highlighting or inactive class
-            box.classList.remove("date-box-current", "date-box-inactive");
-            dateActive.classList.remove("date-current", "date-inactive");
-            timeContainer.classList.remove("time-container-inactive");
-            // Clear previous time slots before adding new ones
-            timeContainer.innerHTML = "";
-
-            // Create a "no times" element
-            const noTimesEl = document.createElement("div");
-            noTimesEl.classList.add("no-times");
-            noTimesEl.innerHTML = "<p>Ei varattavia aikoja</p>";
-
-
-            // Highlight today
-            if (isSameDate(currentDate, today)) {
-                box.classList.add("date-box-current");
-                dateActive.classList.add("date-current");
-                selectedDate = fullDate;
-                
-            }
-            // Mark past dates as inactive
-            else if (currentDate < today && !isSameDate(currentDate, today)) {
-                box.classList.add("date-box-inactive");
-                dateActive.classList.add("date-inactive");
-                timeContainer.classList.add("time-container-inactive");
-                timeContainer.appendChild(noTimesEl);
-                return; // skip generating times
-                
-
-            }
-
-
-            
-            
-            // Dynamically generate time slots
-            const now = new Date();
-            let allInactive = false;
-            availableTimes.forEach(timeStr => {
-                const timeDiv = document.createElement("div");
-                timeDiv.classList.add("time-available", "time-wide"); // Keep your class names
-                timeDiv.setAttribute("data-time", timeStr);
-                timeDiv.textContent = timeStr;
-
-                
-                // Disable time slots in the past for today
-                // Build a Date object for this time slot
-                const [hours, minutes] = timeStr.split(":").map(Number);
-                const slotDate = new Date(currentDate);
-                slotDate.setHours(hours, minutes, 0, 0);
-
-                // Compare full date+time
-                if (slotDate < now && isSameDate(currentDate, today)) {
-                    timeDiv.classList.add("time-inactive");
-                    timeDiv.style.pointerEvents = "none"; // disable clicking
-                }
-                else{
-                    allInactive = false;
-                }
-                
-                
-
-
-                
-
-               
-                // Highlight selected time for the selected date
-                if (selectedTime === timeStr && selectedDate === fullDate) {
-                    timeDiv.classList.add("time-clicked");
-                }
-
-                
-                // Add click listener for selecting time slot
-                timeDiv.addEventListener("click", () => {
-                    selectedTime = timeStr;
-                    selectedDate = fullDate;
-
-                    // Clear previously selected time slot highlights
-                    document.querySelectorAll(".time-clicked").forEach(el => {
-                        el.classList.remove("time-clicked");
-                    });
-
-                    timeDiv.classList.add("time-clicked");
-                    console.log(selectedDate, selectedService, selectedTime);
-                });
-
-                timeContainer.appendChild(timeDiv);
-
-            });  
-            if (allInactive) {
-                timeContainer.innerHTML = "";
-                timeContainer.appendChild(noTimesEl);
-            }     
-
-        });
-    };
-
-    // Initial population of the calendar
-    populateDates();
-
-    // Navigate to next week
-    iconRight.addEventListener("click", () => {
-        if (weekOffset < 28){
-            weekOffset += 7;
-            animateScroll("right");
-            populateDates();
-        }
-      
-    });
-
-    // Navigate to previous week
-    iconLeft.addEventListener("click", () => {
-        if (weekOffset > 0) { // prevent going back past the start
-            weekOffset -= 7;
-            animateScroll('left');
-            populateDates();
-        }
-    });
-        // Swipe gesture support
-        let touchStartX = 0;
-        let touchEndX = 0;
-    
-        calendarBody.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-    
-        calendarBody.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleGesture();
-        });
-    
-        const handleGesture = () => {
-            if (touchEndX < touchStartX - 50) {
-                weekOffset += 7;
-                animateScroll('right');
-            }
-            if (touchEndX > touchStartX + 50) {
-                weekOffset -= 7;
-                animateScroll('left');
-            }
-        };
-    
-
-);*/
 
