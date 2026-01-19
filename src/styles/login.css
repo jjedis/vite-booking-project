@@ -1,57 +1,48 @@
 * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
 }
 
-.main-container{
-    position: relative;
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    
-    
+.main-login-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 .login-container{
-    
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-    width: 100%;
-    max-width: 360px;
-    margin-top: 5%;
-    display: block;
-    box-sizing: border-box;
-    background-color: aliceblue;
-    height: auto;
-    min-width: 360px;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  max-width: 360px;
+  margin-top: 5%;
+  display: block;
+  box-sizing: border-box;
+  background-color: aliceblue;
+  height: auto;
+  min-width: 360px;
 }
-.reg-container{
-    
-    padding: 5px;
-    border-radius: 10px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-    width: 100%;
-    max-width: 600px;
-    min-width: 360px;
-    margin-top: 5%;
-    display: block;
-    box-sizing: border-box;
-    background-color: aliceblue;
-    height: auto;
-    overflow: visible;
+.reg-container {
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  width: 100%;
+  max-width: 600px;
+  min-width: 360px;
+  margin-top: 5%;
+  display: block;
+  box-sizing: border-box;
+  background-color: aliceblue;
+  height: auto;
+  overflow: visible;
 }
 
-    
-    
-    
-    
 .bi {
   position: absolute;
-  left: 20px; 
-  top: 20px;             /* stick to the left edge */
+  left: 20px;
+  top: 20px; /* stick to the left edge */
   cursor: pointer;
   transition: transform 0.2s ease;
   color: rgb(196, 193, 193);
@@ -62,162 +53,97 @@
   transform: scale(1.1);
 }
 
-.header{
-    width: 100%;
-    display: flex;
-    text-align: center;
-    align-items: center;
-    height: 80px;
-    justify-content: center;
-    margin-bottom: 30px;
-    color: rgb(196, 193, 193);
-    position: relative;
+.header {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  height: 80px;
+  justify-content: center;
+  margin-bottom: 30px;
+  color: rgb(196, 193, 193);
+  position: relative;
 }
-.header h1{
-    font-size: 1.5rem;
-    margin: 0 auto;
+.header h1 {
+  font-size: 1.5rem;
+  margin: 0 auto;
 }
 
 /*-------------------------------login info section--------------------------------*/
 
-
-
-.login-info {
-    padding: 30px;
-    
+.registration-info, .login-info {
+  padding: 30px;
 }
 
-.input-group{
-    position: relative;
-    margin-bottom: 40px;
-}
-.input-group-reg{
-    position: relative;
-    margin-bottom: 40px;
+.form-element {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-form{
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
+.tos-check {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  position: absolute;
+  top: 3px;
+  accent-color: darkgoldenrod;
+}
+.tos label {
+  position: absolute;
+  font-size: 1rem;
+  cursor: pointer;
+  top: 0;
+  left: 20px;
+}
+.tos {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  height: 30px;
 }
 
-input{
-    padding: 0 3px;   
-    background: transparent;
-    transition: 0.1s ease;
-    z-index: 1111;
-    height: 35px;
-    font-size: 0.9em;
-    width: 100%;
-    box-sizing: border-box;
-    border: none;
-    border: 2px solid rgb(196, 193, 193);
-    outline: none;
-    line-height: 2px;
-    
+.sub {
+  text-align: center;
+  width: 100%;
+  height: 35px;
+  border-radius: 5px;
+  background-color: rgb(56, 56, 250);
+  color: white;
+  border: 2px solid rgb(56, 56, 250);
+  font-size: 20px;
+  cursor: pointer;
 }
-
-
-.labelline{
-    position: absolute;
-    font-size: 1em;
-    padding: 3px;
-    margin: 3px 5px;  
-    transition: 0.2s ease;
-    
-    color: rgb(196, 193, 193);
-    top: 2px;
-    left: 5px;
-
-
-}
-
-
-.input-group input:focus + .labelline,
-.input-group input:not(:placeholder-shown) + .labelline,
-.input-group input:valid + .labelline{
-    transform: translate(-12px, -25px) scale(0.80);
-    
-}
-.input-group-reg input:focus + .labelline,
-.input-group-reg input:not(:placeholder-shown) + .labelline,
-.input-group-reg input:valid + .labelline{
-    transform: translate(-16px, -30px) scale(0.80);
-    
-}
-
-.tos-check{
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-    position: absolute;
-    top: 3px;
-    accent-color: darkgoldenrod;
-    
-    
-}
-.tos label{
-    position: absolute;
-    font-size: 1rem;
-    cursor: pointer;
-    top: 0;
-    left: 20px;
-}
-.tos{
-    display: flex;
-    gap: 8px; 
-    position: relative;
-    height: 30px;
-}
-
-.sub{
-    text-align: center;
-    width: 100%;
-    height: 35px;
-    border-radius: 5px;
-    background-color: rgb(56, 56, 250);
-    color: white;
-    border: 2px solid rgb(56, 56, 250);
-    font-size: 20px;
-    cursor: pointer;
-
-    
-
-}
-.submit-container{
-    justify-content: center;
-    display: flex;
-    margin-top: 10%;
+.submit-container-login {
+  justify-content: center;
+  display: flex;
+  margin-top: 10%;
 }
 /*-------------------------------additional options section--------------------------------*/
 
-
-.additional-options{
-    width: 100%;
-    display: block;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
+.additional-options {
+  width: 100%;
+  display: block;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
 }
-.additional-options p{
-    margin: 10px 0;
-    cursor: pointer;
+.additional-options p {
+  margin: 10px 0;
+  cursor: pointer;
 }
-
-
 
 /*-------------------------------password reset section--------------------------------*/
-.reset-pwd{
-    padding: 20px;
-    text-align: center;
-    display: block;
+.reset-pwd {
+  padding: 20px;
+  text-align: center;
+  display: block;
 }
-.reset-pwd p{
-    margin: 20px 0;
+.reset-pwd p {
+  margin: 20px 0;
 }
-.reset-form{
-    padding: 5px;
+.reset-form {
+  padding: 5px;
 }
 .link-button {
   background: none;
@@ -232,34 +158,29 @@ input{
   color: #0056b3;
 }
 
-
 @media only screen and (min-width: 576px) {
-
-    .login-form{
-        display: grid;
-        grid-template-columns: auto auto;
-        gap: 15px;
-    }
-    .tos-check{
+  .registration-form {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 15px;
+  }
+  .tos-check {
     width: 15px;
     height: 15px;
     cursor: pointer;
     position: absolute;
     top: 3px;
-    
-    
-    }
-    .tos label{
-        position: absolute;
-        font-size: 1rem;
-        cursor: pointer;
-        top: 0;
-        left: 20px;
-    }
-    .tos{
-        display: flex;
-        gap: 8px; 
-        position: relative;
-    }
-    
+  }
+  .tos label {
+    position: absolute;
+    font-size: 1rem;
+    cursor: pointer;
+    top: 0;
+    left: 20px;
+  }
+  .tos {
+    display: flex;
+    gap: 8px;
+    position: relative;
+  }
 }

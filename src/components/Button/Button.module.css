@@ -1,0 +1,40 @@
+.button {
+  width: 80%;
+  height: 35px;
+  border-radius: 10px;
+  background-color: var(--primary);
+  color: white;
+  border: 2px solid var(--primary);
+  font-size: 20px;
+  cursor: pointer;
+  transition: opacity 0.25s ease, transform 0.25s ease,
+    background-color 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.button:hover:not(.button-disabled) {
+  transform: scale(1.03);
+  background-color: var(--primary-hover);
+}
+
+.button.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  transform: scale(0.95);
+}
+.compact {
+    width: 80%;
+  }
+  
+@media (min-width: 768px) {
+    .compact {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: fit-content;
+      height: fit-content;
+      font-size: 18px;
+      padding: 5px;
+    }
+  }
+  

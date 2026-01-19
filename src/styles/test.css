@@ -1,0 +1,236 @@
+.custom-select {
+    width: 90%;
+    margin: 0 auto 20px auto;
+    background: var(--bg-muted);
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.custom-select:hover {
+    background: var(--bg-card);
+}
+
+.custom-select .arrow {
+    transition: 0.3s ease;
+}
+
+.custom-select.open .arrow {
+    transform: rotate(180deg);
+}
+
+.options {
+    width: 90%;
+    margin: 5px auto 0 auto;
+    background: white;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    animation: fadeSlide .25s ease;
+}
+
+.option {
+    padding: 12px 16px;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.option:hover {
+    background: var(--primary-light);
+}
+body {
+    background: var(--bg-body);
+    font-family: "Poppins", sans-serif;
+}
+
+.booking-container {
+    background: var(--bg-card);
+    width: 100%;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+.service-desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 15px;
+}
+
+.service-type {
+    background: var(--bg-soft);
+    padding: 14px 0;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.service-type:hover {
+    background: var(--primary-light);
+}
+
+.service-type-clicked {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+}
+.service-mobile {
+    width: 100%;
+    margin: 15px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.custom-select {
+    width: 90%;
+    background: var(--bg-soft);
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
+}
+
+.custom-select:hover {
+    background: var(--bg-card);
+}
+
+.options {
+    width: 90%;
+    margin: 6px auto 0;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    animation: fadeSlide 0.3s ease;
+}
+
+.option {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.option:hover {
+    background: var(--primary-light);
+}
+@media (min-width: 768px) {
+    .service-mobile { display: none; }
+  }
+  .calendar-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0 10px;
+    position: relative;
+}
+
+.calendar-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-1);
+}
+
+.icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.icon:hover {
+    background: var(--bg-soft);
+}
+.date {
+    background: var(--primary-light);
+    padding: 8px 0;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: var(--transition);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.date:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.date-clicked {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.date-inactive {
+    background: #ddd;
+    color: #777;
+    opacity: 0.6;
+    cursor: default;
+}
+.time-wide {
+    background: var(--bg-soft);
+    padding: 10px 0;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.time-wide:hover {
+    background: var(--primary-light);
+}
+
+.time-clicked {
+    background: var(--primary);
+    color: white;
+}
+.proceed-con {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.sub {
+    width: 80%;
+    max-width: 300px;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius);
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.sub:hover {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.sub-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    transform: none !important;
+}

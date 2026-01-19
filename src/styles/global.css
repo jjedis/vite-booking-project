@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+body {
+  background-color: var(--body-bg);
+}
+
+
+:root {
+  --body-bg: #dedddc;
+  --container-bg: #fff;
+  --white: #fff;
+  --primary: #98b39e;
+  --primary-hover: #88a78f;
+  --primary-accent: #88a78f;
+  --border: #cfc9ff;
+  --header: #919191;
+  --font-1: rgb(75, 74, 74);
+  --font-2: #888;
+  --font-3: ;
+  --font-4: ;
+  --hover-bg: #ebe7ff;
+  --select: #f6f4ff;
+  --date-inactive: #fff;
+  --date-active: #fff;
+  --accent-white: #fff;
+  --icon: rgb(196, 193, 193);
+}
+.input-group {
+  position: relative;
+  margin-bottom: 40px;
+}
+.input-group-reg {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.input-group input {
+  padding: 0 3px;
+  background: transparent;
+  transition: 0.1s ease;
+  z-index: 1;
+  height: 35px;
+  font-size: 0.9em;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid rgb(196, 193, 193);
+  outline: none;
+  line-height: 2px;
+}
+
+.labelline {
+  position: absolute;
+  font-size: 1em;
+  padding: 3px;
+  margin: 3px 5px;
+  transition: 0.2s ease;
+
+  color: rgb(196, 193, 193);
+  top: 2px;
+  left: 5px;
+}
+
+.input-group input:focus + .labelline,
+.input-group input:not(:placeholder-shown) + .labelline,
+.input-group input:valid + .labelline {
+  transform: translate(-12px, -25px) scale(0.8);
+}
+.input-group-reg input:focus + .labelline,
+.input-group-reg input:not(:placeholder-shown) + .labelline,
+.input-group-reg input:valid + .labelline {
+  transform: translate(-16px, -30px) scale(0.8);
+}
+.password-group {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  color: rgb(196, 193, 193);
+  padding: 0;
+  z-index: 2;
+}
+
+.password-toggle:hover {
+  opacity: 0.8;
+}
+
+.password-toggle .pwd-icon{
+  cursor: pointer;  
+  
+}
