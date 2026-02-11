@@ -1,8 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { pool } from "./db.js";
-
+import bookingsRoutes from "./routes/bookings.js";
 dotenv.config();
 
 const app = express();
@@ -10,12 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/health", async (req, res) => {
-    const result = await pool.query('SELECT NOW()');
-    res.json({status: 'ok', time: result.rows[0]});
-});
+app.use("/api/bookings", bookingsRoutes)
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
-    console.log(`server running on http://localhost:${PORT}`);
+  console.log(`server running on http://localhost:${PORT}`);
 });

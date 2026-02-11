@@ -81,7 +81,7 @@ function BookingInfo() {
       </div>
     );
   }
-
+  
   return (
     <div className="customer-info-page">
       <div className="confirm-container">
@@ -90,12 +90,12 @@ function BookingInfo() {
             <h2>Olet varaamassa</h2>
           </div>
           <div className="booking-info">
-              <h4 className="info-row-left">Hieronta</h4>
-              <h4 className="info-row-right">60min</h4>
-              <h4 className="info-row-left">Päivä</h4>
-              <h4 className="info-row-right">18.syyskuuta 2025</h4>
-              <h4 className="info-row-left">Aika</h4>
-              <h4 className="info-row-right">9:00-10:00</h4>
+              <p className="info-row-left">Hieronta</p>
+              <p className="info-row-right">{selectedService}</p>
+              <p className="info-row-left">Päivä</p>
+              <p className="info-row-right">{new Date(selectedDate).toLocaleDateString("fi-FI")}</p>
+              <p className="info-row-left">Aika</p>
+              <p className="info-row-right">`{}`</p>
           </div>
         </div>
         <div className="group-container">

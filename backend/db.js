@@ -16,5 +16,4 @@ pool.on("connect", () => {
   console.log("connected to postgresql");
 });
 
-console.log("DB_USER:", process.env.DB_USER);
-console.log("DB_PASSWORD:", process.env.DB_PASSWORD);
+

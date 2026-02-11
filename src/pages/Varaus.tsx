@@ -4,28 +4,56 @@ import { motion, AnimatePresence } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button/Button";
 
+type Service = {
+  id: string;
+  name: string;
+  duration: number;
+};
+
+type Booking = {
+  id: string;
+  start_time: string;
+  end_time: string;
+};
+
+const services: Service[] = [
+  { id: "30-min", name: "Hieronta 30min", duration: 30 },
+  { id: "45-min", name: "Hieronta 45min", duration: 45 },
+  { id: "60-min", name: "Hieronta 60min", duration: 60 },
+  { id: "purentalihas", name: "Purentalihas-hieronta 60min", duration: 60 },
+];
+
 const Ajanvaraus = () => {
-  const [selectedDate, setSelectedDate] = useState<string | null>(
-    sessionStorage.getItem("selectedDate"),
-  );
-  const [selectedService, setSelectedService] = useState<string | null>(
-    sessionStorage.getItem("selectedService"),
-  );
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
+    const stored = sessionStorage.getItem("selectedDate");
+    return stored ? new Date(stored) : null;
+  });
+
+  const [selectedService, setSelectedService] = useState<Service | null>(() => {
+    const stored = sessionStorage.getItem("selectedService");
+    return stored ? JSON.parse(stored) : null;
+  });
+
   const [selectedTime, setSelectedTime] = useState<string | null>(
     sessionStorage.getItem("selectedTime"),
   );
+
   const [weekOffset, setWeekOffset] = useState<number>(0);
 
   const [dates, setDates] = useState<Date[]>([]);
   const swipeDirection = useRef(0);
 
   const [open, setOpen] = useState(false);
-  const [selectedServiceLabel, setSelectedServiceLabel] =
     useState("Valitse palvelu");
 
   const [now, setNow] = useState(new Date());
 
+  const [bookings, setBookings] = useState<Booking[]>([]);
+
   const navigate = useNavigate();
+
+  const SLOT_MINUTES = 30;
 
   // Set up today's date and find the Monday of the current week
   const today = new Date();
@@ -68,6 +96,64 @@ const Ajanvaraus = () => {
     return `${dd}-${mm}-${yyyy}`;
   };
 
+  const isTimeBooked = (bookings: Booking[], date: Date, time: string) => {
+    if (!Array.isArray(bookings)) return false;
+    const [h, m] = time.split(":").map(Number);
+
+    const slotStart = new Date(date);
+    slotStart.setHours(h, m, 0, 0);
+
+    const slotEnd = new Date(slotStart);
+    slotEnd.setMinutes(slotEnd.getMinutes() + SLOT_MINUTES);
+
+    return bookings.some((b) => {
+      const bookingStart = new Date(b.start_time);
+      const bookingEnd = new Date(b.end_time);
+
+      return slotStart < bookingEnd && slotEnd > bookingStart;
+    });
+  };
+
+  useEffect(() => {
+    if (dates.length === 0) return;
+
+    const start = new Date(
+      dates[0].getFullYear(),
+      dates[0].getMonth(),
+      dates[0].getDate(),
+      0,
+      0,
+      0,
+    );
+
+    const end = new Date(
+      dates[6].getFullYear(),
+      dates[6].getMonth(),
+      dates[6].getDate(),
+      23,
+      59,
+      59,
+    );
+
+    fetch(
+      `http://localhost:4000/api/bookings?start=${start.toISOString()}&end=${end.toISOString()}`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setBookings(data);
+        } else if (Array.isArray(data.bookings)) {
+          setBookings(data.bookings);
+        } else {
+          setBookings([]);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        setBookings([]);
+      });
+  }, [dates]);
+
   useEffect(() => {
     const monday = new Date(baseMonday);
     monday.setDate(baseMonday.getDate() + weekOffset);
@@ -82,9 +168,13 @@ const Ajanvaraus = () => {
   }, [weekOffset]);
 
   useEffect(() => {
-    if (selectedDate) sessionStorage.setItem("selectedDate", selectedDate);
+    if (selectedDate)
+      sessionStorage.setItem("selectedDate", selectedDate.toISOString());
     if (selectedService)
-      sessionStorage.setItem("selectedService", selectedService);
+      sessionStorage.setItem(
+        "selectedService",
+        JSON.stringify(selectedService),
+      );
     if (selectedTime) sessionStorage.setItem("selectedTime", selectedTime);
   }, [selectedDate, selectedService, selectedTime]);
 
@@ -106,11 +196,11 @@ const Ajanvaraus = () => {
   };
 
   const handleDateClick = (date: Date) => {
-    setSelectedDate(formatFullDate(date));
+    setSelectedDate(date);
   };
 
-  const handleServiceClick = (serviceId: string) => {
-    setSelectedService(serviceId);
+  const handleServiceClick = (service: Service) => {
+    setSelectedService(service);
   };
 
   const handleTimeClick = (time: string) => {
@@ -161,54 +251,43 @@ const Ajanvaraus = () => {
     <div className="booking-page">
       <div className="booking-container">
         <div className="service-desktop">
-          {["30-min", "45-min", "60-min", "purentalhas"].map((id, index) => (
-            <div key={id} className="grid-wrap-service">
+          {services.map((service) => (
+            <div key={service.id} className="grid-wrap-service">
               <div
                 className={`service-type ${
-                  selectedService === id ? "service-type-clicked" : ""
+                  selectedService?.id === service.id
+                  ? "service-type-clicked" 
+                  : ""
                 }`}
-                id={id}
-                onClick={() => handleServiceClick(id)}
+                onClick={() => handleServiceClick(service)}
               >
-                {
-                  [
-                    "Hieronta 30min",
-                    "Hieronta 45min",
-                    "Hieronta 60min",
-                    "Purentalihas-hieronta 60min",
-                  ][index]
-                }
+                {service.name}
               </div>
             </div>
           ))}
         </div>
+
         <div className="service-mobile">
           <div
             className={`custom-select ${open ? "open" : ""}`}
             onClick={() => setOpen(!open)}
           >
-            <span className="selected-option">{selectedServiceLabel}</span>
+            <span className="selected-option">{selectedService?.name || "Valitse palvelu"}</span>
 
             <span className="arrow"></span>
 
             {open && (
               <div className="options">
-                {[
-                  { id: "30-min", label: "Hieronta 30min" },
-                  { id: "45-min", label: "Hieronta 45min" },
-                  { id: "60-min", label: "Hieronta 60min" },
-                  { id: "purentalhas", label: "Purentalihas-hieronta 60min" },
-                ].map((item) => (
+                {services.map(service => (
                   <div
                     className="option"
-                    key={item.id}
+                    key={service.id}
                     onClick={() => {
-                      handleServiceClick(item.id);
-                      setSelectedServiceLabel(item.label);
+                      setSelectedService(service);
                       setOpen(false);
                     }}
                   >
-                    {item.label}
+                    {service.name}
                   </div>
                 ))}
               </div>
@@ -269,7 +348,7 @@ const Ajanvaraus = () => {
                     <div
                       className={`
                         date
-                        ${selectedDate === fullDate ? "date-clicked" : ""}
+                        ${selectedDate && formatFullDate(selectedDate) === fullDate ? "date-clicked" : ""}
                         ${isPast ? "date-inactive" : ""}
                       `}
                       onClick={() => handleDateClick(date)}
@@ -286,20 +365,21 @@ const Ajanvaraus = () => {
                   ) : (
                     availableTimes.map((time) => {
                       const timeIsPast = isToday && isTimeInPast(date, time);
+                      const booked = isTimeBooked(bookings, date, time);
 
                       return (
                         <div
                           key={time}
                           className={`time-available time-wide 
-                            ${timeIsPast ? "time-wide-inactive" : ""}
+                            ${timeIsPast || booked ? "time-wide-inactive" : ""}
                             ${
-                              selectedTime === time && selectedDate === fullDate
+                              selectedTime === time && selectedDate && formatFullDate(selectedDate) === fullDate
                                 ? "time-clicked"
                                 : ""
                             }
                           `}
                           onClick={() => {
-                            if (timeIsPast) return;
+                            if (timeIsPast || booked) return;
                             handleDateClick(date);
                             handleTimeClick(time);
                           }}
@@ -375,7 +455,7 @@ const Ajanvaraus = () => {
                   return (
                     <div
                       className={`mobile-date ${
-                        selectedDate === fullDate ? "selected" : ""
+                        selectedDate && formatFullDate(selectedDate) === fullDate ? "selected" : ""
                       }`}
                       key={i}
                       onClick={() => !isPast && handleDateClick(date)}
@@ -384,7 +464,7 @@ const Ajanvaraus = () => {
                         className={`
                           date 
                           ${isPast ? "date-inactive" : ""}
-                          ${selectedDate === fullDate ? "date-clicked" : ""}`}
+                          ${selectedDate && formatFullDate(selectedDate) === fullDate ? "date-clicked" : ""}`}
                       >
                         {formatDate(date)}
                       </div>
@@ -399,29 +479,28 @@ const Ajanvaraus = () => {
           {selectedDate && (
             <div className="mobile-times">
               {availableTimes.map((time) => {
-                const selectedDateObj = dates.find(
-                  (d) => formatFullDate(d) === selectedDate
-                );
 
-                const isTodaySelected = 
-                  selectedDateObj &&
-                  selectedDateObj.toDateString() === today.toDateString();
+                const isTodaySelected =
+                  selectedDate.toDateString() === today.toDateString();
 
-                const timeIsPast = 
-                  isTodaySelected && selectedDateObj
-                  ? isTimeInPast(selectedDateObj, time)
-                  : false;
+                const timeIsPast =
+                  isTodaySelected
+                    ? isTimeInPast(selectedDate, time)
+                    : false;
+
+                const booked = isTimeBooked(bookings, selectedDate, time);
+
 
                 return (
                   <div className="grid-wrap" key={time}>
                     <div
                       className={`time 
-                        ${timeIsPast ? "time-inactive" : ""}
+                        ${timeIsPast || booked ? "time-inactive" : ""}
                         ${selectedTime === time ? "time-clicked" : ""}
                       `}
                       onClick={() => {
-                        if (timeIsPast) return;
-                        handleTimeClick(time)
+                        if (timeIsPast || booked) return;
+                        handleTimeClick(time);
                       }}
                     >
                       {time}
