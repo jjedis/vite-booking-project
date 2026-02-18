@@ -2,19 +2,28 @@ import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import "../styles/contact-info.css";
 import { useLocation, useNavigate } from "react-router-dom";
-import {FormInput, PasswordInput} from "../components/FormInput/FormInput";
+import { FormInput, PasswordInput } from "../components/FormInput/FormInput";
 import Button from "../components/Button/Button";
 
 function BookingInfo() {
-  const { state } = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
-  const selectedService =
-    state?.selectedService ?? sessionStorage.getItem("selectedService");
-  const selectedDate =
-    state?.selectedDate ?? sessionStorage.getItem("selectedDate");
-  const selectedTime =
-    state?.selectedTime ?? sessionStorage.getItem("selectedTime");
+  const state = location.state as {
+    selectedService: {
+      id: string;
+      name: string;
+      duration_minutes: number;
+    };
+    selectedDate: Date | string;
+    selectedTime: string;
+  } | null;
+
+  const selectedService = state?.selectedService;
+  const selectedDate = state?.selectedDate
+    ? new Date(state.selectedDate)
+    : null;
+  const selectedTime = state?.selectedTime;
 
   const [isNewCustomer, setIsNewCustomer] = useState(true);
 
@@ -35,7 +44,7 @@ function BookingInfo() {
   });
 
   const handleCustomerChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setCustomerInfo((prev) => ({ ...prev, [name]: value }));
@@ -46,9 +55,47 @@ function BookingInfo() {
     setLoginInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCustomerSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleCustomerSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Customer info:", customerInfo);
+
+    if (!selectedService || !selectedDate || !selectedTime) return;
+
+    const [hours, minutes] = selectedTime.split(":").map(Number);
+
+    const start = new Date(selectedDate);
+    start.setHours(hours, minutes, 0, 0);
+
+    const end = new Date(start);
+    end.setMinutes(end.getMinutes() + Number(selectedService.duration_minutes));
+   
+    const bookingData = {
+      ...customerInfo,
+      service_id: selectedService.id,
+      start_time: start.toISOString(),
+      end_time: end.toISOString(),
+    };
+
+    try {
+      const response = await fetch("http://localhost:4000/api/appointment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+
+      const data = await response.json();
+
+      console.log("Response status:", response.status);
+      console.log("Response data:", data);
+
+      if (!response.ok) {
+        throw new Error(data.error || "Booking failed");
+      }
+
+      navigate("/", { state: { bookingId: data.bookingId } });
+    } catch (err) {
+      console.error(err);
+      alert("Varauksen tekeminen epäonnistui");
+    }
   };
 
   const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -67,11 +114,28 @@ function BookingInfo() {
     postinumero: customerInfo.postinumero,
     toimipaikka: customerInfo.toimipaikka,
   }).every(([, value]) => isFilled(value));
-  
+
   const isLoginValid = Object.entries({
     email: loginInfo.sposti2,
     password: loginInfo.pwdLogin,
-  }).every(([, value]) => isFilled(value))
+  }).every(([, value]) => isFilled(value));
+
+  const formatTimeRange = (startTime: string, duration: number) => {
+    const [hours, minutes] = startTime.split(":").map(Number);
+
+    const startDate = new Date();
+    startDate.setHours(hours, minutes, 0, 0);
+
+    const endDate = new Date(startDate);
+    endDate.setMinutes(endDate.getMinutes() + duration);
+
+    const format = (date: Date) =>
+      `${String(date.getHours()).padStart(2, "0")}.${String(
+        date.getMinutes(),
+      ).padStart(2, "0")}`;
+
+    return `${format(startDate)}-${format(endDate)}`;
+  };
 
   if (!selectedService || !selectedDate || !selectedTime) {
     return (
@@ -81,7 +145,7 @@ function BookingInfo() {
       </div>
     );
   }
-  
+
   return (
     <div className="customer-info-page">
       <div className="confirm-container">
@@ -90,12 +154,16 @@ function BookingInfo() {
             <h2>Olet varaamassa</h2>
           </div>
           <div className="booking-info">
-              <p className="info-row-left">Hieronta</p>
-              <p className="info-row-right">{selectedService}</p>
-              <p className="info-row-left">Päivä</p>
-              <p className="info-row-right">{new Date(selectedDate).toLocaleDateString("fi-FI")}</p>
-              <p className="info-row-left">Aika</p>
-              <p className="info-row-right">`{}`</p>
+            <p className="info-row-left">Palvelu</p>
+            <p className="info-row-right">{selectedService.name}</p>
+            <p className="info-row-left">Päivä</p>
+            <p className="info-row-right">
+              {new Date(selectedDate).toLocaleDateString("fi-FI")}
+            </p>
+            <p className="info-row-left">Aika</p>
+            <p className="info-row-right">
+              {formatTimeRange(selectedTime, selectedService.duration_minutes)}
+            </p>
           </div>
         </div>
         <div className="group-container">
@@ -132,7 +200,7 @@ function BookingInfo() {
           </div>
         </div>
         <div className="form-switcher">
-          <div 
+          <div
             className={`info-container ${
               isNewCustomer ? "is-active" : "is-hidden"
             }`}
@@ -210,15 +278,15 @@ function BookingInfo() {
                     Lisätietoja
                   </label>
                   <textarea
-                    name="additional-info"
+                    name="lisatietoja"
                     id="lisatietoja"
                     value={customerInfo.lisatietoja}
                     onChange={handleCustomerChange}
                   />
                 </div>
                 <div className="submit-container">
-                  <Button 
-                    variant="compact" 
+                  <Button
+                    variant="compact"
                     type="submit"
                     disabled={!isCustomerFormValid}
                   >
@@ -228,8 +296,8 @@ function BookingInfo() {
               </form>
             </div>
           </div>
-        
-          <div 
+
+          <div
             className={`login-container-customer-info ${
               !isNewCustomer ? "is-active" : "is-hidden"
             }`}
@@ -246,7 +314,7 @@ function BookingInfo() {
                   label="Sähköposti"
                   required
                   value={loginInfo.sposti2}
-                  onChange={handleLoginChange}            
+                  onChange={handleLoginChange}
                 />
                 <PasswordInput
                   name="pwdLogin"
@@ -256,10 +324,7 @@ function BookingInfo() {
                   onChange={handleLoginChange}
                 />
                 <div className="submit-container-login">
-                  <Button 
-                    type="submit"
-                    disabled={!isLoginValid}
-                  >
+                  <Button type="submit" disabled={!isLoginValid}>
                     Seuraava
                   </Button>
                 </div>

@@ -107,6 +107,7 @@
 .info-row-right {
   justify-self: end;
   color: rgb(196, 193, 193);
+  text-align: end;
 }
 
 .group-container {

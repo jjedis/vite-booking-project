@@ -7,7 +7,7 @@ import Button from "../components/Button/Button";
 type Service = {
   id: string;
   name: string;
-  duration: number;
+  duration_minutes: number;
 };
 
 type Booking = {
@@ -16,36 +16,23 @@ type Booking = {
   end_time: string;
 };
 
-const services: Service[] = [
-  { id: "30-min", name: "Hieronta 30min", duration: 30 },
-  { id: "45-min", name: "Hieronta 45min", duration: 45 },
-  { id: "60-min", name: "Hieronta 60min", duration: 60 },
-  { id: "purentalihas", name: "Purentalihas-hieronta 60min", duration: 60 },
-];
+
+
 
 const Ajanvaraus = () => {
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(() => {
-    const stored = sessionStorage.getItem("selectedDate");
-    return stored ? new Date(stored) : null;
-  });
-
-  const [selectedService, setSelectedService] = useState<Service | null>(() => {
-    const stored = sessionStorage.getItem("selectedService");
-    return stored ? JSON.parse(stored) : null;
-  });
-
-  const [selectedTime, setSelectedTime] = useState<string | null>(
-    sessionStorage.getItem("selectedTime"),
-  );
-
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  
+  const [services, setServices] = useState<Service[]>([]);
   const [weekOffset, setWeekOffset] = useState<number>(0);
 
   const [dates, setDates] = useState<Date[]>([]);
   const swipeDirection = useRef(0);
 
   const [open, setOpen] = useState(false);
-    useState("Valitse palvelu");
+  useState("Valitse palvelu");
 
   const [now, setNow] = useState(new Date());
 
@@ -82,6 +69,7 @@ const Ajanvaraus = () => {
   ];
 
   const weekdays = ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"];
+  console.log(selectedService)
 
   const formatDate = (date: Date) => {
     const dd = String(date.getDate()).padStart(2, "0");
@@ -155,6 +143,13 @@ const Ajanvaraus = () => {
   }, [dates]);
 
   useEffect(() => {
+    fetch("http://localhost:4000/api/services")
+    .then(res => res.json())
+    .then(data => setServices(data))
+    .catch(err => console.error("Failed to fetch services", err));
+  }, []);
+
+  useEffect(() => {
     const monday = new Date(baseMonday);
     monday.setDate(baseMonday.getDate() + weekOffset);
 
@@ -167,16 +162,7 @@ const Ajanvaraus = () => {
     setDates(newDates);
   }, [weekOffset]);
 
-  useEffect(() => {
-    if (selectedDate)
-      sessionStorage.setItem("selectedDate", selectedDate.toISOString());
-    if (selectedService)
-      sessionStorage.setItem(
-        "selectedService",
-        JSON.stringify(selectedService),
-      );
-    if (selectedTime) sessionStorage.setItem("selectedTime", selectedTime);
-  }, [selectedDate, selectedService, selectedTime]);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -256,8 +242,8 @@ const Ajanvaraus = () => {
               <div
                 className={`service-type ${
                   selectedService?.id === service.id
-                  ? "service-type-clicked" 
-                  : ""
+                    ? "service-type-clicked"
+                    : ""
                 }`}
                 onClick={() => handleServiceClick(service)}
               >
@@ -272,13 +258,15 @@ const Ajanvaraus = () => {
             className={`custom-select ${open ? "open" : ""}`}
             onClick={() => setOpen(!open)}
           >
-            <span className="selected-option">{selectedService?.name || "Valitse palvelu"}</span>
+            <span className="selected-option">
+              {selectedService?.name || "Valitse palvelu"}
+            </span>
 
             <span className="arrow"></span>
 
             {open && (
               <div className="options">
-                {services.map(service => (
+                {services.map((service) => (
                   <div
                     className="option"
                     key={service.id}
@@ -373,7 +361,9 @@ const Ajanvaraus = () => {
                           className={`time-available time-wide 
                             ${timeIsPast || booked ? "time-wide-inactive" : ""}
                             ${
-                              selectedTime === time && selectedDate && formatFullDate(selectedDate) === fullDate
+                              selectedTime === time &&
+                              selectedDate &&
+                              formatFullDate(selectedDate) === fullDate
                                 ? "time-clicked"
                                 : ""
                             }
@@ -455,7 +445,10 @@ const Ajanvaraus = () => {
                   return (
                     <div
                       className={`mobile-date ${
-                        selectedDate && formatFullDate(selectedDate) === fullDate ? "selected" : ""
+                        selectedDate &&
+                        formatFullDate(selectedDate) === fullDate
+                          ? "selected"
+                          : ""
                       }`}
                       key={i}
                       onClick={() => !isPast && handleDateClick(date)}
@@ -479,17 +472,14 @@ const Ajanvaraus = () => {
           {selectedDate && (
             <div className="mobile-times">
               {availableTimes.map((time) => {
-
                 const isTodaySelected =
                   selectedDate.toDateString() === today.toDateString();
 
-                const timeIsPast =
-                  isTodaySelected
-                    ? isTimeInPast(selectedDate, time)
-                    : false;
+                const timeIsPast = isTodaySelected
+                  ? isTimeInPast(selectedDate, time)
+                  : false;
 
                 const booked = isTimeBooked(bookings, selectedDate, time);
-
 
                 return (
                   <div className="grid-wrap" key={time}>
