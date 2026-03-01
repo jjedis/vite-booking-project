@@ -46,7 +46,9 @@
   top: 0;
   left: 0;
 
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 
   will-change: opacity, transform;
 }
@@ -97,7 +99,7 @@
   padding: 15px;
 }
 
-.booking-info p{
+.booking-info p {
   font-size: 18px;
 }
 .info-row-left {
@@ -155,13 +157,72 @@
 
   color: rgb(196, 193, 193);
 }
+#add-info-col {
+  margin-bottom: 20px;
+}
 #lisatietoja {
-  margin-top: 10px;
   width: 100%;
   height: 80px;
   background-color: var(--container-bg);
   border-radius: 10px;
-  border: 2px solid var(--border);
+  border: 2px solid var(--icon);
+  padding: 5px;
+  color: var(--icon);
+}
+#lisatietoja:focus {
+  outline: none;
+}
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  margin-bottom: 20px;
+}
+
+.tos-check,
+.marketing-check {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: rgb(97, 84, 50);
+}
+
+.tos-label,
+.marketing-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--icon);
+  white-space: nowrap;
+}
+.tos-label input,
+.marketing-label input {
+  appearance: none;
+
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid var(--icon); /* 👈 outline color */
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.tos-label input:checked,
+.marketing-label input:checked {
+  background-color: var(--primary);
+}
+.tos-label input:checked::after,
+.marketing-label input:checked::after {
+  content: "✔";
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .submit-container {
@@ -201,7 +262,7 @@
     border-bottom: 4px solid var(--primary);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    margin:  0;
+    margin: 0;
     padding: 20px;
     min-width: 0;
   }
@@ -227,7 +288,7 @@
     pointer-events: auto;
     transition: none;
     display: block !important;
-    margin:  0;
+    margin: 0;
     padding: 20px;
     min-width: 0;
   }
@@ -311,7 +372,7 @@
     pointer-events: auto;
     transition: none;
     display: block !important;
-    margin:  0 !important;
+    margin: 0 !important;
     padding: 20px;
     min-width: 0;
   }

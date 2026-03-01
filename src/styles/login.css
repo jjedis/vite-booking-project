@@ -81,27 +81,7 @@
   box-sizing: border-box;
 }
 
-.tos-check {
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
-  position: absolute;
-  top: 3px;
-  accent-color: darkgoldenrod;
-}
-.tos label {
-  position: absolute;
-  font-size: 1rem;
-  cursor: pointer;
-  top: 0;
-  left: 20px;
-}
-.tos {
-  display: flex;
-  gap: 8px;
-  position: relative;
-  height: 30px;
-}
+
 
 .sub {
   text-align: center;
@@ -164,23 +144,5 @@
     grid-template-columns: auto auto;
     gap: 15px;
   }
-  .tos-check {
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-    position: absolute;
-    top: 3px;
-  }
-  .tos label {
-    position: absolute;
-    font-size: 1rem;
-    cursor: pointer;
-    top: 0;
-    left: 20px;
-  }
-  .tos {
-    display: flex;
-    gap: 8px;
-    position: relative;
-  }
+
 }

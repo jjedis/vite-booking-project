@@ -36,6 +36,8 @@ function BookingInfo() {
     postinumero: "",
     toimipaikka: "",
     lisatietoja: "",
+    tos: false,
+    marketing: false,
   });
 
   const [loginInfo, setLoginInfo] = useState({
@@ -59,6 +61,11 @@ function BookingInfo() {
     e.preventDefault();
 
     if (!selectedService || !selectedDate || !selectedTime) return;
+    if (customerInfo.tos === false) {
+      console.log("tos not checked");
+      return;
+    }
+      
 
     const [hours, minutes] = selectedTime.split(":").map(Number);
 
@@ -84,8 +91,6 @@ function BookingInfo() {
 
       const data = await response.json();
 
-      console.log("Response status:", response.status);
-      console.log("Response data:", data);
 
       if (!response.ok) {
         throw new Error(data.error || "Booking failed");
@@ -284,6 +289,41 @@ function BookingInfo() {
                     onChange={handleCustomerChange}
                   />
                 </div>
+                <div className="checkboxes">
+                  <label className="tos-label">
+                    Hyväksyn ehdot
+                    <input
+                      type="checkbox"
+                      name="tos"
+                      className="tos-check"
+                      checked={customerInfo.tos}
+                      onChange={(e) =>
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          tos: e.target.checked,
+                        }))
+                      }
+                      
+                    />
+                  </label>
+                  <label className="marketing-label">
+                    Haluan saada markkinointi viestejä
+                    <input
+                      type="checkbox"
+                      name="marketing"
+                      className="marketing-check"
+                      checked={customerInfo.marketing}
+                      onChange={(e) =>
+                        setCustomerInfo((prev) => ({
+                          ...prev,
+                          marketing: e.target.checked,
+                        }))
+                      }
+                      
+                    />
+                  </label>
+                </div>
+
                 <div className="submit-container">
                   <Button
                     variant="compact"

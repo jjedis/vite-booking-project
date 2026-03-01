@@ -3,9 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import type { ChangeEvent, FormEvent } from "react";
 import "../styles/login.css";
 import Button from "../components/Button/Button";
-import {FormInput, PasswordInput} from "../components/FormInput/FormInput";
+import { FormInput, PasswordInput } from "../components/FormInput/FormInput";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [showReset, setShowReset] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
 
@@ -29,7 +32,7 @@ function Login() {
     kayttajatunnus: "",
     pwd: "",
     pwd_confirm: "",
-    tos: "",
+    tos: false,
   });
 
   const handleLoginChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -57,9 +60,33 @@ function Login() {
     console.log("Reset:", resetInfo);
   };
 
-  const handleregistrationSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleregistrationSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Registration:", registrationInfo);
+
+    if (registrationInfo.pwd != registrationInfo.pwd_confirm) {
+      alert("Salasanat eivät täsmää");
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:4000/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(registrationInfo),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Registration failed.");
+      }
+
+      setShowRegister(false);
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+      alert("rekisteröityminen epäonnistui");
+    }
   };
 
   const fadeSlide = {
@@ -170,7 +197,7 @@ function Login() {
                 onClick={() => setShowRegister(false)}
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm11.5 5.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"
                 />
               </svg>
@@ -244,15 +271,6 @@ function Login() {
                 />
 
                 <FormInput
-                  type="text"
-                  name="kayttajatunnus"
-                  label="Käyttäjätunnus"
-                  value={registrationInfo.kayttajatunnus}
-                  onChange={handleRegChange}
-                  required
-                />
-
-                <FormInput
                   type="password"
                   name="pwd"
                   label="Salasana"
@@ -263,23 +281,13 @@ function Login() {
 
                 <FormInput
                   type="password"
-                  name="pwd-confirm"
+                  name="pwd_confirm"
                   label="Vahvista Salasana"
                   value={registrationInfo.pwd_confirm}
                   onChange={handleRegChange}
                   required
                 />
 
-                <div className="tos">
-                  <input
-                    className="tos-check"
-                    id="tos-check"
-                    type="checkbox"
-                    value={registrationInfo.tos}
-                    onChange={handleRegChange}
-                  />
-                  <label htmlFor="tos-check">Hyväksyn ehdot</label>
-                </div>
                 <div className="submit-container">
                   <button className="sub" type="submit" value="Luo käyttäjä">
                     Luo Käyttäjä

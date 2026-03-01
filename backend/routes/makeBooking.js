@@ -17,7 +17,8 @@ router.post("/", async (req, res) => {
     start_time,
     end_time,
     lisatietoja,
-    
+    tos,
+    marketing,
   } = req.body;
 
   if (
@@ -30,7 +31,9 @@ router.post("/", async (req, res) => {
     !toimipaikka ||
     !service_id ||
     !start_time ||
-    !end_time
+    !end_time ||
+    !tos 
+    
   ) {
     return res
       .status(400)
@@ -63,12 +66,25 @@ router.post("/", async (req, res) => {
 
     const bookingResult = await client.query(
       `
-      INSERT INTO bookings (customer_id, service_id, start_time, end_time, notes, status)
-      VALUES ($1, $2, $3, $4, $5, 'confirmed')
+      INSERT INTO bookings (customer_id, service_id, start_time, end_time, notes, tos_accepted, status)
+      VALUES ($1, $2, $3, $4, $5, $6, 'confirmed')
       RETURNING id
       `,
-      [customerId, service_id, start_time, end_time, lisatietoja ],
+      [customerId, service_id, start_time, end_time, lisatietoja, tos],
     );
+
+    if (marketing === true) {
+      await client.query(
+        `
+        UPDATE customers
+        SET
+          marketing_consent = true,
+          marketing_consent_given_at = COALESCE(marketing_consent_given_at, NOW())
+          WHERE id = $1   
+        `,
+        [customerId],
+      );
+    }
 
     await client.query("COMMIT");
 
