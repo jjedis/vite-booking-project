@@ -1,23 +1,23 @@
 .customer-info-page {
-  display: block;
-  align-items: center;
+  display: flex;
   justify-content: center;
+  padding: 15px;
 }
+
 .confirm-container {
-  display: block;
-  max-width: 1300px;
   width: 100%;
-  align-items: flex-start;
-  margin: 2%;
+  max-width: 500px;  
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
+
 
 .booking-info-container,
 .info-container {
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-  width: 96%;
-  min-width: 340px;
   margin-top: 5%;
   display: block;
   box-sizing: border-box;
@@ -27,8 +27,6 @@
   padding: 10px;
   border-radius: 10px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-  width: 96%;
-  min-width: 340px;
   margin-top: 5%;
   display: block;
   box-sizing: border-box;
@@ -36,6 +34,7 @@
 }
 .form-switcher {
   position: relative;
+  width: 100%;
 }
 .info-container,
 .login-container-customer-info {
@@ -45,6 +44,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
 
   transition:
     opacity 0.35s ease,
@@ -245,6 +245,7 @@
     width: 100%;
     margin-inline: auto;
     padding: 5px;
+    max-width: 1300px;
   }
   .customer-info-page .form-switcher {
     display: grid;
@@ -318,6 +319,10 @@
   }
   .customer-info-page .booking-info h4 {
     font-size: 18px;
+  }
+  .customer-info-page .checkboxes{
+    grid-column-start: 1;
+    grid-column-end: 3;
   }
 }
 @media only screen and (min-width: 1024px) {

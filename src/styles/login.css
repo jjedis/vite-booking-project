@@ -99,6 +99,12 @@
   display: flex;
   margin-top: 10%;
 }
+.submit-container-reg{
+  display: flex;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  justify-content: center;
+}
 /*-------------------------------additional options section--------------------------------*/
 
 .additional-options {
@@ -145,4 +151,9 @@
     gap: 15px;
   }
 
+}
+@media (min-width: 768px) {
+  .submit-container-reg{
+    justify-content: end;
+  }
 }

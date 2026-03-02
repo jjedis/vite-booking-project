@@ -270,8 +270,7 @@ function Login() {
                   required
                 />
 
-                <FormInput
-                  type="password"
+                <PasswordInput
                   name="pwd"
                   label="Salasana"
                   value={registrationInfo.pwd}
@@ -279,8 +278,7 @@ function Login() {
                   required
                 />
 
-                <FormInput
-                  type="password"
+                <PasswordInput
                   name="pwd_confirm"
                   label="Vahvista Salasana"
                   value={registrationInfo.pwd_confirm}
@@ -288,10 +286,10 @@ function Login() {
                   required
                 />
 
-                <div className="submit-container">
-                  <button className="sub" type="submit" value="Luo käyttäjä">
+                <div className="submit-container-reg">
+                  <Button type="submit" variant="compact">
                     Luo Käyttäjä
-                  </button>
+                  </Button>
                 </div>
               </form>
             </div>
