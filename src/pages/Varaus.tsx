@@ -16,15 +16,11 @@ type Booking = {
   end_time: string;
 };
 
-
-
-
 const Ajanvaraus = () => {
-
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  
+
   const [services, setServices] = useState<Service[]>([]);
   const [weekOffset, setWeekOffset] = useState<number>(0);
 
@@ -39,8 +35,6 @@ const Ajanvaraus = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
 
   const navigate = useNavigate();
-
-  const SLOT_MINUTES = 30;
 
   // Set up today's date and find the Monday of the current week
   const today = new Date();
@@ -69,7 +63,7 @@ const Ajanvaraus = () => {
   ];
 
   const weekdays = ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"];
-  console.log(selectedService)
+  console.log(selectedService);
 
   const formatDate = (date: Date) => {
     const dd = String(date.getDate()).padStart(2, "0");
@@ -84,15 +78,21 @@ const Ajanvaraus = () => {
     return `${dd}-${mm}-${yyyy}`;
   };
 
-  const isTimeBooked = (bookings: Booking[], date: Date, time: string) => {
+  const isTimeUnavailable = (
+    bookings: Booking[],
+    date: Date | null,
+    time: string,
+    serviceDuration: number,
+  ) => {
     if (!Array.isArray(bookings)) return false;
+    if (!date) return;
     const [h, m] = time.split(":").map(Number);
 
     const slotStart = new Date(date);
     slotStart.setHours(h, m, 0, 0);
 
     const slotEnd = new Date(slotStart);
-    slotEnd.setMinutes(slotEnd.getMinutes() + SLOT_MINUTES);
+    slotEnd.setMinutes(slotEnd.getMinutes() + serviceDuration);
 
     return bookings.some((b) => {
       const bookingStart = new Date(b.start_time);
@@ -100,6 +100,10 @@ const Ajanvaraus = () => {
 
       return slotStart < bookingEnd && slotEnd > bookingStart;
     });
+  };
+
+  const isServiceAvailable = (service: Service, date: Date, time: string) => {
+    return !isTimeUnavailable(bookings, date, time, service.duration_minutes);
   };
 
   useEffect(() => {
@@ -144,9 +148,9 @@ const Ajanvaraus = () => {
 
   useEffect(() => {
     fetch("http://localhost:4000/api/services")
-    .then(res => res.json())
-    .then(data => setServices(data))
-    .catch(err => console.error("Failed to fetch services", err));
+      .then((res) => res.json())
+      .then((data) => setServices(data))
+      .catch((err) => console.error("Failed to fetch services", err));
   }, []);
 
   useEffect(() => {
@@ -162,7 +166,20 @@ const Ajanvaraus = () => {
     setDates(newDates);
   }, [weekOffset]);
 
+  useEffect(() => {
+    if (!selectedService || !selectedDate || !selectedTime) return;
 
+    const unavailable = isTimeUnavailable(
+      bookings,
+      selectedDate,
+      selectedTime,
+      selectedService.duration_minutes,
+    );
+
+    if (unavailable) {
+      setSelectedTime(null);
+    }
+  }, [selectedService, selectedDate, bookings]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -190,6 +207,7 @@ const Ajanvaraus = () => {
   };
 
   const handleTimeClick = (time: string) => {
+    if (!selectedService) return;
     setSelectedTime(time);
   };
   const handleNextWeek = () => {
@@ -237,20 +255,28 @@ const Ajanvaraus = () => {
     <div className="booking-page">
       <div className="booking-container">
         <div className="service-desktop">
-          {services.map((service) => (
-            <div key={service.id} className="grid-wrap-service">
-              <div
-                className={`service-type ${
-                  selectedService?.id === service.id
-                    ? "service-type-clicked"
-                    : ""
-                }`}
-                onClick={() => handleServiceClick(service)}
-              >
-                {service.name}
+          {services.map((service) => {
+            const serviceDisabled =
+              selectedDate && selectedTime
+                ? !isServiceAvailable(service, selectedDate, selectedTime)
+                : false;
+            return (
+              <div key={service.id} className="grid-wrap-service">
+                <div
+                  className={`service-type 
+                    ${selectedService?.id === service.id ? "service-type-clicked" : ""}
+                    ${serviceDisabled ? "service-disabled" : ""} 
+                  `}
+                  onClick={() => {
+                    if (serviceDisabled) return;
+                    handleServiceClick(service);
+                  }}
+                >
+                  {service.name}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="service-mobile">
@@ -353,13 +379,19 @@ const Ajanvaraus = () => {
                   ) : (
                     availableTimes.map((time) => {
                       const timeIsPast = isToday && isTimeInPast(date, time);
-                      const booked = isTimeBooked(bookings, date, time);
-
+                      const booked = selectedService
+                        ? isTimeUnavailable(
+                            bookings,
+                            date,
+                            time,
+                            selectedService.duration_minutes,
+                          )
+                        : isTimeUnavailable(bookings, date, time, 30);
                       return (
                         <div
                           key={time}
                           className={`time-available time-wide 
-                            ${timeIsPast || booked ? "time-wide-inactive" : ""}
+                            ${timeIsPast || booked || !selectedService ? "time-wide-inactive" : ""}
                             ${
                               selectedTime === time &&
                               selectedDate &&
@@ -469,6 +501,10 @@ const Ajanvaraus = () => {
             </AnimatePresence>
           </div>
 
+          {!selectedService && (
+            <p className="select-service-text">Valitse ensin palvelu</p>
+          )}
+
           {selectedDate && (
             <div className="mobile-times">
               {availableTimes.map((time) => {
@@ -479,13 +515,19 @@ const Ajanvaraus = () => {
                   ? isTimeInPast(selectedDate, time)
                   : false;
 
-                const booked = isTimeBooked(bookings, selectedDate, time);
-
+                const booked = selectedService
+                  ? isTimeUnavailable(
+                      bookings,
+                      selectedDate,
+                      time,
+                      selectedService.duration_minutes,
+                    )
+                  : isTimeUnavailable(bookings, selectedDate, time, 30);
                 return (
                   <div className="grid-wrap" key={time}>
                     <div
                       className={`time 
-                        ${timeIsPast || booked ? "time-inactive" : ""}
+                        ${timeIsPast || booked || !selectedService ? "time-inactive" : ""}
                         ${selectedTime === time ? "time-clicked" : ""}
                       `}
                       onClick={() => {

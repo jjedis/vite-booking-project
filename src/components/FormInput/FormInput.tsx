@@ -20,12 +20,11 @@ export const FormInput = ({
   type = "text",
   required = false,
   id,
-  wrapperClassName = "input-group",
 }: BaseInputProps & { type?: React.HTMLInputTypeAttribute }) => {
   const inputId = id ?? name;
 
   return (
-    <div className={`input-group ${wrapperClassName}`}>
+    <div className={"input-group"}>
       <input
         id={inputId}
         name={name}

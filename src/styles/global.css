@@ -14,7 +14,7 @@ body {
   --container-bg: #fff;
   --white: #fff;
   --primary: #98b39e;
-  --primary-hover: #88a78f;
+  --primary-hover: #7a9e83;
   --primary-accent: #88a78f;
   --border: #cfc9ff;
   --header: #919191;
@@ -50,30 +50,31 @@ body {
   border: 2px solid rgb(196, 193, 193);
   outline: none;
   line-height: 2px;
+  color: var(--icon);
+}
+.form-input{
+  border-radius: 8px !important;
+  
 }
 
 .labelline {
   position: absolute;
   font-size: 1em;
-  padding: 3px;
-  margin: 3px 5px;
+  padding: 0 4px;
   transition: 0.2s ease;
-
   color: rgb(196, 193, 193);
-  top: 2px;
-  left: 5px;
+
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  transform-origin: left top;
 }
 
 .input-group input:focus + .labelline,
 .input-group input:not(:placeholder-shown) + .labelline,
 .input-group input:valid + .labelline {
-  transform: translate(-12px, -25px) scale(0.8);
-}
-.input-group-reg input:focus + .labelline,
-.input-group-reg input:not(:placeholder-shown) + .labelline,
-.input-group-reg input:valid + .labelline {
-  transform: translate(-16px, -30px) scale(0.8);
-}
+  transform: translateY(-36px) scale(0.8);}
+
 .password-group {
   position: relative;
 }

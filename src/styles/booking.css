@@ -109,14 +109,16 @@
 .service-type {
   display: flex;
   border-radius: 5px;
-
+  
   height: 45px;
   font-size: 1.1rem;
   width: 140px;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15), 0 4px 8px 0 rgb(0, 0, 0, 0.1);
+  box-shadow:
+    0 2px 4px 0 rgba(0, 0, 0, 0.15),
+    0 4px 8px 0 rgb(0, 0, 0, 0.1);
 }
 
 .service-type-clicked {
@@ -130,12 +132,18 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.15), 0 4px 8px 0 rgb(0, 0, 0, 0.1);
+  box-shadow:
+    0 2px 4px 0 rgba(0, 0, 0, 0.15),
+    0 4px 8px 0 rgb(0, 0, 0, 0.1);
 }
 .service-type:hover {
   background-color: var(--primary-hover) !important;
 }
-
+.service-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
 /*---------------------calendar header section------------------------*/
 
 .calendar-header {
@@ -299,7 +307,6 @@
   color: var(--primary);
   font-weight: 600;
   line-height: 35px;
-
 }
 .date-current {
   display: flex;
@@ -344,8 +351,6 @@
   transform: scale(0.95);
 }
 
-
-
 .proceed-con {
   justify-content: center;
   display: flex;
@@ -353,7 +358,11 @@
 }
 
 /*---------------------appointment section------------------------*/
-
+.select-service-text {
+  color: var(--font-2);
+  font-size: 18px;
+  margin-bottom: 8px;
+}
 .time-container {
   display: none;
 }
@@ -478,7 +487,7 @@
   background-color: var(--primary-hover);
   color: #fff;
 }
-.time-inactive{
+.time-inactive {
   display: flex;
   width: 100%;
   height: 100%;
@@ -492,8 +501,6 @@
   opacity: 0.5;
   pointer-events: none;
 }
-
-
 
 @media only screen and (min-width: 768px) {
   .booking-page .booking-container {
@@ -524,9 +531,8 @@
     font-weight: 550;
     border: 2px solid transparent;
     color: var(--font-1);
-    
   }
-  .booking-page .date-inactive{
+  .booking-page .date-inactive {
     opacity: 0.5;
   }
   .booking-page .date-clicked {
@@ -556,7 +562,9 @@
     background-color: var(--primary);
     font-size: 1.2rem;
     color: #efedfb;
-    box-shadow: 3px 4px 6px 0 rgba(0, 0, 0, 0.15), 0 6px 8px 0 rgb(0, 0, 0, 0.1);
+    box-shadow:
+      3px 4px 6px 0 rgba(0, 0, 0, 0.15),
+      0 6px 8px 0 rgb(0, 0, 0, 0.1);
   }
   .booking-page .service-type-clicked {
     width: 75%;
@@ -564,7 +572,9 @@
     background-color: var(--primary-accent);
     font-size: 1.2rem;
     color: #efedfb;
-    box-shadow: 3px 4px 6px 0 rgba(0, 0, 0, 0.15), 0 6px 8px 0 rgb(0, 0, 0, 0.1);
+    box-shadow:
+      3px 4px 6px 0 rgba(0, 0, 0, 0.15),
+      0 6px 8px 0 rgb(0, 0, 0, 0.1);
     background-color: var(--primary-hover);
     color: #414141;
   }

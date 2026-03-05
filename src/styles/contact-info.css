@@ -6,12 +6,11 @@
 
 .confirm-container {
   width: 100%;
-  max-width: 500px;  
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
 
 .booking-info-container,
 .info-container {
@@ -320,7 +319,7 @@
   .customer-info-page .booking-info h4 {
     font-size: 18px;
   }
-  .customer-info-page .checkboxes{
+  .customer-info-page .checkboxes {
     grid-column-start: 1;
     grid-column-end: 3;
   }
