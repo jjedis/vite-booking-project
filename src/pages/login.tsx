@@ -13,7 +13,7 @@ function Login() {
   const [showRegister, setShowRegister] = useState(false);
 
   const [loginInfo, setLoginInfo] = useState({
-    sposti: "",
+    sahkoposti: "",
     salasana: "",
   });
 
@@ -50,10 +50,33 @@ function Login() {
     setResetInfo((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login:", loginInfo);
-  };
+
+    try{
+      const result = await fetch("http://localhost:4000/api/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(loginInfo)
+      })
+
+      const data = await result.json();
+
+      if (!result.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      localStorage.setItem("token", data.token);
+
+      navigate("/")
+      console.log(data.token);
+    } catch (err) {
+      console.error(err);
+      alert("Kirjautminen epäonnistui");
+      
+    }
+
+  }
 
   const handleResetSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -113,7 +136,7 @@ function Login() {
                   type="email"
                   name="sahkoposti"
                   label="Sähköposti"
-                  value={loginInfo.sposti}
+                  value={loginInfo.sahkoposti}
                   onChange={handleLoginChange}
                   required
                 />

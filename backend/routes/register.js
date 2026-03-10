@@ -47,16 +47,18 @@ router.post("/", async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(pwd, 10);
 
-        const customerResult = await client.query(
+        const newCustomer = await client.query(
             `
             INSERT INTO customers (first_name, last_name, phone, street_address, postal_code, city, email)
             VALUES ($1, $2, $3, $4, $5, $6, $7)
+            ON CONFLICT (email)
+            DO UPDATE SET email = EXCLUDED.email
             RETURNING id
             `,
             [etunimi, sukunimi, puh, osoite, postinumero, postitoimipaikka, sahkoposti]
         );
 
-        const customerId = customerResult.rows[0].id;
+        const customerId = newCustomer.rows[0].id;
 
         await client.query(
             `

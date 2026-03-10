@@ -1,6 +1,5 @@
 import express from "express";
 import { pool } from "../db.js";
-import { error } from "console";
 
 const router = express.Router();
 
