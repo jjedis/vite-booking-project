@@ -5,8 +5,10 @@ import "../styles/login.css";
 import Button from "../components/Button/Button";
 import { FormInput, PasswordInput } from "../components/FormInput/FormInput";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const [showReset, setShowReset] = useState(false);
@@ -66,10 +68,9 @@ function Login() {
         throw new Error(data.error || "Login failed");
       }
 
-      localStorage.setItem("token", data.token);
+      login(data.token)
 
       navigate("/")
-      console.log(data.token);
     } catch (err) {
       console.error(err);
       alert("Kirjautminen epäonnistui");

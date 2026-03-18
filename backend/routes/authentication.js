@@ -25,11 +25,21 @@ router.post("/", async (req, res) => {
 
     try{
         const result = await pool.query(
-            `
-            SELECT * FROM auth_users 
-            WHERE email = $1
-            `, [sahkoposti]
-        )
+          `
+            SELECT 
+              auth_users.id,
+              auth_users.password_hash,
+              auth_users.customer_id,
+              auth_users.role,
+              customers.first_name,
+              customers.last_name
+            FROM auth_users
+            JOIN customers
+            ON customers.id = auth_users.customer_id
+            WHERE auth_users.email = $1
+            `,
+          [sahkoposti],
+        );
 
         if (result.rows.length === 0){
             return res.status(401).json({error: "Invalid email or password"});
@@ -50,7 +60,8 @@ router.post("/", async (req, res) => {
             {
                 userId: user.id,
                 customerId: user.customer_id,
-                name: user.first_name
+                name: user.first_name,
+                role: user.role
             },
             process.env.JWT_SECRET,
             { expiresIn: "2h"}

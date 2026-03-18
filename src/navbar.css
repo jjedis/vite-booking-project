@@ -17,17 +17,44 @@
 .left-links,
 .right-links {
   display: flex;
-  gap: 1.2rem;
+  align-items: center;
+  justify-content: center;
+}
+.left-links ul{
+  list-style: none;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
 }
 .right-links {
   margin-right: 25px;
+
 }
 
 .nav-link {
-  font-size: 16px;
+  font-size: 11px;
   padding: 0;
   margin: 0 0;
   text-align: center;
+}
+.profile-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  
+  
+ 
+}
+.profile-link svg{
+  width: 28px;
+  height: 28px;
+  color: #ffffff;
+  
 }
 
 .navbar-brand {
@@ -64,22 +91,24 @@
   background-color: #2b3035;
 }
 
-.login-button {
+.login-button, 
+.logout-button {
   color: #ffffff;
+  background-color: transparent;
   text-decoration: none;
   font-size: 14px;
   width: 100%;
-  height: 25px;
-  padding: 0;
+  height: 28px;
+  padding: 0px 12px;
   margin: 0 0;
-  border-radius: 30px;
+  border-radius: 13px;
   border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 12px;
 }
-.login-button:hover {
+.login-button:hover,
+.logout-button:hover {
   color: rgb(0, 0, 0);
   border: 2px solid rgb(255, 255, 255);
   background-color: #ffffff;
