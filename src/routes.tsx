@@ -6,6 +6,7 @@ import Yhteystiedot from "./pages/Yhteystiedot";
 import Login from "./pages/Login";
 import Ajanvaraus  from "./pages/Varaus";
 import BookingInfo from "./pages/Varaustiedot";
+import Profiili from "./pages/Profiili";
 
 export const router = createBrowserRouter([
     {
@@ -17,7 +18,8 @@ export const router = createBrowserRouter([
             {path:"ajanvaraus", element:<Ajanvaraus/>},
             {path:"yhteystiedot", element:<Yhteystiedot/>},
             {path:"login", element:<Login/>},
-            {path:"varaustiedot", element:<BookingInfo/>}
+            {path:"varaustiedot", element:<BookingInfo/>},
+            {path:"profiili", element:<Profiili/>}
         ],
     },
 ]);

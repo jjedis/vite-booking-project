@@ -6,8 +6,7 @@
   width: fit-content;
 }
 .navbar-nav {
-  display: flex;
-  justify-content: space-between;
+  
   align-items: center;
   width: 100%;
   list-style: none;
@@ -51,10 +50,13 @@
  
 }
 .profile-link svg{
-  width: 28px;
-  height: 28px;
-  color: #ffffff;
+  width: 24px;
+  height: 24px;
+  color: var(--icon);
   
+}
+.profile-link i::before{
+  display: block;
 }
 
 .navbar-brand {
@@ -93,7 +95,7 @@
 
 .login-button, 
 .logout-button {
-  color: #ffffff;
+  color: var(--icon);
   background-color: transparent;
   text-decoration: none;
   font-size: 14px;
@@ -102,34 +104,47 @@
   padding: 0px 12px;
   margin: 0 0;
   border-radius: 13px;
-  border: 1px solid white;
-  display: flex;
+  border: 1px solid var(--icon);
+  display: flex !important;
   align-items: center;
   justify-content: center;
 }
 .login-button:hover,
 .logout-button:hover {
   color: rgb(0, 0, 0);
-  border: 2px solid rgb(255, 255, 255);
   background-color: #ffffff;
 }
 
+.login-icon{
+  color: var(--icon);
+  width: 24px;
+  height: 24px;
+
+}
+.container-fluid {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.navbar-collapse {
+  width: 100%;
+}
+.navbar-toggler{
+  margin: 0 !important;
+  
+}
 @media only screen and (max-width: 767px) {
-  .left-links,
-  .right-links {
-    display: block;
-    width: 100%;
+  .navbar-nav{
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    ;
   }
 
   .nav-link {
     text-align: start;
     align-items: center;
   }
-  .right-links {
-    margin-left: 0;
-    justify-content: flex-start;
-    height: fit-content;
-  }
+
 
   .nav-item {
     margin: 3px 10px;
@@ -137,6 +152,7 @@
     text-align: start;
     height: 30px;
     align-content: center;
+    width: 100%;
   }
   .navbar-toggler-icon {
     width: 20px;
@@ -147,10 +163,19 @@
     margin-right: 10px;
   }
   .login-button {
-    display: block;
-    width: 100%;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    text-align: center;
+    border: none;
+    
   }
   .login-button:hover {
     color: darkgoldenrod;
+  }
+
+  
+  .logout-button{
+    border: none;
   }
 }
