@@ -1,12 +1,15 @@
 .nav-item {
-  width: 10vw;
+  display: flex;
+  justify-content: center;
+  width: 100%;
   min-width: 90px;
   box-sizing: border-box;
   text-align: center;
   width: fit-content;
 }
 .navbar-nav {
-  
+  display: flex;
+  flex-direction: row;
   align-items: center;
   width: 100%;
   list-style: none;
@@ -114,6 +117,10 @@
   color: rgb(0, 0, 0);
   background-color: #ffffff;
 }
+.logout-button{
+  white-space: nowrap;
+  
+}
 
 .login-icon{
   color: var(--icon);
@@ -141,6 +148,7 @@
   }
 
   .nav-link {
+    width: 100%;
     text-align: start;
     align-items: center;
   }
@@ -153,6 +161,9 @@
     height: 30px;
     align-content: center;
     width: 100%;
+    align-items: center;
+
+    
   }
   .navbar-toggler-icon {
     width: 20px;
@@ -176,6 +187,19 @@
 
   
   .logout-button{
-    border: none;
+    display: none !important;
+  }
+
+  .logout-button-mobile{
+    display: flex;
+    width: 100%;
+    border: none !important;
+    background-color: transparent !important;
+    padding: 0;  
+    margin: 0;
+    font-size: 11px;
+    text-align: start;
+    align-items: center;
+  
   }
 }

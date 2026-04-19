@@ -1,10 +1,17 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
+
 type User = {
   userId: number;
   customerId: number;
-  name: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+  postalCode: number;
+  city: string;
+  email:string;
+  phone: number
   exp: number;
 };
 
@@ -19,6 +26,8 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+
+
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 

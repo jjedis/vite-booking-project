@@ -7,20 +7,22 @@ import Login from "./pages/Login";
 import Ajanvaraus  from "./pages/Varaus";
 import BookingInfo from "./pages/Varaustiedot";
 import Profiili from "./pages/Profiili";
+import Admin from "./pages/admin";
 
 export const router = createBrowserRouter([
-    {
-        path:"/",
-        element: <App/>,
-        children: [
-            {index: true, element: <Etusivu/>},
-            {path:"palvelut", element:<Palvelut/>},
-            {path:"ajanvaraus", element:<Ajanvaraus/>},
-            {path:"yhteystiedot", element:<Yhteystiedot/>},
-            {path:"login", element:<Login/>},
-            {path:"varaustiedot", element:<BookingInfo/>},
-            {path:"profiili", element:<Profiili/>}
-        ],
-    },
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      { index: true, element: <Etusivu /> },
+      { path: "palvelut", element: <Palvelut /> },
+      { path: "ajanvaraus", element: <Ajanvaraus /> },
+      { path: "yhteystiedot", element: <Yhteystiedot /> },
+      { path: "login", element: <Login /> },
+      { path: "varaustiedot", element: <BookingInfo /> },
+      { path: "profiili", element: <Profiili /> },
+      { path: "admin", element: <Admin /> }
+    ],
+  },
 ]);
 

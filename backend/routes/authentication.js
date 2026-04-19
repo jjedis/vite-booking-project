@@ -32,7 +32,12 @@ router.post("/", async (req, res) => {
               auth_users.customer_id,
               auth_users.role,
               customers.first_name,
-              customers.last_name
+              customers.last_name,
+              customers.phone,
+              customers.email,
+              customers.street_address,
+              customers.postal_code,
+              customers.city
             FROM auth_users
             JOIN customers
             ON customers.id = auth_users.customer_id
@@ -60,8 +65,14 @@ router.post("/", async (req, res) => {
             {
                 userId: user.id,
                 customerId: user.customer_id,
-                name: user.first_name,
-                role: user.role
+                firstName: user.first_name,
+                lastName: user.last_name,
+                address: user.street_address,
+                postalCode: user.postal_code,
+                city: user.city,
+                role: user.role,
+                email: user.email,
+                phone: user.phone
             },
             process.env.JWT_SECRET,
             { expiresIn: "2h"}

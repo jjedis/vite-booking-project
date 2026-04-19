@@ -1,0 +1,79 @@
+.admin-page{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+.admin-calendar{
+    display: block;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    margin: 30px !important;
+    background-color: #161515;
+    border-radius:30px ;
+    padding-left: 20px;
+    padding-top: 15px;
+    overflow: hidden;
+}
+.admin-calendar-date-wrapper{
+    display: flex;
+    color: var(--icon);
+}
+.a-corner{
+    width: 50px;
+}
+.a-calendar-dates{
+    display: flex;
+    width: 100%;
+}
+.a-date{
+    width: calc(100%/ 7);
+    text-align: center;
+    border-left: 1px solid transparent;
+}
+.date-text{
+    font-size: 11px;
+    font-weight: 600;
+}
+.date-number{
+    font-size: 26px;
+}
+
+.calendar-content{
+    width: 100%;
+    display: flex;
+}
+.time-stamps{
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+}
+.hour-marker{
+    height: 48px;
+    color: var(--icon);
+    font-size: 11px;
+    position: relative;
+}
+.hour-marker-time{
+    position: absolute;
+    top: -8px;
+    left: 10px;
+}
+.calendar-days{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 47px,
+        #444 48px
+      );
+
+    
+}
+.calendar-day{
+    width: calc(100% / 7);
+    height: 100%;
+    border-left: 1px solid #444;
+}

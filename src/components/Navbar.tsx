@@ -1,15 +1,22 @@
 import { NavLink } from "react-router-dom";
 import '/src/navbar.css'
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
   const {isLoggedIn , logout} = useAuth()
+  const navigate = useNavigate();
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? "nav-link active-link" : "nav-link";
 
   const buttonClass = ({ isActive }: { isActive: boolean }) =>
     isActive ? "login-button active-button" : "login-button";
+
+  const handleLogout = () => {
+    logout();
+    navigate("/")
+  }
 
   return (
     <nav
@@ -22,22 +29,24 @@ function Navbar() {
           <p className="logo-2">Hyvinvointipalvelut</p>
         </NavLink>
         <div className="d-flex align-items-center me-2 gap-2 ms-auto order-md-2">
-          <NavLink
-            to="/profiili"
-            className={({ isActive }) =>
-              isActive ? "profile-link active-link" : "profile-link"
-            }
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16">
-              <path
-                fill="currentColor"
-                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
-              />
-            </svg>
-          </NavLink>
+          {isLoggedIn && (
+            <NavLink
+              to="/profiili"
+              className={({ isActive }) =>
+                isActive ? "profile-link active-link" : "profile-link"
+              }
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16">
+                <path
+                  fill="currentColor"
+                  d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"
+                />
+              </svg>
+            </NavLink>
+          )}
 
           {isLoggedIn ? (
-            <button className="logout-button" onClick={logout}>
+            <button className="logout-button" onClick={handleLogout}>
               Kirjaudu ulos
             </button>
           ) : (
@@ -69,7 +78,7 @@ function Navbar() {
           className="collapse navbar-collapse order-md-1 w-100"
           id="navbarNav"
         >
-          <ul className="navbar-nav flex-column flex-md-row">
+          <ul className="navbar-nav ">
             <li className="nav-item">
               <NavLink to="/" end className={navClass}>
                 ETUSIVU
@@ -96,7 +105,10 @@ function Navbar() {
 
             {isLoggedIn && (
               <li className="nav-item d-md-none">
-                <button className="logout-button-mobile w-100" onClick={logout}>
+                <button
+                  className="logout-button-mobile w-100"
+                  onClick={handleLogout}
+                >
                   KIRJAUDU ULOS
                 </button>
               </li>

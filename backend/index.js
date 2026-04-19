@@ -5,7 +5,9 @@ import bookingsRoutes from "./routes/bookings.js";
 import appointmentRoutes from "./routes/makeBooking.js";
 import serviceRoutes from "./routes/services.js";
 import registerRoute from "./routes/register.js";
-import loginRoute from "./routes/authentication.js"
+import loginRoute from "./routes/authentication.js";
+import upcomingBookings from "./routes/upcoming.js";
+import updateProfileRoute from "./routes/updateProfile.js";
 
 dotenv.config();
 
@@ -19,6 +21,8 @@ app.use("/api/appointment", appointmentRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/register", registerRoute);
 app.use("/api/login", loginRoute);
+app.use("/api/upcoming", upcomingBookings);
+app.use("/api/updateProfile", updateProfileRoute);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
