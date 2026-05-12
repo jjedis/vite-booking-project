@@ -43,6 +43,7 @@ const Ajanvaraus = () => {
   const baseMonday = new Date(today);
   baseMonday.setDate(today.getDate() + diffToMonday);
 
+// available times for booking
   const availableTimes = [
     "10:00",
     "10:30",
@@ -63,14 +64,13 @@ const Ajanvaraus = () => {
   ];
 
   const weekdays = ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"];
-  console.log(selectedService);
-
+//date formatter for dd.mm
   const formatDate = (date: Date) => {
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0");
     return `${dd}.${mm}`;
   };
-
+//date formatter for dd-mm-yyyy
   const formatFullDate = (date: Date) => {
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -105,7 +105,8 @@ const Ajanvaraus = () => {
   const isServiceAvailable = (service: Service, date: Date, time: string) => {
     return !isTimeUnavailable(bookings, date, time, service.duration_minutes);
   };
-
+  
+//fetching bookings to populate calendar
   useEffect(() => {
     if (dates.length === 0) return;
 
@@ -146,6 +147,7 @@ const Ajanvaraus = () => {
       });
   }, [dates]);
 
+  //fetching available services
   useEffect(() => {
     fetch("http://localhost:4000/api/services")
       .then((res) => res.json())
@@ -153,6 +155,7 @@ const Ajanvaraus = () => {
       .catch((err) => console.error("Failed to fetch services", err));
   }, []);
 
+  //populating dates array
   useEffect(() => {
     const monday = new Date(baseMonday);
     monday.setDate(baseMonday.getDate() + weekOffset);

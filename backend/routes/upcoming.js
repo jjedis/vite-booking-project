@@ -19,6 +19,7 @@ router.get("/:customerId", authenticateToken, async (req, res) => {
             JOIN services s ON b.service_id = s.id
             WHERE b.customer_id = $1
             AND b.start_time >= NOW()
+            AND status = 'confirmed'
             ORDER BY b.start_time ASC
             `,[customerId]
         );

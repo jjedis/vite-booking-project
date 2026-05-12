@@ -128,7 +128,7 @@ function Profiili() {
       .then((res) => res.json())
       .then((data) => setBookings(data))
       .catch((err) => console.error("Failed to fetch bookings", err))
-  }, [user, token]);
+  }, [bookings, user, token]);
 
   useEffect(() => {
     if (user && showEdit) {

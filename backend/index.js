@@ -8,6 +8,9 @@ import registerRoute from "./routes/register.js";
 import loginRoute from "./routes/authentication.js";
 import upcomingBookings from "./routes/upcoming.js";
 import updateProfileRoute from "./routes/updateProfile.js";
+import adminBookingsRoute from "./routes/adminBookings.js";
+import cancelBookingRoute from "./routes/cancel-booking.js";
+import blockTimeRoute from "./routes/block-time.js";
 
 dotenv.config();
 
@@ -23,6 +26,9 @@ app.use("/api/register", registerRoute);
 app.use("/api/login", loginRoute);
 app.use("/api/upcoming", upcomingBookings);
 app.use("/api/updateProfile", updateProfileRoute);
+app.use("/api/adminBookings", adminBookingsRoute);
+app.use("/api/cancel-booking", cancelBookingRoute);
+app.use("/api/block-time", blockTimeRoute);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

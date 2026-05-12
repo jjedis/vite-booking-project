@@ -10,6 +10,7 @@ type User = {
   address: string;
   postalCode: number;
   city: string;
+  role: string;
   email:string;
   phone: number
   exp: number;
