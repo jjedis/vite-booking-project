@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
             SELECT id, start_time, end_time
             FROM bookings
             WHERE status = 'confirmed'
+            OR status = 'blocked'
                 AND start_time >= $1
                 AND start_time <= $2
             `,

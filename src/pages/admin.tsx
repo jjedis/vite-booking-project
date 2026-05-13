@@ -45,6 +45,7 @@ function Admin() {
     endDate: Date;
     start: number;
     end: number;
+    notes: string;
   } | null>(null);
 
   const SLOT_HEIGHT = 12;
@@ -178,6 +179,7 @@ function Admin() {
           start_time: selectedBlockedSlots.startDate.toISOString(),
           end_time: selectedBlockedSlots.endDate.toISOString(),
           customer_id: user?.customerId,
+          notes: selectedBlockedSlots.notes,
         }),
       });
     } catch (err) {
@@ -443,7 +445,21 @@ function Admin() {
                   </button>
                 </div>
                 <div className="overlay-header">
-                  <input type="text" placeholder="Lisää otsikko"></input>
+                  <input 
+                    type="text" 
+                    placeholder="Lisää otsikko"
+                    value={selectedBlockedSlots.notes}
+                    onChange={(e) => 
+                      setSelectedBlockedSlots((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              notes: e.target.value,
+                            }
+                          : null
+                      )
+                    }
+                  ></input>
                   <div className="separator"></div>
                 </div>
                 <div className="overlay-content">
@@ -546,6 +562,7 @@ function Admin() {
                       endDate: endDate,
                       start: start,
                       end: end,
+                      notes: "",
                     };
 
                     e.stopPropagation();
@@ -595,7 +612,6 @@ function Admin() {
                     setDragEnd(null);
                     setDragDay(null);
                     setIsDragging(false);
-                    console.log(selectedBlockedSlots);
                   }}
                 >
                   {selectedBlockedSlots &&
@@ -702,7 +718,9 @@ function Admin() {
                         >
                           <div className="block-info">
                             <div className="service-name">
-                              {booking.service.name}
+                              {booking.status === "blocked" 
+                              ? booking.notes
+                              : booking.service.name}
                             </div>
                             <div className="service-time">
                               {formatDateTime(booking.start_time)} -{" "}
