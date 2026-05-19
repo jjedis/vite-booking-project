@@ -43,7 +43,7 @@ const Ajanvaraus = () => {
   const baseMonday = new Date(today);
   baseMonday.setDate(today.getDate() + diffToMonday);
 
-// available times for booking
+  // available times for booking
   const availableTimes = [
     "10:00",
     "10:30",
@@ -64,13 +64,13 @@ const Ajanvaraus = () => {
   ];
 
   const weekdays = ["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"];
-//date formatter for dd.mm
+  //date formatter for dd.mm
   const formatDate = (date: Date) => {
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0");
     return `${dd}.${mm}`;
   };
-//date formatter for dd-mm-yyyy
+  //date formatter for dd-mm-yyyy
   const formatFullDate = (date: Date) => {
     const dd = String(date.getDate()).padStart(2, "0");
     const mm = String(date.getMonth() + 1).padStart(2, "0");
@@ -105,8 +105,8 @@ const Ajanvaraus = () => {
   const isServiceAvailable = (service: Service, date: Date, time: string) => {
     return !isTimeUnavailable(bookings, date, time, service.duration_minutes);
   };
-  
-//fetching bookings to populate calendar
+
+  //fetching bookings to populate calendar
   useEffect(() => {
     if (dates.length === 0) return;
 
@@ -253,6 +253,24 @@ const Ajanvaraus = () => {
       opacity: 0,
     }),
   };
+  //getting label for months shown in the calendar
+  const getMonthLable = () => {
+    if (dates.length === 0) return "";
+
+    const first = dates[0].toLocaleString("fi-FI", { month: "long" });
+    const last = dates[6].toLocaleString("fi-FI", { month: "long" });
+    const year = dates[6].getFullYear();
+
+    if (first === last) {
+      return `${uppercasing(first)} ${year}`;
+    }
+    return `${uppercasing(first)} ${last}`;
+  };
+
+  // uppercasing first letter of a word
+  const uppercasing = (word: string) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  };
 
   return (
     <div className="booking-page">
@@ -323,7 +341,7 @@ const Ajanvaraus = () => {
               <path d="M10 12.796V3.204L4.519 8zm-.659.753-5.48-4.796a1 1 0 0 1 0-1.506l5.48-4.796A1 1 0 0 1 11 3.204v9.592a1 1 0 0 1-1.659.753" />
             </svg>
           </div>
-          <h1>{today.toLocaleString("fi-FI", { month: "long" })}</h1>
+          <h1>{getMonthLable()}</h1>
           <div className="icon" id="icon-right" onClick={handleNextWeek}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -559,5 +577,5 @@ const Ajanvaraus = () => {
       </div>
     </div>
   );
-};
+};;
 export default Ajanvaraus;

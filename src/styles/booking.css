@@ -158,6 +158,7 @@
 
 .calendar-header h1 {
   color: var(--header);
+  font-size: 28px;
 }
 
 .icon {

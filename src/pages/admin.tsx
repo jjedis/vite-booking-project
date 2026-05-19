@@ -99,7 +99,7 @@ function Admin() {
   }, [weekOffset]);
 
   //fetching bookings to populate calendar
-  useEffect(() => {
+  const fetchBookings = async () => {
     if (dates.length === 0) return;
 
     const start = new Date(
@@ -120,23 +120,29 @@ function Admin() {
       59,
     );
 
-    fetch(
-      `http://localhost:4000/api/adminBookings?start=${start.toISOString()}&end=${end.toISOString()}`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setBookings(data);
-        } else if (Array.isArray(data.bookings)) {
-          setBookings(data.bookings);
-        } else {
-          setBookings([]);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
+    try {
+      const res = await fetch(
+        `http://localhost:4000/api/adminBookings?start=${start.toISOString()}&end=${end.toISOString()}`,
+      );
+
+      const data = await res.json();
+
+      if (Array.isArray(data)) {
+        setBookings(data);
+      } else if (Array.isArray(data.bookings)) {
+        setBookings(data.bookings);
+      } else {
         setBookings([]);
-      });
+      }
+    } catch (err) {
+      console.error(err);
+      setBookings([]);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchBookings();
   }, [dates]);
 
   // canceling booking
@@ -182,6 +188,8 @@ function Admin() {
           notes: selectedBlockedSlots.notes,
         }),
       });
+      await fetchBookings();
+
     } catch (err) {
       console.error("Failed to block time", err);
     }
@@ -244,6 +252,19 @@ function Admin() {
 
     return date;
   };
+//getting label for months shown in the calendar
+  const getMonthLable = () => {
+    if (dates.length === 0) return "";
+
+    const first = dates[0].toLocaleString("fi-FI", {month: "long"});
+    const last = dates[6].toLocaleString("fi-FI", {month: "long"});
+    const year = dates[6].getFullYear();
+
+    if (first === last) {
+      return `${uppercasing(first)} ${year}`;
+    }
+    return `${uppercasing(first)} ${last}`
+  }
 
   // uppercasing first letter of a word
   const uppercasing = (word: string) => {
@@ -267,23 +288,48 @@ function Admin() {
   return (
     <div className="admin-page">
       <div className="admin-navbar">
-        <div className="week-changers">
-          <button className="week-previous" onClick={handlePrevWeek}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"
-              />
-            </svg>
-          </button>
-          <button className="week-next" onClick={handleNextWeek}>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-              <path
-                fillRule="evenodd"
-                d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
-              />
-            </svg>
-          </button>
+        <div className="navbar-selectors">
+          <div className="today-nav">
+            <button
+              className="today-button"
+              //onClick={}
+            >
+              Tänään
+            </button>
+          </div>
+          <div className="week-changers">
+            <button className="week-previous" onClick={handlePrevWeek}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"
+                />
+              </svg>
+            </button>
+            <button className="week-next" onClick={handleNextWeek}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div className="navbar-month">
+          <div className="calendar-months">
+            {getMonthLable()}
+          </div>
         </div>
       </div>
       <div className="page-content">
@@ -445,18 +491,18 @@ function Admin() {
                   </button>
                 </div>
                 <div className="overlay-header">
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     placeholder="Lisää otsikko"
                     value={selectedBlockedSlots.notes}
-                    onChange={(e) => 
+                    onChange={(e) =>
                       setSelectedBlockedSlots((prev) =>
                         prev
                           ? {
                               ...prev,
                               notes: e.target.value,
                             }
-                          : null
+                          : null,
                       )
                     }
                   ></input>
@@ -718,9 +764,9 @@ function Admin() {
                         >
                           <div className="block-info">
                             <div className="service-name">
-                              {booking.status === "blocked" 
-                              ? booking.notes
-                              : booking.service.name}
+                              {booking.status === "blocked"
+                                ? booking.notes
+                                : booking.service.name}
                             </div>
                             <div className="service-time">
                               {formatDateTime(booking.start_time)} -{" "}
