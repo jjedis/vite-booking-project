@@ -1,3 +1,7 @@
+*{
+    box-sizing: border-box;
+}
+
 .admin-page{
     height: 100vh;
     justify-content: center;
@@ -7,11 +11,11 @@
 .admin-navbar{
     display: flex;
     gap: 20px;
+    padding-left: 220px;
 }
 .navbar-selectors{
     display: flex;
     gap: 20px;
-    padding-left: 30px;
     padding-bottom: 10px;
     padding-top: 10px;
     justify-content: center;
@@ -57,7 +61,8 @@
     width: 100%;
     height: fit-content;
     box-sizing: border-box;
-    margin: 0 30px !important;
+    margin: 0  !important;
+    margin-right: 10px !important;
     background-color: #161515;
     border-radius:30px ;
     padding-left: 15px;

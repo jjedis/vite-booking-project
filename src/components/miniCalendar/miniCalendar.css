@@ -1,0 +1,69 @@
+.mini-calendar {
+    width: 100%;
+    max-width: 200px;
+    padding: 8px;
+    font-size: 13px;
+    color: var(--icon);
+    margin: 0 10px;
+  }
+  
+  .mini-cal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: 600;
+    padding-left: 5px;
+  }
+  
+  .mini-cal-nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 4px;
+  }
+  
+  .mini-cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    text-align: center;
+    
+  }
+  
+  .mini-cal-weekday {
+    font-weight: 600;
+    font-size: 11px;
+    padding: 4px 0;
+    color: #888;
+    width: 24px;
+    height: 24px;
+  }
+  
+  .mini-cal-day {
+    padding: 4px;
+    border-radius: 50%;
+    cursor: pointer;
+    line-height: 1.4;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .mini-cal-day:hover {
+    background: rgb(247, 244, 83);
+    color: #000;
+  }
+  
+  .mini-cal-today {
+    background: #1a73e8;
+    color: white;
+    border-radius: 50%;
+  }
+  
+  .mini-cal-today:hover {
+    background: #1558b0;
+  }

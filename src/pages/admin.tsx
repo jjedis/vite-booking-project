@@ -1,6 +1,7 @@
 import "../styles/admin.css";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
+import { MiniCalendar } from "../components/miniCalendar/miniCalendar"
 
 type Booking = {
   id: string;
@@ -327,12 +328,25 @@ function Admin() {
           </div>
         </div>
         <div className="navbar-month">
-          <div className="calendar-months">
-            {getMonthLable()}
-          </div>
+          <div className="calendar-months">{getMonthLable()}</div>
         </div>
       </div>
       <div className="page-content">
+        <MiniCalendar
+          onDateClick={(date) => {
+            const day = date.getDay();
+            const diff = day === 0 ? -6 : 1 - day;
+            const clickedMonday = new Date(date);
+            clickedMonday.setDate(date.getDate() + diff);
+
+            const diffFromBase = Math.round(
+              (clickedMonday.getTime() - baseMonday.getTime()) /
+                (1000 * 60 * 60 * 24),
+            );
+            setWeekOffset(diffFromBase);
+          }}
+        />
+
         <div className="admin-calendar" ref={calendarRef}>
           <div className="admin-calendar-date-wrapper">
             <div className="a-corner"></div>
