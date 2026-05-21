@@ -264,7 +264,7 @@ const Ajanvaraus = () => {
     if (first === last) {
       return `${uppercasing(first)} ${year}`;
     }
-    return `${uppercasing(first)} ${last}`;
+    return `${uppercasing(first)} - ${last} ${year}`;
   };
 
   // uppercasing first letter of a word

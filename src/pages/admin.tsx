@@ -1,7 +1,7 @@
 import "../styles/admin.css";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
-import { MiniCalendar } from "../components/miniCalendar/miniCalendar"
+import { MiniCalendar } from "../components/miniCalendar/miniCalendar";
 
 type Booking = {
   id: string;
@@ -33,6 +33,7 @@ function Admin() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [showCancel, setShowCancel] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(false);
   const [overlayStyle, setOverlayStyle] = useState<React.CSSProperties>({});
   const calendarRef = useRef<HTMLDivElement>(null);
 
@@ -52,8 +53,6 @@ function Admin() {
   const SLOT_HEIGHT = 12;
   const START_HOUR = 10;
   const TOP_OFFSET = SLOT_HEIGHT * 4;
-
-
 
   // Set up today's date and find the Monday of the current week
   const today = new Date();
@@ -141,7 +140,6 @@ function Admin() {
     }
   };
 
-
   useEffect(() => {
     fetchBookings();
   }, [dates]);
@@ -165,9 +163,11 @@ function Admin() {
       );
 
       setShowCancel(false);
+      setShowOverlay(false);
       setSelectedBooking(null);
     } catch (err) {
       console.error("cancel failed", err);
+      alert("peruutus epäonnistui")
     }
   };
   // Blocking bookings
@@ -190,7 +190,6 @@ function Admin() {
         }),
       });
       await fetchBookings();
-
     } catch (err) {
       console.error("Failed to block time", err);
     }
@@ -198,18 +197,14 @@ function Admin() {
     setDragStart(null);
     setDragEnd(null);
     setSelectedBlockedSlots(null);
-  }
+  };
 
   const handleNextWeek = () => {
-    if (weekOffset < 28) {
-      setWeekOffset((prev) => prev + 7);
-    }
+    setWeekOffset((prev) => prev + 7);
   };
 
   const handlePrevWeek = () => {
-    if (weekOffset > 0) {
-      setWeekOffset((prev) => prev - 7);
-    }
+    setWeekOffset((prev) => prev - 7);
   };
   // date formatter for dd.mm.hh.mm
   const formatDateTime = (iso: string) => {
@@ -229,7 +224,7 @@ function Admin() {
   };
   //Helper to convert minutes since midnight to time
   const minutesToTime = (minutes: number) => {
-    const totalMinutes = (START_HOUR ) * 60 + minutes;
+    const totalMinutes = START_HOUR * 60 + minutes;
 
     const hours = Math.floor(totalMinutes / 60);
     const mins = totalMinutes % 60;
@@ -253,19 +248,19 @@ function Admin() {
 
     return date;
   };
-//getting label for months shown in the calendar
+  //getting label for months shown in the calendar
   const getMonthLable = () => {
     if (dates.length === 0) return "";
 
-    const first = dates[0].toLocaleString("fi-FI", {month: "long"});
-    const last = dates[6].toLocaleString("fi-FI", {month: "long"});
+    const first = dates[0].toLocaleString("fi-FI", { month: "long" });
+    const last = dates[6].toLocaleString("fi-FI", { month: "long" });
     const year = dates[6].getFullYear();
 
     if (first === last) {
       return `${uppercasing(first)} ${year}`;
     }
-    return `${uppercasing(first)} ${last}`
-  }
+    return `${uppercasing(first)} - ${last} ${year}`;
+  };
 
   // uppercasing first letter of a word
   const uppercasing = (word: string) => {
@@ -291,10 +286,7 @@ function Admin() {
       <div className="admin-navbar">
         <div className="navbar-selectors">
           <div className="today-nav">
-            <button
-              className="today-button"
-              //onClick={}
-            >
+            <button className="today-button" onClick={() => setWeekOffset(0)}>
               Tänään
             </button>
           </div>
@@ -375,7 +367,7 @@ function Admin() {
             </div>
           </div>
           <div className="calendar-content">
-            {selectedBooking && (
+            {selectedBooking && showOverlay && (
               <div className="booking-overlay" style={overlayStyle}>
                 <div className="overlay-exit">
                   <button onClick={() => setSelectedBooking(null)}>
@@ -390,99 +382,148 @@ function Admin() {
                     </svg>
                   </button>
                 </div>
-                <div className="overlay-header-section">
-                  {selectedBooking.service.name}
-                  <div className="separator"></div>
-                </div>
-                <div className="overlay-content">
-                  <div className="overlay-section">
-                    <div className="overlay-icon">
-                      <svg
-                        className="time-icon"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        viewBox="0 -960 960 960"
-                      >
-                        <path d="m608.41-290.57 61.5-61.02-146.32-146.32V-678.8h-87.18v216.13l172 172.1ZM480-71.87q-84.91 0-159.34-32.12-74.44-32.12-129.5-87.17-55.05-55.06-87.17-129.5Q71.87-395.09 71.87-480t32.12-159.34q32.12-74.44 87.17-129.5 55.06-55.05 129.5-87.17 74.43-32.12 159.34-32.12t159.34 32.12q74.44 32.12 129.5 87.17 55.05 55.06 87.17 129.5 32.12 74.43 32.12 159.34t-32.12 159.34q-32.12 74.44-87.17 129.5-55.06 55.05-129.5 87.17Q564.91-71.87 480-71.87ZM480-480Zm0 317.13q131.8 0 224.47-92.54 92.66-92.55 92.66-224.59 0-132.04-92.66-224.59-92.66-92.54-224.47-92.54-131.8 0-224.47 92.54-92.66 92.55-92.66 224.59 0 132.04 92.66 224.59 92.66 92.54 224.47 92.54Z" />
-                      </svg>
+                {selectedBooking.status === "blocked" ? (
+                  <>
+                    <div className="overlay-header-section">
+                      {selectedBooking.notes || "Blocked Time"}
+                      <div className="separator"></div>
                     </div>
-                    <div className="section-text">
-                      <p>
-                        {formatDateOverlay(selectedBooking.start_time)}{" "}
-                        {formatDateTime(selectedBooking.start_time)}
-                        {" - "}
-                        {formatDateTime(selectedBooking.end_time)}
-                      </p>
+                    <div className="overlay-content">
+                      <div className="overlay-section">
+                        <div className="overlay-icon">
+                          <svg
+                            className="time-icon"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            viewBox="0 -960 960 960"
+                          >
+                            <path d="m608.41-290.57 61.5-61.02-146.32-146.32V-678.8h-87.18v216.13l172 172.1ZM480-71.87q-84.91 0-159.34-32.12-74.44-32.12-129.5-87.17-55.05-55.06-87.17-129.5Q71.87-395.09 71.87-480t32.12-159.34q32.12-74.44 87.17-129.5 55.06-55.05 129.5-87.17 74.43-32.12 159.34-32.12t159.34 32.12q74.44 32.12 129.5 87.17 55.05 55.06 87.17 129.5 32.12 74.43 32.12 159.34t-32.12 159.34q-32.12 74.44-87.17 129.5-55.06 55.05-129.5 87.17Q564.91-71.87 480-71.87ZM480-480Zm0 317.13q131.8 0 224.47-92.54 92.66-92.55 92.66-224.59 0-132.04-92.66-224.59-92.66-92.54-224.47-92.54-131.8 0-224.47 92.54-92.66 92.55-92.66 224.59 0 132.04 92.66 224.59 92.66 92.54 224.47 92.54Z" />
+                          </svg>
+                        </div>
+                        <div className="section-text">
+                          <p>
+                            {formatDateOverlay(selectedBooking.start_time)}{" "}
+                            {formatDateTime(selectedBooking.start_time)}
+                            {" - "}
+                            {formatDateTime(selectedBooking.end_time)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="cancel-section">
+                        <button
+                          className="admin-cancel-button"
+                          onClick={() => {
+                            setShowCancel(true);
+                            setShowOverlay(false);
+                          }}
+                        >
+                          {" "}
+                          Peruuta varaus
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="overlay-section">
-                    <div className="overlay-icon">
-                      <svg
-                        className="person-icon"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        viewBox="0 -960 960 960"
-                      >
-                        <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z" />{" "}
-                      </svg>
+                  </>
+                ) : (
+                  <>
+                    <div className="overlay-header-section">
+                      {selectedBooking.service.name}
+                      <div className="separator"></div>
                     </div>
-                    <div className="section-text">
-                      <p>
-                        {uppercasing(selectedBooking.customer.first_name)}{" "}
-                        {uppercasing(selectedBooking.customer.last_name)}
-                      </p>
+                    <div className="overlay-content">
+                      <div className="overlay-section">
+                        <div className="overlay-icon">
+                          <svg
+                            className="time-icon"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            viewBox="0 -960 960 960"
+                          >
+                            <path d="m608.41-290.57 61.5-61.02-146.32-146.32V-678.8h-87.18v216.13l172 172.1ZM480-71.87q-84.91 0-159.34-32.12-74.44-32.12-129.5-87.17-55.05-55.06-87.17-129.5Q71.87-395.09 71.87-480t32.12-159.34q32.12-74.44 87.17-129.5 55.06-55.05 129.5-87.17 74.43-32.12 159.34-32.12t159.34 32.12q74.44 32.12 129.5 87.17 55.05 55.06 87.17 129.5 32.12 74.43 32.12 159.34t-32.12 159.34q-32.12 74.44-87.17 129.5-55.06 55.05-129.5 87.17Q564.91-71.87 480-71.87ZM480-480Zm0 317.13q131.8 0 224.47-92.54 92.66-92.55 92.66-224.59 0-132.04-92.66-224.59-92.66-92.54-224.47-92.54-131.8 0-224.47 92.54-92.66 92.55-92.66 224.59 0 132.04 92.66 224.59 92.66 92.54 224.47 92.54Z" />
+                          </svg>
+                        </div>
+                        <div className="section-text">
+                          <p>
+                            {formatDateOverlay(selectedBooking.start_time)}{" "}
+                            {formatDateTime(selectedBooking.start_time)}
+                            {" - "}
+                            {formatDateTime(selectedBooking.end_time)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="overlay-section">
+                        <div className="overlay-icon">
+                          <svg
+                            className="person-icon"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            viewBox="0 -960 960 960"
+                          >
+                            <path d="M367-527q-47-47-47-113t47-113q47-47 113-47t113 47q47 47 47 113t-47 113q-47 47-113 47t-113-47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm296.5-343.5Q560-607 560-640t-23.5-56.5Q513-720 480-720t-56.5 23.5Q400-673 400-640t23.5 56.5Q447-560 480-560t56.5-23.5ZM480-640Zm0 400Z" />{" "}
+                          </svg>
+                        </div>
+                        <div className="section-text">
+                          <p>
+                            {uppercasing(selectedBooking.customer.first_name)}{" "}
+                            {uppercasing(selectedBooking.customer.last_name)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="overlay-section">
+                        <div className="overlay-icon">
+                          <svg
+                            width="16"
+                            height="16"
+                            className="phone-icon"
+                            fill="currentColor"
+                            viewBox="0 -960 960 960"
+                          >
+                            <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z" />
+                          </svg>
+                        </div>
+                        <div className="section-text">
+                          <p>{selectedBooking.customer.phone}</p>
+                        </div>
+                      </div>
+                      <div className="overlay-section">
+                        <div className="overlay-icon">
+                          <svg
+                            width="16"
+                            height="16"
+                            className="email-icon"
+                            fill="currentColor"
+                            viewBox="0 -960 960 960"
+                          >
+                            <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" />{" "}
+                          </svg>
+                        </div>
+                        <div className="section-text">
+                          <p>{selectedBooking.customer.email}</p>
+                        </div>
+                      </div>
+                      <div className="notes-section">
+                        <div className="notes-heading">Viesti</div>
+                        <div className="note-box">
+                          <p>{selectedBooking.notes}</p>
+                        </div>
+                      </div>
+                      <div className="cancel-section">
+                        <button
+                          className="admin-cancel-button"
+                          onClick={() => {
+                            setShowCancel(true);
+                            setShowOverlay(false);
+                          }}
+                        >
+                          {" "}
+                          Peruuta varaus
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <div className="overlay-section">
-                    <div className="overlay-icon">
-                      <svg
-                        width="16"
-                        height="16"
-                        className="phone-icon"
-                        fill="currentColor"
-                        viewBox="0 -960 960 960"
-                      >
-                        <path d="M798-120q-125 0-247-54.5T329-329Q229-429 174.5-551T120-798q0-18 12-30t30-12h162q14 0 25 9.5t13 22.5l26 140q2 16-1 27t-11 19l-97 98q20 37 47.5 71.5T387-386q31 31 65 57.5t72 48.5l94-94q9-9 23.5-13.5T670-390l138 28q14 4 23 14.5t9 23.5v162q0 18-12 30t-30 12ZM241-600l66-66-17-94h-89q5 41 14 81t26 79Zm358 358q39 17 79.5 27t81.5 13v-88l-94-19-67 67ZM241-600Zm358 358Z" />
-                      </svg>
-                    </div>
-                    <div className="section-text">
-                      <p>{selectedBooking.customer.phone}</p>
-                    </div>
-                  </div>
-                  <div className="overlay-section">
-                    <div className="overlay-icon">
-                      <svg
-                        width="16"
-                        height="16"
-                        className="email-icon"
-                        fill="currentColor"
-                        viewBox="0 -960 960 960"
-                      >
-                        <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" />{" "}
-                      </svg>
-                    </div>
-                    <div className="section-text">
-                      <p>{selectedBooking.customer.email}</p>
-                    </div>
-                  </div>
-                  <div className="notes-section">
-                    <div className="notes-heading">Viesti</div>
-                    <div className="note-box">
-                      <p>{selectedBooking.notes}</p>
-                    </div>
-                  </div>
-                  <div className="cancel-section">
-                    <button
-                      className="admin-cancel-button"
-                      onClick={() => setShowCancel(true)}
-                    >
-                      {" "}
-                      Peruuta varaus
-                    </button>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             )}
             {selectedBlockedSlots && (
@@ -762,7 +803,9 @@ function Admin() {
                             }
 
                             if (top < 0) top = 10;
+
                             setSelectedBooking(booking);
+                            setShowOverlay(true);
                             setSelectedBlockedSlots(null);
                             setOverlayStyle({
                               position: "absolute",
@@ -815,7 +858,12 @@ function Admin() {
               </p>
             </div>
             <div className="admin-cancel-buttons">
-              <button className="button-1" onClick={() => setShowCancel(false)}>
+              <button className="button-1" onClick={() => {
+                setShowCancel(false);
+                setShowOverlay(false);
+                setSelectedBooking(null);
+              }}
+              >
                 Poistu
               </button>
               <button className="button-2" onClick={handleCancelBooking}>
