@@ -1,59 +1,28 @@
-🗓️ Massage Booking Calendar – Project Overview
+Massage Booking App
+A full-stack web application for booking massage services. Built as a personal project to gain hands-on experience with React, TypeScript, and Node.js.
 
-This project is a responsive web-app for booking a massage.
-It allows users to:
+Tech Stack
+Frontend
 
-- View available times
+- React + TypeScript (Vite)
+- CSS, Bootstrap
+- Motion.dev (animations and swipe gestures)
 
-- Select a service duration and type
+Backend
 
-- Choose a date within the next four weeks
+- Node.js
+- SQL database
+- JWT authentication
 
-- Choose an available time
 
-- View different layouts for mobile and desktop
+Features
 
-🔐 Planned Backend Features
+- Browse available time slots by date and service type
+- Responsive layout — separate views for mobile and desktop
+- User authentication — registration, login, and role-based access
+- Database-backed bookings and availability
+- Swipe gestures and animations on mobile
 
-The backend will be implemented once the frontend is stable. Planned features include:
 
-- User authentication (login, account creation, role handling)
-
-- SQL database for securely storing:
-
-  - Customer information
-
-  - Booking history
-
-  - Service configurations
-
-- API endpoints for managing bookings and availability
-
-- Secure communication between frontend and backend
-
-The calendar interface is fully responsive, using a mobile-optimized grid layout and a more detailed desktop layout with inline time selection.
-
-🧩 Tech Stack
-
-- React (TypeScript)
-
-- CSS for layout and animation
-
-- Bootstrap for components
-
-- Motion.dev for animation and swipe-support
-
-- Node.js for server side ( not done )
-
-🕓 Project Status
-
-This project is not urgent and is being developed whenever time allows. The point of the project is to gain experience and learn new technologies i have not used or i`m not very experienced in (React and node mostly).
-Features and styling are added step-by-step as needed.
-
-⭐ Current Goals
-
-- Improve UI consistency between mobile and desktop
-
-- Expand time availability logic
-
-- Finish the frontend so backend work can begin
+Project Status
+Work in progress. Core features are functional — auth, database, and booking flow are up and running.
