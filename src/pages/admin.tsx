@@ -41,6 +41,7 @@ function Admin() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragEnd, setDragEnd] = useState<number | null>(null);
   const [dragDay, setDragDay] = useState<Date | null>(null);
+  const [currentTimeTop, setCurrentTimeTop] = useState<number | null>(null);
   const [selectedBlockedSlots, setSelectedBlockedSlots] = useState<{
     day: Date;
     startDate: Date;
@@ -97,6 +98,27 @@ function Admin() {
 
     setDates(newDates);
   }, [weekOffset]);
+
+  // setting height for time-line
+  useEffect(() => {
+    const calculateTop = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const totalMinutes = (hours - START_HOUR) * 60 + minutes;
+      setCurrentTimeTop(minutesToPixels(totalMinutes) + TOP_OFFSET);
+
+        if (totalMinutes < 0 || totalMinutes > 12 * 60) {
+          setCurrentTimeTop(null);
+          return;
+        }
+
+    }
+
+    calculateTop();
+    const interval = setInterval(calculateTop, 6000);
+    return () => clearInterval(interval);
+  })
 
   //fetching bookings to populate calendar
   const fetchBookings = async () => {
@@ -833,6 +855,11 @@ function Admin() {
                         </div>
                       );
                     })}
+                    {isSameDay(date, today) && currentTimeTop !== null && (
+                    <div className="current-time-line" style={{top: `${currentTimeTop}px`}}>
+                      <div className="current-time-dot"></div>
+                    </div>
+                    )}
                 </div>
               ))}
             </div>
