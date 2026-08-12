@@ -1,10 +1,10 @@
 import { NavLink } from "react-router-dom";
-import '/src/navbar.css'
+import "/src/navbar.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-  const {isLoggedIn , logout} = useAuth()
+  const { isLoggedIn, logout } = useAuth();
   const navigate = useNavigate();
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
@@ -15,8 +15,8 @@ function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/")
-  }
+    navigate("/");
+  };
 
   return (
     <nav

@@ -4,10 +4,12 @@ import Etusivu from "./pages/Kotisivu";
 import Palvelut from "./pages/Palvelut";
 import Yhteystiedot from "./pages/Yhteystiedot";
 import Login from "./pages/Login";
-import Ajanvaraus  from "./pages/Varaus";
+import Ajanvaraus from "./pages/Varaus";
 import BookingInfo from "./pages/Varaustiedot";
 import Profiili from "./pages/Profiili";
 import Admin from "./pages/admin";
+import PrivacyFi from "./pages/privacy";
+import TermsFi from "./pages/terms";
 
 export const router = createBrowserRouter([
   {
@@ -21,8 +23,9 @@ export const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "varaustiedot", element: <BookingInfo /> },
       { path: "profiili", element: <Profiili /> },
-      { path: "admin", element: <Admin /> }
+      { path: "admin", element: <Admin /> },
+      { path: "tietosuoja", element: <PrivacyFi /> },
+      { path: "kayttoehdot", element: <TermsFi /> },
     ],
   },
 ]);
-

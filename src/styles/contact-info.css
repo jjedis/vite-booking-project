@@ -223,6 +223,10 @@
   justify-content: center;
   line-height: 1;
 }
+.terms-link{
+  text-decoration: none;
+  color: var(--accent);
+}
 
 .submit-container {
   display: flex;

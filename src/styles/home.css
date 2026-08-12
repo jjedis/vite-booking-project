@@ -1,0 +1,242 @@
+:root {
+  --forest: #16231f;
+  --forest-raised: #1c2e28;
+  --forest-deep: #0f1815;
+  --cream: #ede7da;
+  --muted: #9cb0a8;
+  --accent: #9c8964;
+  --accent-light: #aa9a7b;
+  --accent-deep: #554b37;
+  --ink: #2c332e;
+  --ink-soft: #5a6a60;
+  --paper: #fffdf9;
+  --beige: #f0e2c8;
+  --beige-soft: #605a50;
+  --line-dark: rgba(237, 231, 218, 0.14);
+  --line-dark-2: rgba(237, 231, 218, 0.22);
+  --line: #e6ded0;
+  --radius: 18px;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--cream);
+  background: var(--forest);
+  line-height: 1.65;
+  font-size: 16px;
+}
+h1,
+h2,
+h3,
+h4,
+.serif {
+  font-family: "Fraunces", serif;
+  font-weight: 600;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+ul {
+  list-style: none;
+}
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+section {
+  scroll-margin-top: 84px;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.hero {
+  padding: 100px 0 84px;
+  text-align: center;
+  background: var(--forest);
+}
+.hero h1 {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+  margin: 0 auto 24px;
+  max-width: 760px;
+  color: var(--cream);
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent-light);
+}
+.hero p {
+  font-size: 17px;
+  color: var(--muted);
+  max-width: 520px;
+  margin: 0 auto 40px;
+}
+.banner-buttons {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 64px;
+}
+.home-page-con {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: var(--forest);
+}
+.banner {
+  color: var(--cream);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 22px;
+  font-weight: 700;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 15px 30px;
+  min-height: 48px;
+  border-radius: 999px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+  font-family: "inter", sans-serif;
+}
+.primary {
+  background: var(--accent);
+  color: var(--forest);
+}
+.light {
+  background: transparent;
+  color: var(--cream);
+  border: 1.5px solid rgba(237, 231, 218, 0.5);
+}
+.primary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+}
+
+.light:hover {
+  background: rgba(237, 231, 218, 0.12);
+}
+.btn svg {
+  width: 16px;
+  height: 16px;
+}
+/*----------------------service section---------*/
+.service-section {
+  padding: 100px 0 110px;
+  background: var(--container-bg);
+}
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+.service-card {
+  background: var(--body-bg);
+  border-radius: var(--radius);
+  padding: 34px 28px;
+  border: 1px solid var(--line);
+  transition: 0.25s;
+  position: relative;
+}
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 34px rgba(22, 35, 31, 0.1);
+  border-color: transparent;
+}
+.service-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--sage-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--sage-dark);
+}
+.service-card h3 {
+  font-style: italic;
+  font-size: 21px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--ink);
+  font-family: "Fraunces", serif;
+}
+.service-card p.desc {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+.service-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px dashed var(--line);
+}
+.service-meta .duration {
+  font-size: 12px;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.service-meta .duration svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+.service-meta .price {
+  font-family: "Fraunces", serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--gold-dark);
+}
+.service-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--sage-dark);
+}
+.service-link svg {
+  width: 13px;
+  height: 13px;
+  transition: 0.2s;
+}
+.service-card:hover .service-link svg {
+  transform: translateX(3px);
+}

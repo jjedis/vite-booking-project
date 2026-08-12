@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import "../styles/contact-info.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FormInput, PasswordInput } from "../components/FormInput/FormInput";
 import Button from "../components/Button/Button";
 
@@ -291,7 +291,7 @@ function BookingInfo() {
                 </div>
                 <div className="checkboxes">
                   <label className="tos-label">
-                    Hyväksyn ehdot
+                    Hyväksyn<NavLink to="/kayttoehdot" className="terms-link">ehdot</NavLink>
                     <input
                       type="checkbox"
                       name="tos"
@@ -303,7 +303,6 @@ function BookingInfo() {
                           tos: e.target.checked,
                         }))
                       }
-                      
                     />
                   </label>
                   <label className="marketing-label">
@@ -319,7 +318,6 @@ function BookingInfo() {
                           marketing: e.target.checked,
                         }))
                       }
-                      
                     />
                   </label>
                 </div>

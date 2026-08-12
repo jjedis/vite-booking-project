@@ -28,6 +28,7 @@ body {
   --date-active: #fff;
   --accent-white: #fff;
   --icon: rgb(196, 193, 193);
+  --accent: #C89456;
 }
 .input-group {
   position: relative;
