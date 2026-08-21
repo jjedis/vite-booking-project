@@ -6,12 +6,13 @@
   width: 100%;
 }
 .booking-container {
-  background-color: var(--container-bg);
+  background-color: var(--cream-light, #fcf6e8);
+  border: none;
   width: 100%;
   min-width: 380px;
-  border-radius: 13px;
-  padding: 20px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  border-radius: 28px;
+  padding: 32px 28px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
   margin: 0 0;
 }
 /*---------------------service section------------------------*/
@@ -29,12 +30,14 @@
 }
 
 .custom-select {
-  background: var(--select);
-  border: 2px solid var(--border);
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-size: 18px;
+  background: var(--paper, #fffdf9);
+  border: 1px solid var(--line, #e6ded0);
+  color: var(--ink, #2c332e);
+  padding: 14px 18px;
+  border-radius: 14px;
+  font-size: 16px;
   font-weight: 500;
+  font-family: "Work Sans", "Inter", sans-serif;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -47,8 +50,8 @@
 
 .custom-select:hover,
 .custom-select.open {
-  border-color: var(--border);
-  background: var(--hover-bg);
+  border-color: var(--accent, #9c8964);
+  background: var(--cream-light, #fcf6e8);
 }
 
 .custom-select .arrow {
@@ -56,7 +59,7 @@
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-top: 7px solid #4a3f8c;
+  border-top: 7px solid var(--ink-soft, #5a6a60);
   transition: transform 0.25s ease;
 }
 
@@ -69,9 +72,10 @@
   top: 110%;
   left: 0;
   width: 100%;
-  background: var(--select);
-  border-radius: 12px;
-  border: 2px solid var(--border);
+  background: var(--paper, #fffdf9);
+  border-radius: 14px;
+  border: 1px solid var(--line, #e6ded0);
+  box-shadow: 0 16px 32px rgba(22, 35, 31, 0.18);
   overflow: hidden;
   animation: fadeSlide 0.5s ease both;
   z-index: 10;
@@ -90,15 +94,15 @@
 
 .option {
   padding: 12px 16px;
-  font-size: 16px;
-  color: #4a3f8c;
-  background: var(--select);
+  font-size: 15px;
+  color: var(--ink, #2c332e);
+  background: transparent;
   cursor: pointer;
   transition: background 0.15s ease;
 }
 
 .option:hover {
-  background: var(--hover-bg);
+  background: var(--sage-pale, #e6ece4);
 }
 
 .grid-wrap-service {
@@ -109,7 +113,7 @@
 .service-type {
   display: flex;
   border-radius: 5px;
-  
+
   height: 45px;
   font-size: 1.1rem;
   width: 140px;
@@ -157,8 +161,34 @@
 }
 
 .calendar-header h1 {
-  color: var(--header);
-  font-size: 28px;
+  color: var(--ink, #2c332e);
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.calendar-header.header-mobile {
+  justify-content: space-between;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.calendar-header.header-mobile .icon {
+  position: static;
+  height: 30px;
+  width: 30px;
+  background-color: var(--paper, #fffdf9);
+  border: 1px solid var(--line, #e6ded0);
+  color: var(--ink-soft, #5a6a60);
+}
+.calendar-header.header-mobile .icon:hover {
+  background-color: var(--sage-pale, #e6ece4);
+  border-color: var(--accent, #9c8964);
+}
+.calendar-header.header-mobile .arrow-icon {
+  color: inherit;
+  width: 55%;
+  height: 55%;
 }
 
 .icon {
@@ -233,8 +263,11 @@
 
 .weekday {
   height: 20px;
-  font-size: 1.2rem;
-  color: var(--font-1);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-soft, #5a6a60);
   margin: 10px 0;
 }
 
@@ -276,11 +309,11 @@
   height: 35px;
   border-radius: 10px;
   cursor: pointer;
-  border: 2px solid var(--primary);
+  border: 1px solid transparent;
   box-sizing: border-box;
   font-size: 0.9rem;
-  background-color: var(--date-active);
-  color: var(--primary);
+  background-color: transparent;
+  color: var(--ink, #2c332e);
   font-weight: 600;
   line-height: 35px;
   transition:
@@ -301,11 +334,11 @@
   text-align: center;
   cursor: default;
   pointer-events: none;
-  border: 2px solid var(--primary);
+  border: 1px solid transparent;
   box-sizing: border-box;
   font-size: 0.9rem;
-  opacity: 0.7;
-  color: var(--primary);
+  opacity: 0.35;
+  color: var(--ink-soft, #5a6a60);
   font-weight: 600;
   line-height: 35px;
 }
@@ -333,16 +366,17 @@
   width: 100%;
   min-width: 35px;
   height: 35px;
-  background-color: var(--primary);
+  background-color: var(--forest-light);
   border-radius: 10px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid var(--primary);
+  border: 1px solid var(--forest-light);
   box-sizing: border-box;
   font-size: 0.9rem;
-  color: #fff;
-  font-weight: 600;
+  color: var(--cream, #ede7da);
+  font-weight: 700;
   line-height: 35px;
+  
 }
 .date:hover {
   transform: scale(1.05);
@@ -355,14 +389,42 @@
 .proceed-con {
   justify-content: center;
   display: flex;
-  margin: 2% 0;
+  margin: 24px 0 0;
+}
+.proceed-con button {
+  width: 100%;
+  height: auto;
+  padding: 16px 20px;
+  border-radius: 999px;
+  background-color: var(--gold, #c89456);
+  border: 2px solid var(--gold, #c89456);
+  color: var(--forest, #16231f);
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: none;
+}
+.proceed-con button:hover:not(:disabled) {
+  background-color: var(--accent-light, #aa9a7b);
+  border-color: var(--accent-light, #aa9a7b);
 }
 
 /*---------------------appointment section------------------------*/
 .select-service-text {
-  color: var(--font-2);
-  font-size: 18px;
-  margin-bottom: 8px;
+  color: var(--ink-soft, #5a6a60);
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  text-align: center;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.times-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft, #5a6a60);
+  margin: 4px 0 12px;
 }
 .time-container {
   display: none;
@@ -417,10 +479,20 @@
 }
 .mobile-arrow {
   display: flex;
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 26px;
   align-items: center;
   justify-content: center;
+  background-color: var(--paper, #fffdf9);
+  border: 1px solid var(--line, #e6ded0);
+  border-radius: 50%;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+.mobile-arrow:hover {
+  background-color: var(--sage-pale, #e6ece4);
+  border-color: var(--accent, #9c8964);
 }
 
 .mobile-arrow.right {
@@ -437,15 +509,16 @@
 }
 .arrow-right,
 .arrow-left {
-  height: 18px;
-  width: 18px;
-  color: #919191;
-  background-color: var(--container-bg);
-  opacity: 0.5;
+  height: 13px;
+  width: 13px;
+  color: var(--ink-soft, #5a6a60);
+  background-color: transparent;
+  opacity: 0.9;
 }
 .arrow-left:hover,
 .arrow-right:hover {
   cursor: pointer;
+  color: var(--ink, #2c332e);
   opacity: 1;
 }
 
@@ -455,12 +528,13 @@
   grid-template-columns: repeat(7, 1fr);
   gap: 5px;
   width: 100%;
+  overflow: visible;
 }
 
 .mobile-times {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(3, 1fr);
   margin: 0 0;
   gap: 10px;
 }
@@ -476,30 +550,45 @@
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: var(--primary);
+  background-color: var(--paper, #fffdf9);
+  border: 1px solid var(--line, #e6ded0);
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   align-items: center;
   cursor: pointer;
-  color: #fff;
+  color: var(--ink, #2c332e);
+  font-weight: 500;
   font-size: 0.9rem;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 .time:hover {
-  background-color: var(--primary-hover);
-  color: #fff;
+  background-color: var(--cream-light, #fcf6e8);
+  border-color: var(--accent, #9c8964);
+  color: var(--ink, #2c332e);
+}
+.time.time-clicked {
+  background-color: var(--gold, #c89456);
+  border-color: var(--gold, #c89456);
+  color: var(--forest, #16231f);
+  font-weight: 700;
 }
 .time-inactive {
   display: flex;
   width: 100%;
   height: 100%;
-  background-color: var(--primary);
+  background-color: var(--paper, #fffdf9);
+  border: 1px solid var(--line, #e6ded0);
   justify-content: center;
-  border-radius: 10px;
+  border-radius: 12px;
   align-items: center;
   cursor: default;
-  color: #fff;
+  color: var(--ink-soft, #5a6a60);
   font-size: 0.9rem;
-  opacity: 0.5;
+  text-decoration: line-through;
+  opacity: 0.55;
   pointer-events: none;
 }
 
@@ -521,9 +610,9 @@
     display: block;
     margin-top: 10px;
   }
-  .booking-page .date,
-  .booking-page .date-inactive,
-  .booking-page .date-current {
+  .booking-page .calendar-desktop .date,
+  .booking-page .calendar-desktop .date-inactive,
+  .booking-page .calendar-desktop .date-current {
     background-color: transparent;
     box-sizing: border-box;
     pointer-events: none;
@@ -533,17 +622,14 @@
     border: 2px solid transparent;
     color: var(--font-1);
   }
-  .booking-page .date-inactive {
+  .booking-page .calendar-desktop .date-inactive {
     opacity: 0.5;
   }
-  .booking-page .date-clicked {
+  .booking-page .calendar-desktop .date-clicked {
     border-color: transparent;
     background-color: transparent;
   }
 
-  .booking-page .weekday {
-    display: none;
-  }
   .booking-page .weekday-large {
     display: block;
   }

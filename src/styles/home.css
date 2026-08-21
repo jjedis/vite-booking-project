@@ -19,7 +19,8 @@
   --line: #e6ded0;
   --radius: 18px;
   --body-bg: #fdfdfb;
-  --sage-pale:#e6ece4;
+  --sage-pale: #e6ece4;
+  --gold: #c89456;
 }
 * {
   padding: 0;
@@ -165,11 +166,12 @@ section {
   text-align: center;
   justify-content: center;
   align-items: center;
+  margin-bottom: 30px;
 }
-.section-head h2{
+.section-head h2 {
   font-style: italic;
 }
-.section-head p{
+.section-head p {
   max-width: 600px;
 }
 .service-grid {
@@ -201,7 +203,7 @@ section {
   margin-bottom: 20px;
   color: var(--sage-dark);
 }
-.service-icon svg{
+.service-icon svg {
   color: var(--forest);
 }
 .service-card h3 {
@@ -269,14 +271,152 @@ section {
 .minutes {
   justify-content: center;
 }
-@media (max-width:900px){
-  .hero h1{font-size:36px;}
-  .service-grid{grid-template-columns:1fr 1fr;}
-  .contact-wrap{grid-template-columns:1fr;}
-  .varaa-grid{grid-template-columns:1fr;}
-  .footer-grid{grid-template-columns:1fr;gap:34px;}
+
+/*-----------contact section--------*/
+
+.contact-section {
+  padding: 100px 0 110px;
+  background: var(--cream-light);
 }
-@media (max-width:600px){
-  .service-grid{grid-template-columns:1fr;}
-  .container{padding:0 20px;}
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 24px 50px rgba(22, 35, 31, 0.16);
+}
+.contact-card {
+  background: var(--forest);
+  color: var(--cream);
+  padding: 56px 48px;
+}
+.contact-card h3 {
+  font-style: italic;
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--cream);
+}
+.contact-card p.sub {
+  color: var(--muted);
+  font-size: 13.5px;
+  margin-bottom: 34px;
+  font-weight: 300;
+  font-family: "Work Sans", sans-serif;
+}
+.contact-row {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 22px;
+  align-items: flex-start;
+}
+.contact-row .ic {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(200, 148, 86, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--gold);
+}
+.contact-row .txt-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+.contact-row .txt-val {
+  font-size: 14.5px;
+  color: var(--cream);
+}
+
+/*------------booking section-------------*/
+
+.booking-section {
+  padding: 100px 0 110px;
+  background: var(--forest);
+}
+
+.booking-section .section-head h2 {
+  color: var(--cream);
+}
+.booking-section .section-head p {
+  color: var(--muted);
+}
+.varaa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 56px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.step {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.step .step-num {
+  height: 38px;
+  width: 38px;
+  background-color: var(--forest-raised);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--line-dark);
+  margin-top: 5px;
+  font-family: "Fraunces", serif;
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 17px;
+}
+.step p {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 300;
+}
+.step h4 {
+  font-size: 16.5px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--cream);
+  font-family: "Work Sans", sans-serif;
+}
+
+@media (max-width: 900px) {
+  .hero h1 {
+    font-size: 36px;
+  }
+  .service-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .contact-wrap {
+    grid-template-columns: 1fr;
+  }
+  .varaa-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+}
+@media (max-width: 600px) {
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+  .container {
+    padding: 0 20px;
+  }
 }

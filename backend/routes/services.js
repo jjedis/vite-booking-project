@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
 
     try{
         const result = await pool.query(
-            "SELECT id, name, duration_minutes FROM services WHERE name != 'Blocked Time' ORDER BY duration_minutes ASC"
+            "SELECT id, name, duration_minutes, price_cents, description FROM services WHERE name != 'Blocked Time' AND is_active = 'true' ORDER BY duration_minutes ASC"
         );
         res.json(result.rows);
 
