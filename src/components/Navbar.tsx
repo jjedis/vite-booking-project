@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import "/src/navbar.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -28,7 +28,7 @@ function Navbar() {
           <p className="logo-1">Laura Sihvonen</p>
           <p className="logo-2">Hyvinvointipalvelut</p>
         </NavLink>
-        <div className="d-flex align-items-center me-2 gap-2 ms-auto order-md-2">
+        <div className="d-flex align-items-center me-4 gap-2 ms-auto order-md-2">
           {isLoggedIn && (
             <NavLink
               to="/profiili"
@@ -86,21 +86,21 @@ function Navbar() {
             </li>
 
             <li className="nav-item">
-              <NavLink to="/palvelut" className={navClass}>
+              <Link to="/#palvelut" className="nav-link">
                 PALVELUT
-              </NavLink>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <NavLink to="/yhteystiedot" className={navClass}>
+              <Link to="/#yhteystiedot" className="nav-link">
                 YHTEYSTIEDOT
-              </NavLink>
+              </Link>
             </li>
 
             <li className="nav-item">
-              <NavLink to="/ajanvaraus" className={navClass}>
+              <Link to="/#varaa-aika" className="nav-link">
                 VARAA AIKA
-              </NavLink>
+              </Link>
             </li>
 
             {isLoggedIn && (

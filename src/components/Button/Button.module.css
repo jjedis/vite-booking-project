@@ -2,9 +2,9 @@
   width: 80%;
   height: 35px;
   border-radius: 10px;
-  background-color: var(--primary);
-  color: white;
-  border: 2px solid var(--primary);
+  background-color: var(--gold);
+  color: var(--white);
+  border: 2px solid var(--gold);
   font-size: 20px;
   cursor: pointer;
   transition: opacity 0.25s ease, transform 0.25s ease,
@@ -14,7 +14,7 @@
 
 .button:hover:not(.button-disabled) {
   transform: scale(1.03);
-  background-color: var(--primary-hover);
+  background-color: var(--accent-light);
 }
 
 .button.disabled {

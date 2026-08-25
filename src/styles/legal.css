@@ -1,10 +1,7 @@
 .legal-page {
-    --bg: #FBFAF7;
-    --ink: #1E2A26;
-    --ink-muted: #5C6E68;
-    --accent: #A9713E;
-    --line: #E4E0D6;
-  
+    --bg: var(--cream-light);
+    --ink-muted: var(--ink-soft);
+
     max-width: 46rem;
     margin: 0 auto;
     padding: 4rem 1.5rem 6rem;
@@ -54,7 +51,7 @@
   }
   
   .legal-page .legal-placeholder {
-    background: #FBEFD8;
+    background: var(--beige);
     padding: 0 0.2rem;
     border-radius: 3px;
   }

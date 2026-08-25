@@ -26,7 +26,7 @@
     padding: 5px;
     border: none;
     border-radius: 5px;
-    background-color: var(--primary);
+    background-color: var(--gold);
     color: #fff;
 }
 .profile-page{
@@ -51,7 +51,7 @@
 }
 .card-title{
     font-size: 26px;
-    color: var(--font-1);
+    color: var(--ink);
 }
 .card-phone,
 .card-email{
@@ -61,7 +61,7 @@
 .card-edit button{
     width: 100%;
     border: none;
-    background-color: var(--body-bg);
+    background-color: var(--cream-light);
     border-radius: 5px;
     margin: 7px 0;
     height: 35px;
@@ -70,10 +70,10 @@
     width: 100%;
     border: none;
     border-radius: 5px;
-    background-color: var(--primary);
+    background-color: var(--gold);
     margin: 10px 0;
     height: 35px;
-    color: var(--font-3);
+    color: var(--forest);
     font-size: 16px;
 }
 .card-logout button:hover{
@@ -82,7 +82,7 @@
 .divider{
     height: 1px;
     width: 100%;
-    background-color: var(--icon);
+    background-color: var(--ink-soft);
     margin: 10px 0;
 }
 
@@ -118,7 +118,7 @@
     box-shadow: 
         0 4px 6px rgba(0, 0, 0, 0.05),
         0 10px 20px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    background-color: var(--paper);
 }
 .booking-details{
     margin: auto 0;
@@ -158,7 +158,7 @@
 .card-text {
     display: flex;
     font-weight: 600;
-    color: rgba(0, 0, 0, 0.75);
+    color: var(--ink);
     margin: 20px 0;
 
 }
@@ -167,8 +167,8 @@
     width: 100%;
     height: 35px;
     border-radius: 5px;
-    background-color: var(--primary);
-    color: var(--font-3);
+    background-color: var(--gold);
+    color: var(--forest);
     font-size: 16px;
 }
 .gift-card-button:hover{
@@ -192,7 +192,7 @@
   }
   
   .overlay-content {
-    background: white;
+    background: var(--paper);
     padding: 20px;
     border-radius: 12px;
     width: 400px;
@@ -212,9 +212,9 @@
 
   .overlay-buttons button{
     border: none;
-    background-color: var(--primary);
+    background-color: var(--gold);
     border-radius: 5px;
-    color: var(--font-3);
+    color: var(--forest);
     height: 30px;
     padding: 0 5px;
   }
@@ -236,7 +236,7 @@
     z-index: 999;
   }
   .cancel-overlay-content{
-    background: white;
+    background: var(--paper);
     padding: 20px;
     border-radius: 12px;
     width: 400px;
@@ -248,8 +248,8 @@
   }
   .cancel-buttons button{
     border: none;
-    background-color: var(--primary);
-    color: var(--font-3);
+    background-color: var(--gold);
+    color: var(--forest);
     border-radius: 5px;
     padding: 0 5px;
     height: 30px;

@@ -128,7 +128,7 @@
 .service-type-clicked {
   display: flex;
   border-radius: 5px;
-  background-color: var(--primary);
+  background-color: var(--gold);
   color: #efedfb !important;
   height: 45px;
   font-size: 1.1rem;
@@ -141,7 +141,7 @@
     0 4px 8px 0 rgb(0, 0, 0, 0.1);
 }
 .service-type:hover {
-  background-color: var(--primary-hover) !important;
+  background-color: var(--accent-light) !important;
 }
 .service-disabled {
   opacity: 0.4;
@@ -201,7 +201,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  color: var(--header);
+  color: var(--ink-soft);
 }
 .icon:first-child {
   left: 5px;
@@ -211,10 +211,10 @@
 }
 
 .icon:hover {
-  background-color: var(--accent-white);
+  background-color: var(--sage-pale);
 }
 .arrow-icon {
-  color: var(--icon);
+  color: var(--ink-soft);
   width: 80%;
   height: 80%;
 }
@@ -258,7 +258,7 @@
 .weekday-large {
   font-size: 1.1rem;
   display: none;
-  color: var(--font-1);
+  color: var(--ink);
 }
 
 .weekday {
@@ -294,7 +294,7 @@
   left: 0;
   width: 30px;
   height: 5px;
-  background-color: var(--primary);
+  background-color: var(--gold);
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
   display: none;
@@ -352,10 +352,10 @@
   border-radius: 10px;
   text-align: center;
   cursor: pointer;
-  border: 2px solid var(--primary);
+  border: 2px solid var(--gold);
   box-sizing: border-box;
   font-size: 0.9rem;
-  color: var(--primary);
+  color: var(--gold);
   font-weight: 600;
   line-height: 35px;
 }
@@ -444,16 +444,16 @@
   cursor: pointer;
   width: 100%;
   border-radius: 10px;
-  color: var(--font-1);
+  color: var(--ink);
 }
 .time-wide:hover {
-  background-color: var(--primary);
+  background-color: var(--gold);
 }
 .time-clicked {
   cursor: pointer;
   width: 100%;
   border-radius: 10px;
-  background-color: var(--primary);
+  background-color: var(--gold);
 }
 .time-wide-inactive {
   cursor: default;
@@ -620,7 +620,7 @@
     font-size: 1rem;
     font-weight: 550;
     border: 2px solid transparent;
-    color: var(--font-1);
+    color: var(--ink);
   }
   .booking-page .calendar-desktop .date-inactive {
     opacity: 0.5;
@@ -646,7 +646,7 @@
   .booking-page .service-type {
     width: 75%;
     height: 60px;
-    background-color: var(--primary);
+    background-color: var(--gold);
     font-size: 1.2rem;
     color: #efedfb;
     box-shadow:
@@ -656,13 +656,13 @@
   .booking-page .service-type-clicked {
     width: 75%;
     height: 60px;
-    background-color: var(--primary-accent);
+    background-color: var(--accent);
     font-size: 1.2rem;
     color: #efedfb;
     box-shadow:
       3px 4px 6px 0 rgba(0, 0, 0, 0.15),
       0 6px 8px 0 rgb(0, 0, 0, 0.1);
-    background-color: var(--primary-hover);
+    background-color: var(--accent-light);
     color: #414141;
   }
 

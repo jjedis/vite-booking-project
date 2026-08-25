@@ -2,6 +2,7 @@ import "../styles/home.css";
 import { useNavigate } from "react-router-dom";
 import BookingCalendar from "../components/booking";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Etusivu() {
   type Service = {
@@ -22,6 +23,7 @@ function Etusivu() {
       .then((data) => setServices(data))
       .catch((err) => console.error("Failed to fetch services", err));
   }, []);
+  console.log(selectedService)
 
   return (
     <div className="home-page">
@@ -38,18 +40,22 @@ function Etusivu() {
               hetki, jonka ansaitset.
             </p>
             <div className="banner-buttons">
-              <div className="btn primary">
-                Varaa aika
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <path d="M5 12h14M13 6l6 6-6 6" />
-                </svg>
-              </div>
-              <div className="btn light">Katso palvelut</div>
+              <Link to="/#varaa-aika">
+                <div className="btn primary">
+                  Varaa aika
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </div>
+              </Link>
+              <Link to="/#palvelut">
+                <div className="btn light">Katso palvelut</div>
+              </Link>
             </div>
           </div>
         </div>
@@ -60,7 +66,7 @@ function Etusivu() {
           <div className="about-me-content"></div>
         </div>
       </section>
-      <section className="service-section">
+      <section className="service-section" id="palvelut">
         <div className="container">
           <div className="section-head">
             <div className="eyebrow">Palvelumme</div>
@@ -109,16 +115,21 @@ function Etusivu() {
                     <div className="price">{service.price_cents / 100}€</div>
 
                     <div className="service-link">
-                      Varaa aika
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        width="16px"
+                      <Link
+                        to="/#varaa-aika"
+                        onClick={() => setSelectedService(service)}
                       >
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
+                        Varaa aika
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          width="16px"
+                        >
+                          <path d="M5 12h14M13 6l6 6-6 6" />
+                        </svg>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -127,7 +138,7 @@ function Etusivu() {
           </div>
         </div>
       </section>
-      <section className="contact-section">
+      <section className="contact-section" id="yhteystiedot">
         <div className="container">
           <div className="section-head">
             <div className="eyebrow">Yhteystiedot</div>
@@ -151,7 +162,7 @@ function Etusivu() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="1.8"
+                    strokeWidth="1.8"
                   >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
@@ -169,7 +180,7 @@ function Etusivu() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="1.8"
+                    strokeWidth="1.8"
                   >
                     <path d="M22 6 12 13 2 6" />
                     <rect x="2" y="4" width="20" height="16" rx="2" />
@@ -188,7 +199,7 @@ function Etusivu() {
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    stroke-width="1.8"
+                    strokeWidth="1.8"
                   >
                     <circle cx="12" cy="12" r="10" />
                     <path d="M12 6v6l4 2" />
@@ -203,7 +214,7 @@ function Etusivu() {
           </div>
         </div>
       </section>
-      <section className="booking-section">
+      <section className="booking-section" id="varaa-aika">
         <div className="container">
           <div className="section-head">
             <div className="eyebrow">Varaa aika</div>
@@ -240,7 +251,10 @@ function Etusivu() {
               </div>
             </div>
             <div className="booking-card">
-              <BookingCalendar forceMobile={true} />
+              <BookingCalendar
+                forceMobile={true}
+                selectedServiceId={selectedService?.id}
+              />
             </div>
           </div>
         </div>

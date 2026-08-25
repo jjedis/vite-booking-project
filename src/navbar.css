@@ -55,7 +55,7 @@
 .profile-link svg{
   width: 24px;
   height: 24px;
-  color: var(--icon);
+  color: var(--ink-soft);
   
 }
 .profile-link i::before{
@@ -70,9 +70,14 @@
   width: 150px;
 }
 .navbar {
+  position: sticky;
+  top: 0;
   height: 60px;
   width: 100vw;
-  z-index: 1;
+  z-index: 1000;
+  background-color: var(--forest) !important;
+  padding-left: 10px;
+
 }
 .container-fluid {
   padding: 0;
@@ -82,40 +87,40 @@
   margin: 0;
 }
 .logo-2 {
-  color: darkgoldenrod;
+  color: var(--gold);
 }
 .active-link {
-  color: darkgoldenrod !important;
+  color: var(--gold) !important;
   font-weight: bold;
 }
 
 .nav-link:hover {
-  color: darkgoldenrod;
+  color: var(--gold);
 }
 .navbar-collapse.show {
-  background-color: #2b3035;
+  background-color: var(--forest-raised);
 }
 
 .login-button, 
 .logout-button {
-  color: var(--icon);
+  color: var(--ink-soft);
   background-color: transparent;
   text-decoration: none;
   font-size: 14px;
   width: 100%;
   height: 28px;
   padding: 0px 12px;
-  margin: 0 0;
   border-radius: 13px;
-  border: 1px solid var(--icon);
+  border: 1px solid var(--ink-soft);
   display: flex !important;
   align-items: center;
   justify-content: center;
 }
 .login-button:hover,
 .logout-button:hover {
-  color: rgb(0, 0, 0);
-  background-color: #ffffff;
+  color: var(--forest);
+  background-color: var(--gold);
+  border-color: var(--gold);
 }
 .logout-button{
   white-space: nowrap;
@@ -123,7 +128,7 @@
 }
 
 .login-icon{
-  color: var(--icon);
+  color: var(--ink-soft);
   width: 24px;
   height: 24px;
 
@@ -182,7 +187,7 @@
     
   }
   .login-button:hover {
-    color: darkgoldenrod;
+    color: var(--gold);
   }
 
   

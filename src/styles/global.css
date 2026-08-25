@@ -5,31 +5,37 @@
   box-sizing: border-box;
 }
 body {
-  background-color: var(--body-bg);
+  background-color: var(--cream-light);
+  color: var(--ink);
 }
 
 
 :root {
-  --body-bg: #dedddc;
-  --container-bg: #fff;
+  --forest: #16231f;
+  --forest-raised: #1c2e28;
+  --forest-deep: #233831;
+  --forest-light: #619683;
+  --cream: #ede7da;
+  --cream-light: #fcf6e8;
+  --muted: #9cb0a8;
+  --accent: #9c8964;
+  --accent-light: #aa9a7b;
+  --accent-deep: #554b37;
+  --ink: #2c332e;
+  --ink-soft: #5a6a60;
+  --paper: #fffdf9;
+  --beige: #f0e2c8;
+  --beige-soft: #605a50;
+  --line-dark: rgba(237, 231, 218, 0.14);
+  --line-dark-2: rgba(237, 231, 218, 0.22);
+  --line: #e6ded0;
+  --radius: 18px;
+  --sage-pale: #e6ece4;
+  --sage-dark: #2f4c40;
+  --gold: #c89456;
   --white: #fff;
-  --primary: #98b39e;
-  --primary-hover: #7a9e83;
-  --primary-accent: #88a78f;
-  --border: #cfc9ff;
-  --header: #919191;
-  --font-1: rgb(75, 74, 74);
-  --font-2: #888;
-  --font-3: #fff;
-  --font-4: ;
-  --hover-bg: #ebe7ff;
-  --select: #f6f4ff;
-  --date-inactive: #fff;
-  --date-active: #fff;
-  --accent-white: #fff;
-  --icon: rgb(196, 193, 193);
-  --accent: #C89456;
 }
+
 .input-group {
   position: relative;
   margin-bottom: 40px;
@@ -48,10 +54,10 @@ body {
   font-size: 0.9em;
   width: 100%;
   box-sizing: border-box;
-  border: 2px solid rgb(196, 193, 193);
+  border: 2px solid var(--ink-soft);
   outline: none;
   line-height: 2px;
-  color: var(--icon);
+  color: var(--ink-soft);
 }
 .form-input{
   border-radius: 8px !important;
@@ -63,7 +69,7 @@ body {
   font-size: 1em;
   padding: 0 4px;
   transition: 0.2s ease;
-  color: rgb(196, 193, 193);
+  color: var(--ink-soft);
 
   top: 50%;
   left: 10px;
@@ -89,7 +95,7 @@ body {
   border: none;
   cursor: pointer;
   font-size: 1.1rem;
-  color: rgb(196, 193, 193);
+  color: var(--ink-soft);
   padding: 0;
   z-index: 2;
 }

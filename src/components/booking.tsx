@@ -21,15 +21,17 @@ type BookingCalendarProps = {
   apiBaseUrl?: string;
   /** How many weeks ahead a user can navigate. */
   maxWeeksAhead?: number;
-  /** Label for the proceed button. */
   /** Always render the mobile layout, even on large screens. */
   forceMobile?: boolean;
+  /** Pre-select a service by id, e.g. from a "Varaa aika" link elsewhere on the page. */
+  selectedServiceId?: string;
 };
 
 const BookingCalendar = ({
   apiBaseUrl = "http://localhost:4000",
   maxWeeksAhead = 4,
   forceMobile = false,
+  selectedServiceId,
 }: BookingCalendarProps) => {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -168,6 +170,13 @@ const BookingCalendar = ({
       .then((data) => setServices(data))
       .catch((err) => console.error("Failed to fetch services", err));
   }, [apiBaseUrl]);
+
+  //sync the service selected elsewhere on the page (e.g. a "Varaa aika" link) once it's loaded
+  useEffect(() => {
+    if (!selectedServiceId) return;
+    const match = services.find((s) => s.id === selectedServiceId);
+    if (match) setSelectedService(match);
+  }, [selectedServiceId, services]);
 
   //populating dates array
   useEffect(() => {
@@ -349,7 +358,9 @@ const BookingCalendar = ({
           </div>
         </div>
 
-        <div className={`calendar-header ${forceMobile ? "header-mobile" : ""}`}>
+        <div
+          className={`calendar-header ${forceMobile ? "header-mobile" : ""}`}
+        >
           <div className="icon" id="icon-left" onClick={handlePrevWeek}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
