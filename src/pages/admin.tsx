@@ -108,17 +108,16 @@ function Admin() {
       const totalMinutes = (hours - START_HOUR) * 60 + minutes;
       setCurrentTimeTop(minutesToPixels(totalMinutes) + TOP_OFFSET);
 
-        if (totalMinutes < 0 || totalMinutes > 12 * 60) {
-          setCurrentTimeTop(null);
-          return;
-        }
-
-    }
+      if (totalMinutes < 0 || totalMinutes > 12 * 60) {
+        setCurrentTimeTop(null);
+        return;
+      }
+    };
 
     calculateTop();
     const interval = setInterval(calculateTop, 6000);
     return () => clearInterval(interval);
-  })
+  });
 
   //fetching bookings to populate calendar
   const fetchBookings = async () => {
@@ -145,6 +144,11 @@ function Admin() {
     try {
       const res = await fetch(
         `http://localhost:4000/api/adminBookings?start=${start.toISOString()}&end=${end.toISOString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
 
       const data = await res.json();
@@ -189,7 +193,7 @@ function Admin() {
       setSelectedBooking(null);
     } catch (err) {
       console.error("cancel failed", err);
-      alert("peruutus epäonnistui")
+      alert("peruutus epäonnistui");
     }
   };
   // Blocking bookings
@@ -855,11 +859,14 @@ function Admin() {
                         </div>
                       );
                     })}
-                    {isSameDay(date, today) && currentTimeTop !== null && (
-                    <div className="current-time-line" style={{top: `${currentTimeTop}px`}}>
+                  {isSameDay(date, today) && currentTimeTop !== null && (
+                    <div
+                      className="current-time-line"
+                      style={{ top: `${currentTimeTop}px` }}
+                    >
                       <div className="current-time-dot"></div>
                     </div>
-                    )}
+                  )}
                 </div>
               ))}
             </div>
@@ -885,11 +892,13 @@ function Admin() {
               </p>
             </div>
             <div className="admin-cancel-buttons">
-              <button className="button-1" onClick={() => {
-                setShowCancel(false);
-                setShowOverlay(false);
-                setSelectedBooking(null);
-              }}
+              <button
+                className="button-1"
+                onClick={() => {
+                  setShowCancel(false);
+                  setShowOverlay(false);
+                  setSelectedBooking(null);
+                }}
               >
                 Poistu
               </button>

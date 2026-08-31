@@ -10,6 +10,7 @@ import Profiili from "./pages/Profiili";
 import Admin from "./pages/admin";
 import PrivacyFi from "./pages/privacy";
 import TermsFi from "./pages/terms";
+import RequireAdmin from "./components/requireAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -23,7 +24,10 @@ export const router = createBrowserRouter([
       { path: "login", element: <Login /> },
       { path: "varaustiedot", element: <BookingInfo /> },
       { path: "profiili", element: <Profiili /> },
-      { path: "admin", element: <Admin /> },
+      {
+        element: <RequireAdmin/>,
+        children: [{path: "admin", element: <Admin/>}],
+      },
       { path: "tietosuoja", element: <PrivacyFi /> },
       { path: "kayttoehdot", element: <TermsFi /> },
     ],

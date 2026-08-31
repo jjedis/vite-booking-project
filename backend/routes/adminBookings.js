@@ -1,10 +1,11 @@
 import express from "express";
 import { pool } from "../db.js";
+import {authenticateAdmin} from "../middleware/authenticateAdmin.js"
 
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", authenticateAdmin, async (req, res) => {
   const { start, end } = req.query;
 
   if (!start || !end) {

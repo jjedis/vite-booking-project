@@ -1,5 +1,6 @@
 import express from "express";
 import { pool } from "../db.js";
+import { sendBookingConfirmation } from "../utils/mailer.js";
 
 const router = express.Router();
 
@@ -31,14 +32,12 @@ router.post("/", async (req, res) => {
     !service_id ||
     !start_time ||
     !end_time ||
-    !tos 
-    
+    !tos
   ) {
     return res
       .status(400)
       .json({ error: "All required fields are not filled." });
   }
-
   const client = await pool.connect();
 
   try {
@@ -85,7 +84,32 @@ router.post("/", async (req, res) => {
       );
     }
 
+    const serviceInfo = await client.query(
+      `SELECT name, duration_minutes, price_cents 
+      FROM services 
+      WHERE id = $1
+      `,
+      [service_id],
+    );
+
+    const serviceName = serviceInfo.rows[0].name;
+    const serviceDuration = serviceInfo.rows[0].duration_minutes;
+    const servicePrice = serviceInfo.rows[0].price_cents;
+
     await client.query("COMMIT");
+
+    try {
+      await sendBookingConfirmation({
+        to: sahkoposti,
+        firstName: etunimi,
+        serviceName,
+        durationMinutes: serviceDuration,
+        priceCents: servicePrice,
+        startTime: start_time,
+      });
+    } catch (err) {
+      console.error("Failed to send confirmation email:", err);
+    }
 
     res.status(201).json({
       message: "Booking created",

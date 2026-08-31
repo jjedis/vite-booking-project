@@ -22,6 +22,7 @@ type AuthContextType = {
   login: (token: string) => void;
   logout: () => void;
   isLoggedIn: boolean;
+  isAuthLoading: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -31,15 +32,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
 
     if (storedToken) {
-      const decoded: User = jwtDecode(storedToken);
-      setToken(storedToken);
-      setUser(decoded);
+      try {
+        const decoded: User = jwtDecode(storedToken);
+        setToken(storedToken);
+        setUser(decoded);
+      } catch {
+        localStorage.removeItem("token");
+      }
     }
+
+    setIsAuthLoading(false);
   }, []);
 
   const login = (token: string) => {
@@ -59,7 +67,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isLoggedIn = !!token;
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout, isLoggedIn }}>
+    <AuthContext.Provider
+      value={{ token, user, login, logout, isLoggedIn, isAuthLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

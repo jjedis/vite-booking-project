@@ -2,6 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import "/src/navbar.css";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo-laura-sihvonen-cream.png";
 
 function Navbar() {
   const { isLoggedIn, logout } = useAuth();
@@ -25,8 +26,11 @@ function Navbar() {
     >
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          <p className="logo-1">Laura Sihvonen</p>
-          <p className="logo-2">Hyvinvointipalvelut</p>
+          <img
+            src={logo}
+            alt="Laura Sihvonen Hyvinvointipalvelut"
+            className="brand-logo-img"
+          />
         </NavLink>
         <div className="d-flex align-items-center me-4 gap-2 ms-auto order-md-2">
           {isLoggedIn && (
