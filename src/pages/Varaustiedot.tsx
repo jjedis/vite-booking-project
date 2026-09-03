@@ -108,6 +108,7 @@ function BookingInfo() {
     console.log("Login info:", loginInfo);
   };
 
+
   const isFilled = (value: string) => value.trim().length > 0;
 
   const isCustomerFormValid = Object.entries({

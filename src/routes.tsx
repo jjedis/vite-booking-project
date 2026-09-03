@@ -4,6 +4,7 @@ import Etusivu from "./pages/Kotisivu";
 import Palvelut from "./pages/Palvelut";
 import Yhteystiedot from "./pages/Yhteystiedot";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import Ajanvaraus from "./pages/Varaus";
 import BookingInfo from "./pages/Varaustiedot";
 import Profiili from "./pages/Profiili";
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
       { path: "ajanvaraus", element: <Ajanvaraus /> },
       { path: "yhteystiedot", element: <Yhteystiedot /> },
       { path: "login", element: <Login /> },
+      { path: "reset-password", element: <ResetPassword /> },
       { path: "varaustiedot", element: <BookingInfo /> },
       { path: "profiili", element: <Profiili /> },
       {

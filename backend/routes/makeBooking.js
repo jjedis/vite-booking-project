@@ -1,6 +1,6 @@
 import express from "express";
 import { pool } from "../db.js";
-import { sendBookingConfirmation } from "../utils/mailer.js";
+import { sendBookingAlert, sendBookingConfirmation } from "../utils/mailer.js";
 
 const router = express.Router();
 
@@ -106,6 +106,19 @@ router.post("/", async (req, res) => {
         durationMinutes: serviceDuration,
         priceCents: servicePrice,
         startTime: start_time,
+      });
+
+      await sendBookingAlert({
+        to: "jonjaderholm@gmail.com",
+        firstName: etunimi,
+        serviceName,
+        durationMinutes: serviceDuration,
+        priceCents: servicePrice,
+        startTime: start_time,
+        lastName: sukunimi,
+        phone: puh,
+        email: sahkoposti,
+        info: lisatietoja,
       });
     } catch (err) {
       console.error("Failed to send confirmation email:", err);

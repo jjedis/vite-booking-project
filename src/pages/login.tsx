@@ -22,6 +22,7 @@ function Login() {
   const [resetInfo, setResetInfo] = useState({
     emailreset: "",
   });
+  const [resetStatus, setResetStatus] = useState("");
 
   const [registrationInfo, setRegistrationInfo] = useState({
     etunimi: "",
@@ -79,9 +80,28 @@ function Login() {
 
   }
 
-  const handleResetSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleResetSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Reset:", resetInfo);
+    setResetStatus("");
+
+    try {
+      const res = await fetch("http://localhost:4000/api/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: resetInfo.emailreset }),
+      });
+
+      await res.json();
+
+      // Always show the same message, whether or not the email exists.
+      setResetStatus(
+        "Jos sähköposti löytyy järjestelmästä, lähetimme siihen linkin salasanan vaihtoa varten.",
+      );
+      setResetInfo({ emailreset: "" });
+    } catch (err) {
+      console.error(err);
+      setResetStatus("Jotain meni pieleen. Yritä myöhemmin uudelleen.");
+    }
   };
 
   const handleregistrationSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -199,6 +219,7 @@ function Login() {
                       Lähetä
                     </button>
                   </form>
+                  {resetStatus && <p className="reset-status">{resetStatus}</p>}
                 </motion.div>
               )}
             </AnimatePresence>

@@ -20,6 +20,7 @@ function Profiili() {
 
   const [showEdit, setShowEdit] = useState(false);
   const [showCancel, setShowCancel] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
 
   const [editInfo, setEditInfo] = useState({
     firstName: "",
@@ -32,12 +33,29 @@ function Profiili() {
 
 
   })
+
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+  const [passwordError, setPasswordError] = useState("");
+  const [passwordSuccess, setPasswordSuccess] = useState("");
+
 // handler for seting editinfo state
   const handleInfoChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setEditInfo((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // handler for setting passwordForm state
+  const handlePasswordFormChange = (
+    e: ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, value } = e.target;
+    setPasswordForm((prev) => ({ ...prev, [name]: value }));
   };
 
   // handler for submiting edit form
@@ -82,6 +100,45 @@ function Profiili() {
       console.error("Update failed", err);
     }
   }
+
+  // handler for submitting change-password form
+  const handlePasswordSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPasswordError("");
+    setPasswordSuccess("");
+
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordError("Uudet salasanat eivät täsmää");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:4000/api/change-password", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          currentPassword: passwordForm.currentPassword,
+          newPassword: passwordForm.newPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setPasswordError(data.error || "Salasanan vaihto epäonnistui");
+        return;
+      }
+
+      setPasswordSuccess("Salasana vaihdettu");
+      setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+    } catch (err) {
+      console.error("Password change failed", err);
+      setPasswordError("Salasanan vaihto epäonnistui");
+    }
+  };
 
 // handle logout
   const handleLogout = () => {
@@ -143,6 +200,14 @@ function Profiili() {
       });
     }
   }, [user, showEdit]);
+
+  useEffect(() => {
+    if (showChangePassword) {
+      setPasswordForm({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      setPasswordError("");
+      setPasswordSuccess("");
+    }
+  }, [showChangePassword]);
 
 //dateformatter for upcoming bookings
   const formatDateTime = (iso: string) => {
@@ -230,7 +295,12 @@ function Profiili() {
             >
               Muokkaa tietoja
             </button>
-            <button className="edit-info-button">Vaihda salasana</button>
+            <button
+              className="edit-info-button"
+              onClick={() => setShowChangePassword(true)}
+            >
+              Vaihda salasana
+            </button>
           </div>
           <div className="divider"></div>
           <div className="card-logout">
@@ -289,7 +359,7 @@ function Profiili() {
       </div>
       {showEdit && (
         <div className="overlay" onClick={() => setShowEdit(false)}>
-          <div className="overlay-content" onClick={(e) => e.stopPropagation()}>
+          <div className="profile-overlay-content" onClick={(e) => e.stopPropagation()}>
             <h4>Muokkaa tietoja</h4>
 
             <form onSubmit={handleSubmit} className="edit-form">
@@ -347,10 +417,65 @@ function Profiili() {
           </div>
         </div>
       )}
+      {showChangePassword && (
+        <div className="overlay" onClick={() => setShowChangePassword(false)}>
+          <div
+            className="profile-overlay-content"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4>Vaihda salasana</h4>
+
+            <form onSubmit={handlePasswordSubmit} className="edit-form">
+              <input
+                name="currentPassword"
+                type="password"
+                placeholder="Nykyinen salasana"
+                value={passwordForm.currentPassword}
+                onChange={handlePasswordFormChange}
+                required
+              />
+              <input
+                name="newPassword"
+                type="password"
+                placeholder="Uusi salasana"
+                value={passwordForm.newPassword}
+                onChange={handlePasswordFormChange}
+                required
+              />
+              <input
+                name="confirmPassword"
+                type="password"
+                placeholder="Vahvista uusi salasana"
+                value={passwordForm.confirmPassword}
+                onChange={handlePasswordFormChange}
+                required
+              />
+
+              {passwordError && (
+                <p style={{ color: "#b3261e", fontSize: "14px", margin: "0 0 10px" }}>
+                  {passwordError}
+                </p>
+              )}
+              {passwordSuccess && (
+                <p style={{ color: "#2e7d32", fontSize: "14px", margin: "0 0 10px" }}>
+                  {passwordSuccess}
+                </p>
+              )}
+
+              <div className="overlay-buttons">
+                <button type="submit">Tallenna</button>
+                <button type="button" onClick={() => setShowChangePassword(false)}>
+                  Peruuta
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       {showCancel && (
         <div className="cancel-overlay" onClick={() => setShowCancel(false)}>
           <div
-            className="cancel-overlay-content"
+            className="profile-cancel-overlay-content"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="cancel-message">

@@ -11,6 +11,9 @@ import updateProfileRoute from "./routes/updateProfile.js";
 import adminBookingsRoute from "./routes/adminBookings.js";
 import cancelBookingRoute from "./routes/cancel-booking.js";
 import blockTimeRoute from "./routes/block-time.js";
+import changePasswordRoute from "./routes/change-password.js";
+import forgotPasswordRoute from "./routes/forgot-password.js";
+import resetPasswordRoute from "./routes/reset-password.js";
 
 dotenv.config();
 
@@ -29,6 +32,9 @@ app.use("/api/updateProfile", updateProfileRoute);
 app.use("/api/adminBookings", adminBookingsRoute);
 app.use("/api/cancel-booking", cancelBookingRoute);
 app.use("/api/block-time", blockTimeRoute);
+app.use("/api/change-password", changePasswordRoute);
+app.use("/api/forgot-password", forgotPasswordRoute);
+app.use("/api/reset-password", resetPasswordRoute);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
