@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Etusivu from "./pages/Kotisivu";
 import Palvelut from "./pages/Palvelut";
-import Yhteystiedot from "./pages/Yhteystiedot";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import Ajanvaraus from "./pages/Varaus";
@@ -21,7 +20,6 @@ export const router = createBrowserRouter([
       { index: true, element: <Etusivu /> },
       { path: "palvelut", element: <Palvelut /> },
       { path: "ajanvaraus", element: <Ajanvaraus /> },
-      { path: "yhteystiedot", element: <Yhteystiedot /> },
       { path: "login", element: <Login /> },
       { path: "reset-password", element: <ResetPassword /> },
       { path: "varaustiedot", element: <BookingInfo /> },

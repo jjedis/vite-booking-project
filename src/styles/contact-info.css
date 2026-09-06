@@ -20,7 +20,7 @@
   margin-top: 5%;
   display: block;
   box-sizing: border-box;
-  background-color: var(--paper);
+  background-color: var(--cream-light);
 }
 .login-container-customer-info {
   padding: 10px;
@@ -29,7 +29,7 @@
   margin-top: 5%;
   display: block;
   box-sizing: border-box;
-  background-color: var(--paper);
+  background-color: var(--cream-light);
 }
 .form-switcher {
   position: relative;

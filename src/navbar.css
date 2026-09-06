@@ -22,7 +22,7 @@
   align-items: center;
   justify-content: center;
 }
-.left-links ul{
+.left-links ul {
   list-style: none;
   display: flex;
   gap: 5px;
@@ -33,7 +33,6 @@
 }
 .right-links {
   margin-right: 25px;
-
 }
 
 .nav-link {
@@ -48,17 +47,13 @@
   justify-content: center;
   margin: 0;
   padding: 0;
-  
-  
- 
 }
-.profile-link svg{
+.profile-link svg {
   width: 24px;
   height: 24px;
   color: var(--ink-soft);
-  
 }
-.profile-link i::before{
+.profile-link i::before {
   display: block;
 }
 
@@ -83,7 +78,6 @@
   z-index: 1000;
   background-color: var(--forest) !important;
   padding-left: 10px;
-
 }
 .container-fluid {
   padding: 0;
@@ -95,10 +89,6 @@
 .logo-2 {
   color: var(--gold);
 }
-.active-link {
-  color: var(--gold) !important;
-  font-weight: bold;
-}
 
 .nav-link:hover {
   color: var(--gold);
@@ -107,7 +97,7 @@
   background-color: var(--forest-raised);
 }
 
-.login-button, 
+.login-button,
 .logout-button {
   color: var(--ink-soft);
   background-color: transparent;
@@ -128,16 +118,14 @@
   background-color: var(--gold);
   border-color: var(--gold);
 }
-.logout-button{
+.logout-button {
   white-space: nowrap;
-  
 }
 
-.login-icon{
+.login-icon {
   color: var(--ink-soft);
   width: 24px;
   height: 24px;
-
 }
 .container-fluid {
   display: flex;
@@ -147,15 +135,13 @@
 .navbar-collapse {
   width: 100%;
 }
-.navbar-toggler{
+.navbar-toggler {
   margin: 0 !important;
-  
 }
 @media only screen and (max-width: 767px) {
-  .navbar-nav{
+  .navbar-nav {
     flex-direction: column !important;
     align-items: flex-start !important;
-    ;
   }
 
   .nav-link {
@@ -163,7 +149,6 @@
     text-align: start;
     align-items: center;
   }
-
 
   .nav-item {
     margin: 3px 10px;
@@ -173,8 +158,6 @@
     align-content: center;
     width: 100%;
     align-items: center;
-
-    
   }
   .navbar-toggler-icon {
     width: 20px;
@@ -190,27 +173,24 @@
     padding: 0;
     text-align: center;
     border: none;
-    
   }
   .login-button:hover {
     color: var(--gold);
   }
 
-  
-  .logout-button{
+  .logout-button {
     display: none !important;
   }
 
-  .logout-button-mobile{
+  .logout-button-mobile {
     display: flex;
     width: 100%;
     border: none !important;
     background-color: transparent !important;
-    padding: 0;  
+    padding: 0;
     margin: 0;
     font-size: 11px;
     text-align: start;
     align-items: center;
-  
   }
 }

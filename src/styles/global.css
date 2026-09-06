@@ -46,8 +46,8 @@ body {
 }
 
 .input-group input {
-  padding: 0 3px;
-  background: transparent;
+  padding: 0 7px;
+  background: var(--paper);
   transition: 0.1s ease;
   z-index: 1;
   height: 35px;
@@ -70,7 +70,7 @@ body {
   padding: 0 4px;
   transition: 0.2s ease;
   color: var(--ink-soft);
-
+  z-index: 2;
   top: 50%;
   left: 10px;
   transform: translateY(-50%);

@@ -13,6 +13,7 @@ function Login() {
 
   const [showReset, setShowReset] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [loginFailed, setloginFailed] = useState(false);
 
   const [loginInfo, setLoginInfo] = useState({
     sahkoposti: "",
@@ -41,6 +42,7 @@ function Login() {
   const handleLoginChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginInfo((prev) => ({ ...prev, [name]: value }));
+    setloginFailed(false);
   };
 
   const handleRegChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,13 +71,12 @@ function Login() {
         throw new Error(data.error || "Login failed");
       }
 
-      login(data.token)
-
+      login(data.token);
+      setloginFailed(false);
       navigate("/")
     } catch (err) {
       console.error(err);
-      alert("Kirjautminen epäonnistui");
-      
+      setloginFailed(true);
     }
 
   }
@@ -172,6 +173,11 @@ function Login() {
                   <Button type="submit">Kirjaudu sisään</Button>
                 </div>
               </form>
+              {loginFailed && (
+                <div className="login-failed-message">
+                  <p>Sähköposti tai salasana on virheellinen</p>
+                </div>
+              )}
             </div>
             <div className="additional-options">
               <p>

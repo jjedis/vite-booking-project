@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import "../styles/contact-info.css";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FormInput, PasswordInput } from "../components/FormInput/FormInput";
 import Button from "../components/Button/Button";
+import { useAuth } from "../context/AuthContext";
 
 function BookingInfo() {
   const location = useLocation();
   const navigate = useNavigate();
+  const {user, isLoggedIn} = useAuth();
 
   const state = location.state as {
     selectedService: {
@@ -44,6 +46,22 @@ function BookingInfo() {
     sposti2: "",
     pwdLogin: "",
   });
+
+  // pre-fill contact info from the logged-in user's saved profile
+  useEffect(() => {
+    if (!isLoggedIn || !user) return;
+
+    setCustomerInfo((prev) => ({
+      ...prev,
+      etunimi: user.firstName || "",
+      sukunimi: user.lastName || "",
+      puh: user.phone?.toString() || "",
+      sahkoposti: user.email || "",
+      osoite: user.address || "",
+      postinumero: user.postalCode?.toString() || "",
+      toimipaikka: user.city || "",
+    }));
+  }, [isLoggedIn, user]);
 
   const handleCustomerChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -172,39 +190,41 @@ function BookingInfo() {
             </p>
           </div>
         </div>
-        <div className="group-container">
-          <div
-            className="btn-group"
-            role="group"
-            aria-label="Basic radio toggle button group"
-          >
-            <input
-              type="radio"
-              className="btn-check"
-              name="btnradio"
-              id="btnradio1"
-              autoComplete="off"
-              checked={isNewCustomer}
-              onChange={() => setIsNewCustomer(true)}
-            />
-            <label className="btn btn-outline-custom" htmlFor="btnradio1">
-              Uusi asiakas
-            </label>
+        {!isLoggedIn && (
+          <div className="group-container">
+            <div
+              className="btn-group"
+              role="group"
+              aria-label="Basic radio toggle button group"
+            >
+              <input
+                type="radio"
+                className="btn-check"
+                name="btnradio"
+                id="btnradio1"
+                autoComplete="off"
+                checked={isNewCustomer}
+                onChange={() => setIsNewCustomer(true)}
+              />
+              <label className="btn btn-outline-custom" htmlFor="btnradio1">
+                Uusi asiakas
+              </label>
 
-            <input
-              type="radio"
-              className="btn-check"
-              name="btnradio"
-              id="btnradio2"
-              autoComplete="off"
-              checked={!isNewCustomer}
-              onChange={() => setIsNewCustomer(false)}
-            />
-            <label className="btn btn-outline-custom" htmlFor="btnradio2">
-              Kirjaudu
-            </label>
+              <input
+                type="radio"
+                className="btn-check"
+                name="btnradio"
+                id="btnradio2"
+                autoComplete="off"
+                checked={!isNewCustomer}
+                onChange={() => setIsNewCustomer(false)}
+              />
+              <label className="btn btn-outline-custom" htmlFor="btnradio2">
+                Kirjaudu
+              </label>
+            </div>
           </div>
-        </div>
+        )}
         <div className="form-switcher">
           <div
             className={`info-container ${
@@ -292,7 +312,10 @@ function BookingInfo() {
                 </div>
                 <div className="checkboxes">
                   <label className="tos-label">
-                    Hyväksyn<NavLink to="/kayttoehdot" className="terms-link">ehdot</NavLink>
+                    Hyväksyn
+                    <NavLink to="/kayttoehdot" className="terms-link">
+                      ehdot
+                    </NavLink>
                     <input
                       type="checkbox"
                       name="tos"
@@ -335,41 +358,42 @@ function BookingInfo() {
               </form>
             </div>
           </div>
+          {!isLoggedIn && (
+            <div
+              className={`login-container-customer-info ${
+                !isNewCustomer ? "is-active" : "is-hidden"
+              }`}
+            >
+              <div className="container-header">
+                <h2>Kirjaudu</h2>
+              </div>
 
-          <div
-            className={`login-container-customer-info ${
-              !isNewCustomer ? "is-active" : "is-hidden"
-            }`}
-          >
-            <div className="container-header">
-              <h2>Kirjaudu</h2>
+              <div className="login-form-container">
+                <form onSubmit={handleLoginSubmit}>
+                  <FormInput
+                    type="email"
+                    name="sposti2"
+                    label="Sähköposti"
+                    required
+                    value={loginInfo.sposti2}
+                    onChange={handleLoginChange}
+                  />
+                  <PasswordInput
+                    name="pwdLogin"
+                    required
+                    label="Salasana"
+                    value={loginInfo.pwdLogin}
+                    onChange={handleLoginChange}
+                  />
+                  <div className="submit-container-login">
+                    <Button type="submit" disabled={!isLoginValid}>
+                      Seuraava
+                    </Button>
+                  </div>
+                </form>
+              </div>
             </div>
-
-            <div className="login-form-container">
-              <form onSubmit={handleLoginSubmit}>
-                <FormInput
-                  type="email"
-                  name="sposti2"
-                  label="Sähköposti"
-                  required
-                  value={loginInfo.sposti2}
-                  onChange={handleLoginChange}
-                />
-                <PasswordInput
-                  name="pwdLogin"
-                  required
-                  label="Salasana"
-                  value={loginInfo.pwdLogin}
-                  onChange={handleLoginChange}
-                />
-                <div className="submit-container-login">
-                  <Button type="submit" disabled={!isLoginValid}>
-                    Seuraava
-                  </Button>
-                </div>
-              </form>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
