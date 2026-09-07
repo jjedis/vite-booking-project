@@ -1,5 +1,4 @@
 import "../styles/home.css";
-import { useNavigate } from "react-router-dom";
 import BookingCalendar from "../components/booking";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";

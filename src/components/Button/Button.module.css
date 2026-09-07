@@ -25,7 +25,7 @@
 .compact {
     width: 80%;
   }
-  
+
 @media (min-width: 768px) {
     .compact {
       display: flex;
@@ -37,4 +37,26 @@
       padding: 5px;
     }
   }
-  
+
+.pill {
+  width: 80%;
+  height: auto;
+  padding: 10px 24px;
+  border-radius: 999px;
+  background-color: var(--gold, #c89456);
+  border: 2px solid var(--gold, #c89456);
+  color: var(--forest, #16231f);
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: none;
+}
+@media (min-width: 768px) {
+  .pill {
+    width: fit-content;
+  }
+}
+.pill:hover:not(.disabled) {
+  background-color: var(--accent-light, #aa9a7b);
+  border-color: var(--accent-light, #aa9a7b);
+  transform: none;
+}

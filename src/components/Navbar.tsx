@@ -102,7 +102,7 @@ function Navbar() {
             </li>
 
             <li className="nav-item">
-              <Link to="/#varaa-aika" className="nav-link">
+              <Link to="/ajanvaraus" className="nav-link">
                 VARAA AIKA
               </Link>
             </li>

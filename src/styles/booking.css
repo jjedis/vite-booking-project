@@ -6,7 +6,7 @@
   width: 100%;
 }
 .booking-container {
-  background-color: var(--cream-light, #fcf6e8);
+  background-color: var(--cream-light);
   border: none;
   width: 100%;
   min-width: 380px;
@@ -376,7 +376,6 @@
   color: var(--cream, #ede7da);
   font-weight: 700;
   line-height: 35px;
-  
 }
 .date:hover {
   transform: scale(1.05);
@@ -390,22 +389,6 @@
   justify-content: center;
   display: flex;
   margin: 24px 0 0;
-}
-.proceed-con button {
-  width: 100%;
-  height: auto;
-  padding: 16px 20px;
-  border-radius: 999px;
-  background-color: var(--gold, #c89456);
-  border: 2px solid var(--gold, #c89456);
-  color: var(--forest, #16231f);
-  font-size: 15px;
-  font-weight: 700;
-  box-shadow: none;
-}
-.proceed-con button:hover:not(:disabled) {
-  background-color: var(--accent-light, #aa9a7b);
-  border-color: var(--accent-light, #aa9a7b);
 }
 
 /*---------------------appointment section------------------------*/
@@ -444,7 +427,7 @@
   cursor: pointer;
   width: 100%;
   border-radius: 10px;
-  color: var(--ink);
+  color: var(--ink-soft);
 }
 .time-wide:hover {
   background-color: var(--gold);
@@ -459,7 +442,7 @@
   cursor: default;
   width: 100%;
   border-radius: 10px;
-  color: var(--font);
+  color: var(--ink-soft);
   cursor: default;
   pointer-events: none;
   opacity: 0.4;
@@ -597,6 +580,37 @@
     width: 100%;
     max-width: 1200px;
     margin: 5%;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-areas:
+      "services header"
+      "services calendar"
+      "services proceed";
+    column-gap: 40px;
+    align-items: start;
+  }
+  .booking-page .service-desktop {
+    grid-area: services;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 0;
+    border-right: 1px solid var(--line, #e6ded0);
+    padding-right: 24px;
+  }
+  .booking-page .grid-wrap-service {
+    justify-content: stretch;
+    width: 100%;
+  }
+  .booking-page .calendar-header {
+    grid-area: header;
+    margin-top: 0;
+  }
+  .booking-page .calendar-desktop {
+    grid-area: calendar;
+  }
+  .booking-page .proceed-con {
+    grid-area: proceed;
   }
   .booking-page .calendar-body {
     margin-top: 20px;
@@ -637,33 +651,33 @@
   .booking-page .appointment-time {
     display: none;
   }
-  .booking-page .service {
-    justify-content: center;
-    margin: 2.5% 0;
-    grid-template-columns: 50% 50%;
-    gap: 15px;
-  }
   .booking-page .service-type {
-    width: 75%;
-    height: 60px;
-    background-color: var(--gold);
-    font-size: 1.2rem;
-    color: #efedfb;
-    box-shadow:
-      3px 4px 6px 0 rgba(0, 0, 0, 0.15),
-      0 6px 8px 0 rgb(0, 0, 0, 0.1);
+    width: 100%;
+    height: auto;
+    padding: 14px 16px;
+    border-radius: 12px;
+    justify-content: flex-start;
+    text-align: left;
+    background-color: var(--paper, #fffdf9);
+    border: 1px solid var(--line, #e6ded0);
+    color: var(--ink, #2c332e);
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: none;
   }
   .booking-page .service-type-clicked {
-    width: 75%;
-    height: 60px;
-    background-color: var(--accent);
-    font-size: 1.2rem;
-    color: #efedfb;
-    box-shadow:
-      3px 4px 6px 0 rgba(0, 0, 0, 0.15),
-      0 6px 8px 0 rgb(0, 0, 0, 0.1);
-    background-color: var(--accent-light);
-    color: #414141;
+    width: 100%;
+    height: auto;
+    padding: 14px 16px;
+    border-radius: 12px;
+    justify-content: flex-start;
+    text-align: left;
+    background-color: var(--gold) !important;
+    border: 1px solid var(--gold) !important;
+    color: var(--ink) !important;
+    font-size: 1rem;
+    font-weight: 700;
+    box-shadow: none;
   }
 
   .booking-page .icon {

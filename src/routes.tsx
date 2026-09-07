@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "./App";
 import Etusivu from "./pages/Kotisivu";
 import Palvelut from "./pages/Palvelut";
-import Login from "./pages/Login";
+import Login from "./pages/login";
 import ResetPassword from "./pages/ResetPassword";
 import Ajanvaraus from "./pages/Varaus";
 import BookingInfo from "./pages/Varaustiedot";

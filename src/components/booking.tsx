@@ -614,7 +614,7 @@ const BookingCalendar = ({
 
         <div className="proceed-con">
           <Button
-            variant="compact"
+            variant="pill"
             disabled={!selectedService || !selectedDate || !selectedTime}
             onClick={handleProceed}
           >
