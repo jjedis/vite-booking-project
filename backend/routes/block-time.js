@@ -1,6 +1,5 @@
 import express from "express";
 import { pool } from "../db.js"
-import { details } from "framer-motion/client";
 
 const router = express.Router();
 

@@ -9,13 +9,15 @@ import { useAuth } from "../context/AuthContext";
 function BookingInfo() {
   const location = useLocation();
   const navigate = useNavigate();
-  const {user, isLoggedIn} = useAuth();
+  const {login, user, isLoggedIn} = useAuth();
+  const [loginFailed, setloginFailed] = useState(false);
 
   const state = location.state as {
     selectedService: {
       id: string;
       name: string;
       duration_minutes: number;
+      price_cents: number;
     };
     selectedDate: Date | string;
     selectedTime: string;
@@ -43,8 +45,8 @@ function BookingInfo() {
   });
 
   const [loginInfo, setLoginInfo] = useState({
-    sposti2: "",
-    pwdLogin: "",
+    sahkoposti: "",
+    salasana: "",
   });
 
   // pre-fill contact info from the logged-in user's saved profile
@@ -63,6 +65,13 @@ function BookingInfo() {
     }));
   }, [isLoggedIn, user]);
 
+  // once logged in, always show the customer info form (not the login form)
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsNewCustomer(true);
+    }
+  }, [isLoggedIn]);
+
   const handleCustomerChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -73,6 +82,7 @@ function BookingInfo() {
   const handleLoginChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setLoginInfo((prev) => ({ ...prev, [name]: value }));
+    setloginFailed(false);
   };
 
   const handleCustomerSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -121,9 +131,29 @@ function BookingInfo() {
     }
   };
 
-  const handleLoginSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleLoginSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Login info:", loginInfo);
+    
+    try{
+      const result = await fetch("http://localhost:4000/api/login", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(loginInfo)
+      })
+
+      const data = await result.json();
+
+      if(!result.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      login(data.token);
+      setloginFailed(false);
+      
+    } catch (err) {
+      console.error(err);
+      setloginFailed(true);
+    }
   };
 
 
@@ -140,8 +170,8 @@ function BookingInfo() {
   }).every(([, value]) => isFilled(value));
 
   const isLoginValid = Object.entries({
-    email: loginInfo.sposti2,
-    password: loginInfo.pwdLogin,
+    email: loginInfo.sahkoposti,
+    password: loginInfo.salasana,
   }).every(([, value]) => isFilled(value));
 
   const formatTimeRange = (startTime: string, duration: number) => {
@@ -187,6 +217,10 @@ function BookingInfo() {
             <p className="info-row-left">Aika</p>
             <p className="info-row-right">
               {formatTimeRange(selectedTime, selectedService.duration_minutes)}
+            </p>
+            <p className="info-row-left">Hinta</p>
+            <p className="info-row-right info-row-price">
+              {(selectedService.price_cents / 100).toFixed(2)} €
             </p>
           </div>
         </div>
@@ -372,19 +406,24 @@ function BookingInfo() {
                 <form onSubmit={handleLoginSubmit}>
                   <FormInput
                     type="email"
-                    name="sposti2"
+                    name="sahkoposti"
                     label="Sähköposti"
                     required
-                    value={loginInfo.sposti2}
+                    value={loginInfo.sahkoposti}
                     onChange={handleLoginChange}
                   />
                   <PasswordInput
-                    name="pwdLogin"
+                    name="salasana"
                     required
                     label="Salasana"
-                    value={loginInfo.pwdLogin}
+                    value={loginInfo.salasana}
                     onChange={handleLoginChange}
                   />
+                  {loginFailed && (
+                    <div className="login-failed-message">
+                      <p>Sähköposti tai salasana on virheellinen</p>
+                    </div>
+                  )}
                   <div className="submit-container-login">
                     <Button type="submit" disabled={!isLoginValid}>
                       Seuraava

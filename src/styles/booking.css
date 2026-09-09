@@ -93,6 +93,10 @@
 }
 
 .option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 12px 16px;
   font-size: 15px;
   color: var(--ink, #2c332e);
@@ -103,6 +107,33 @@
 
 .option:hover {
   background: var(--sage-pale, #e6ece4);
+}
+
+.ajanvaraus-page .selected-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: 1;
+  padding-right: 20px;
+}
+
+.ajanvaraus-page .service-name {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-size: 14px;
+}
+.ajanvaraus-page .service-price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0.7;
+  white-space: nowrap;
+  color: var(--ink);
+}
+.ajanvaraus-page .service-type-clicked .service-price {
+  opacity: 0.9;
+  color: var(--cream);
 }
 
 .grid-wrap-service {
@@ -129,7 +160,7 @@
   display: flex;
   border-radius: 5px;
   background-color: var(--gold);
-  color: #efedfb !important;
+  color: var(--ink) !important;
   height: 45px;
   font-size: 1.1rem;
   width: 140px;
@@ -141,7 +172,7 @@
     0 4px 8px 0 rgb(0, 0, 0, 0.1);
 }
 .service-type:hover {
-  background-color: var(--accent-light) !important;
+  background-color: var(--gold);
 }
 .service-disabled {
   opacity: 0.4;
@@ -259,6 +290,10 @@
   font-size: 1.1rem;
   display: none;
   color: var(--ink);
+}
+
+.weekday-short {
+  display: none;
 }
 
 .weekday {
@@ -576,7 +611,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .booking-page .booking-container {
+  .booking-page.ajanvaraus-page .booking-container {
     width: 100%;
     max-width: 1200px;
     margin: 5%;
@@ -589,7 +624,7 @@
     column-gap: 40px;
     align-items: start;
   }
-  .booking-page .service-desktop {
+  .booking-page.ajanvaraus-page .service-desktop {
     grid-area: services;
     display: flex;
     flex-direction: column;
@@ -598,19 +633,22 @@
     border-right: 1px solid var(--line, #e6ded0);
     padding-right: 24px;
   }
-  .booking-page .grid-wrap-service {
+  .booking-page.ajanvaraus-page .grid-wrap-service {
     justify-content: stretch;
     width: 100%;
   }
-  .booking-page .calendar-header {
+  .booking-page.ajanvaraus-page .calendar-header {
     grid-area: header;
     margin-top: 0;
+    min-width: 0;
   }
-  .booking-page .calendar-desktop {
+  .booking-page.ajanvaraus-page .calendar-desktop {
     grid-area: calendar;
+    min-width: 0;
   }
-  .booking-page .proceed-con {
+  .booking-page.ajanvaraus-page .proceed-con {
     grid-area: proceed;
+    min-width: 0;
   }
   .booking-page .calendar-body {
     margin-top: 20px;
@@ -651,12 +689,13 @@
   .booking-page .appointment-time {
     display: none;
   }
-  .booking-page .service-type {
+  .booking-page.ajanvaraus-page .service-type {
     width: 100%;
     height: auto;
     padding: 14px 16px;
     border-radius: 12px;
-    justify-content: flex-start;
+    justify-content: space-between;
+    gap: 12px;
     text-align: left;
     background-color: var(--paper, #fffdf9);
     border: 1px solid var(--line, #e6ded0);
@@ -665,19 +704,30 @@
     font-weight: 500;
     box-shadow: none;
   }
-  .booking-page .service-type-clicked {
+  .booking-page.ajanvaraus-page .service-type-clicked {
     width: 100%;
     height: auto;
     padding: 14px 16px;
     border-radius: 12px;
-    justify-content: flex-start;
+    justify-content: space-between;
+    gap: 12px;
     text-align: left;
-    background-color: var(--gold) !important;
-    border: 1px solid var(--gold) !important;
-    color: var(--ink) !important;
+    background-color: var(--gold) ;
+    border: 1px solid var(--gold) ;
+    color: var(--paper) !important ;
     font-size: 1rem;
     font-weight: 700;
     box-shadow: none;
+    scale: 1.03;
+  }
+  .booking-page.ajanvaraus-page .service-type:hover {
+    background-color: var(--gold);
+  }
+  .booking-page.ajanvaraus-page .service-type:hover  .service-price{
+    color: var(--ink);
+  }
+  .ajanvaraus-page .service-price {
+    color: var(--gold);
   }
 
   .booking-page .icon {
@@ -696,7 +746,7 @@
   .booking-page .date-header {
     border-bottom: 2px solid #e5e4e6;
   }
-  .booking-page .proceed-con {
+  .booking-page.ajanvaraus-page .proceed-con {
     justify-content: end;
     padding-right: 3%;
   }
@@ -705,6 +755,41 @@
 @media screen and (max-width: 991px) {
   .booking-page .weekday-large {
     font-size: 17px;
+  }
+}
+
+/* tablet range: let the calendar shrink instead of scrolling, but
+   trim it down so it stays readable */
+@media only screen and (min-width: 768px) and (max-width: 1070px) {
+  .booking-page.ajanvaraus-page .weekday-full {
+    display: none;
+  }
+  .booking-page.ajanvaraus-page .weekday-short {
+    display: inline;
+  }
+  .booking-page.ajanvaraus-page .weekday-large {
+    font-size: 0.85rem;
+  }
+  .booking-page.ajanvaraus-page .date-box,
+  .booking-page.ajanvaraus-page .date-box-inactive,
+  .booking-page.ajanvaraus-page .date-box-current {
+    font-size: 0.85rem;
+  }
+  .booking-page.ajanvaraus-page .calendar-desktop .date,
+  .booking-page.ajanvaraus-page .calendar-desktop .date-inactive,
+  .booking-page.ajanvaraus-page .calendar-desktop .date-current,
+  .booking-page.ajanvaraus-page .calendar-desktop .date-clicked {
+    font-size: 0.85rem;
+    min-width: 28px;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+  }
+  .booking-page.ajanvaraus-page .service-desktop {
+    padding-right: 12px;
+  }
+  .booking-page.ajanvaraus-page .booking-container {
+    column-gap: 20px;
   }
 }
 @media (max-width: 767.9px) {

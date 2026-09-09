@@ -8,6 +8,7 @@ type Service = {
   id: string;
   name: string;
   duration_minutes: number;
+  price_cents: number;
 };
 
 type Booking = {
@@ -273,7 +274,7 @@ const Ajanvaraus = () => {
   };
 
   return (
-    <div className="booking-page">
+    <div className="booking-page ajanvaraus-page">
       <div className="booking-container">
         <div className="service-desktop">
           {services.map((service) => {
@@ -293,7 +294,10 @@ const Ajanvaraus = () => {
                     handleServiceClick(service);
                   }}
                 >
-                  {service.name}
+                  <span className="service-name">{service.name}</span>
+                  <span className="service-price">
+                    {(service.price_cents / 100).toFixed(2)} €
+                  </span>
                 </div>
               </div>
             );
@@ -306,7 +310,16 @@ const Ajanvaraus = () => {
             onClick={() => setOpen(!open)}
           >
             <span className="selected-option">
-              {selectedService?.name || "Valitse palvelu"}
+              {selectedService ? (
+                <>
+                  <span className="service-name">{selectedService.name}</span>
+                  <span className="service-price">
+                    {(selectedService.price_cents / 100).toFixed(2)} €
+                  </span>
+                </>
+              ) : (
+                "Valitse palvelu"
+              )}
             </span>
 
             <span className="arrow"></span>
@@ -322,7 +335,10 @@ const Ajanvaraus = () => {
                       setOpen(false);
                     }}
                   >
-                    {service.name}
+                    <span className="service-name">{service.name}</span>
+                    <span className="service-price">
+                      {(service.price_cents / 100).toFixed(2)} €
+                    </span>
                   </div>
                 ))}
               </div>
@@ -367,17 +383,22 @@ const Ajanvaraus = () => {
               >
                 <div className="date-header">
                   <div className="weekday-large">
-                    {
-                      [
-                        "Maanantai",
-                        "Tiistai",
-                        "Keskiviikko",
-                        "Torstai",
-                        "Perjantai",
-                        "Lauantai",
-                        "Sunnuntai",
-                      ][i]
-                    }
+                    <span className="weekday-full">
+                      {
+                        [
+                          "Maanantai",
+                          "Tiistai",
+                          "Keskiviikko",
+                          "Torstai",
+                          "Perjantai",
+                          "Lauantai",
+                          "Sunnuntai",
+                        ][i]
+                      }
+                    </span>
+                    <span className="weekday-short">
+                      {["Ma", "Ti", "Ke", "To", "Pe", "La", "Su"][i]}
+                    </span>
                   </div>
                   <div className="date-con">
                     <div

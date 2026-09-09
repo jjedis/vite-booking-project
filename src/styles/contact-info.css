@@ -40,9 +40,6 @@
   opacity: 0;
   transform: translateX(20px);
   pointer-events: none;
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
 
   transition:
@@ -53,12 +50,16 @@
 }
 
 .is-active {
+  position: relative;
   opacity: 1;
   transform: translateX(0);
   pointer-events: auto;
 }
 
 .is-hidden {
+  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 0;
   pointer-events: none;
 }
@@ -109,6 +110,11 @@
   justify-self: end;
   color: var(--ink-soft);
   text-align: end;
+}
+
+.info-row-price {
+  color: var(--gold);
+  font-weight: 700;
 }
 
 .group-container {
